@@ -1,0 +1,80 @@
+body {
+  background-color: #444;
+  color: white;
+}
+
+.category {
+  margin-inline: auto;
+  width: 50%;
+  @media only screen and (max-width: 1500px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  .groupname {
+    border: 1px solid black;
+    text-align: center;
+    color: black;
+  }
+  .groupname[data-good="6"] {
+    background-color: orange;
+  }
+  .groupname[data-good="5"] {
+    background-color: yellow;
+  }
+  .groupname[data-good="4"] {
+    background-color: darkgray;
+  }
+  .groupname[data-good="3"] {
+    background-color: blue;
+    color: white;
+  }
+  .characters {
+    display: grid;
+    max-width: 100%;
+    .character {
+      width: 100%;
+      display: flex;
+      margin-bottom: auto;
+      color: black;
+      justify-content: center;
+      figure {
+        cursor: pointer;
+        user-select: none;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 10px;
+        width: 100%;
+        figcaption {
+          margin: 0;
+          padding: 1px;
+          width: 50%;
+          margin: 0 auto;
+          p {
+            width: 100%;
+            max-width: 120px;
+            display: block;
+            margin-inline: auto;
+          }
+        }
+      }
+      &[data-good="3"] figure {
+        background-color: lightblue;
+      }
+      &[data-good="4"] figure {
+        background-color: lightgray;
+      }
+      &[data-good="5"] figure {
+        background-color: lightcoral;
+      }
+      &[data-good="6"] figure {
+        background-color: lightgreen;
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+#filterpicker {
+  margin-inline: auto;
+  width: 50%;
+  @media only screen and (max-width: 1500px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+  margin-inline: auto;
+  & > div {
+    display: grid;
+    border: 1px solid black;
+  }
+  .clear:hover {
+    background-color: gray;
+    cursor: pointer;
+  }
+  & div.tag_closed {
+    background-color: darkgray;
+    color: black;
+  }
+  .head,
+  .clear {
+    background-color: black;
+    color: white;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    user-select: none;
+    grid-column: 1 / -1;
+  }
+  .tech {
+    cursor: pointer;
+    display: flex;
+    height: 30px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  .tech[data-selected="true"] {
+    background-color: #aaa;
+  }
+  .tech:hover {
+    background-color: #ccc;
+    color: black;
+  }
+  .opts {
+    display: grid;
+    grid-auto-flow: column;
+    margin-bottom: 10px;
+  }
+  .tags {
+    grid-auto-flow: unset;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  .smallscreens {
+    @media only screen and (max-width: 400px) {
+      grid-auto-flow: row;
+      grid-template-columns: unset;
+    }
+  }
+}

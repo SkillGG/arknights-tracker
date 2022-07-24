@@ -1,0 +1,69 @@
+#filterpicker {
+  width: 50%;
+  margin-inline: auto;
+}
+@media only screen and (max-width: 1500px) {
+  #filterpicker {
+    width: 75%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #filterpicker {
+    width: 100%;
+  }
+}
+#filterpicker > div {
+  display: grid;
+  border: 1px solid black;
+}
+#filterpicker .clear:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+#filterpicker div.tag_closed {
+  background-color: darkgray;
+  color: black;
+}
+#filterpicker .head,
+#filterpicker .clear {
+  background-color: black;
+  color: white;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  user-select: none;
+  grid-column: 1 / -1;
+}
+#filterpicker .tech {
+  cursor: pointer;
+  display: flex;
+  height: 30px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+#filterpicker .tech[data-selected="true"] {
+  background-color: #aaa;
+}
+#filterpicker .tech:hover {
+  background-color: #ccc;
+  color: black;
+}
+#filterpicker .opts {
+  display: grid;
+  grid-auto-flow: column;
+  margin-bottom: 10px;
+}
+#filterpicker .tags {
+  grid-auto-flow: unset;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+@media only screen and (max-width: 400px) {
+  #filterpicker .smallscreens {
+    grid-auto-flow: row;
+    grid-template-columns: unset;
+  }
+}

@@ -1,0 +1,83 @@
+body {
+  background-color: #444;
+  color: white;
+}
+.category {
+  margin-inline: auto;
+  width: 50%;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+@media only screen and (max-width: 1500px) {
+  .category {
+    width: 75%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .category {
+    width: 100%;
+  }
+}
+.category .groupname {
+  border: 1px solid black;
+  text-align: center;
+  color: black;
+}
+.category .groupname[data-good="6"] {
+  background-color: orange;
+}
+.category .groupname[data-good="5"] {
+  background-color: yellow;
+}
+.category .groupname[data-good="4"] {
+  background-color: darkgray;
+}
+.category .groupname[data-good="3"] {
+  background-color: blue;
+  color: white;
+}
+.category .characters {
+  display: grid;
+  max-width: 100%;
+}
+.category .characters .character {
+  width: 100%;
+  display: flex;
+  margin-bottom: auto;
+  color: black;
+  justify-content: center;
+}
+.category .characters .character figure {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 10px;
+  width: 100%;
+}
+.category .characters .character figure figcaption {
+  margin: 0;
+  padding: 1px;
+  width: 50%;
+  margin: 0 auto;
+}
+.category .characters .character figure figcaption p {
+  width: 100%;
+  max-width: 120px;
+  display: block;
+  margin-inline: auto;
+}
+.category .characters .character[data-good="3"] figure {
+  background-color: lightblue;
+}
+.category .characters .character[data-good="4"] figure {
+  background-color: lightgray;
+}
+.category .characters .character[data-good="5"] figure {
+  background-color: lightcoral;
+}
+.category .characters .character[data-good="6"] figure {
+  background-color: lightgreen;
+}
