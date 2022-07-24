@@ -27,19 +27,14 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   const [specialBanners, setSpecialBanners] = useState<BannerData[]>([]);
 
   const BannerDataFromString = (s: string): BannerData | null => {
-    const data = /^\{(!)?\s*(.*?)\s*:\s*\"(.*?)\"(?:\s*:\s*(.*?))?\s*}$/.exec(
-      s
-    );
-    console.log(data, s);
+    const data =
+      /^\{\s*(\!)?\s*(.*?)\s*:\s*\"(.*?)\"(?:\s*:\s*(.*?))?\s*\}$/.exec(
+        s.trim()
+      );
     if (!data || !data[2] || !data[3]) {
       return null;
     } else {
-      return {
-        id: data[2],
-        name: data[3],
-        img: data[4],
-        f10: data[1] ? true : false,
-      };
+      return { id: data[2], name: data[3], img: data[4].trim(), f10: !data[1] };
     }
   };
 
