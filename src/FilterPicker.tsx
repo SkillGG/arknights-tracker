@@ -2,8 +2,9 @@ import React, { FunctionComponent } from "react";
 import { Filter } from "./utils";
 
 interface FilterPickerProps {
-  filter: Filter[];
-  setFilter: React.Dispatch<React.SetStateAction<Filter[]>>;
+  isSelected: (s: string) => boolean;
+  select: (s: string) => void;
+  unselectAll: () => void;
   tag: boolean;
   setTag: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -11,22 +12,12 @@ interface FilterPickerProps {
 import "./picker.css";
 
 const FilterPicker: FunctionComponent<FilterPickerProps> = ({
-  filter,
-  setFilter,
+  isSelected,
+  select,
+  unselectAll,
   tag,
   setTag,
 }) => {
-  const isSelected = (s: string) => {
-    return !!filter.find((f) => f.id === s);
-  };
-  const tooMuch = filter.length >= 5;
-  const select = (s: string) => {
-    if (isSelected(s)) setFilter((p) => p.filter((f) => f.id !== s));
-    else
-      setFilter((p) =>
-        p.length >= 5 ? p : [...p, { filter: (d) => d.tags.includes(s), id: s }]
-      );
-  };
   return (
     <>
       <div id="filterpicker">
@@ -253,7 +244,7 @@ const FilterPicker: FunctionComponent<FilterPickerProps> = ({
             </div>
           </div>
         </div>
-        <div className="clear" onClick={() => setFilter([])}>
+        <div className="clear" onClick={() => unselectAll()}>
           Clear all
         </div>
         <div
