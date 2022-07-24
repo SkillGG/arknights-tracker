@@ -1,0 +1,81 @@
+#pityTracker {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.rollType {
+  width: 25%;
+}
+
+.rollType fieldset {
+  legend {
+    margin: 0 auto;
+    color: lightgray;
+    font-weight: bolder;
+  }
+  border-color: black;
+  border-style: solid;
+  .roll {
+    width: 100%;
+    background-color: darkgray;
+    color: black;
+    border: none;
+    box-shadow: darkblue 1px 1px 1px 1px;
+    transition-duration: 0.1s;
+    &:hover {
+      box-shadow: darkblue 2px 2px 2px 2px;
+      transform: translateY(-2px);
+    }
+    &:active {
+      box-shadow: none;
+      transform: translateY(1px);
+    }
+  }
+  .rollOptions {
+    transition-duration: 0.2s;
+    display: none;
+  }
+  @keyframes growDown {
+    0% {
+      transform: scaleY(0);
+    }
+
+    80% {
+      transform: scaleY(1.1);
+    }
+
+    100% {
+      transform: scaleY(1);
+    }
+  }
+  .dropdown_menu {
+    width: fit-content;
+    padding: 0;
+    margin: 10px auto;
+    list-style: none;
+    display: none;
+    animation: growDown 0.2s ease-in-out forwards;
+    transform-origin: top center;
+  }
+  .dropdown_menu li {
+    display: inline-block;
+    margin: 5px;
+    border: 1px solid black;
+    background-color: lightgray;
+    color: blue;
+    padding: 3px 10px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: darkblue 1px 1px 1px 1px;
+    transition-duration: 0.1s;
+    &:hover {
+      box-shadow: darkblue 2px 2px 2px 2px;
+      transform: translateY(-2px);
+    }
+    &:active {
+      box-shadow: none;
+      transform: translateY(1px);
+    }
+  }
+}
