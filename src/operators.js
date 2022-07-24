@@ -14,17 +14,26 @@ const fs = require("fs");
 const operatorJSON = JSON.parse(fs.readFileSync("./operators.json").toString());
 
 const newOperatorJSON = operatorJSON.map((char, i) => {
-  //   if (!fs.existsSync("./operators/")) {
-  //     fs.mkdirSync("./operators/");
-  //   }
-  //   const buff = Buffer.from(
-  //     char.image.substring(char.image.indexOf(",")),
-  //     "base64"
-  //   );
-  //   const path = `./operators/${char.name.replace(/\s/g, "_")}.png`;
-  //   fs.writeFileSync(path, buff);
-  //   return { ...char, image: path };
-  //   return {...char, tags: [...new Set(char.tags)]};
+  /*  if (!fs.existsSync("./operators/")) {
+      fs.mkdirSync("./operators/");
+    }
+    const buff = Buffer.from(
+      char.image.substring(char.image.indexOf(",")),
+      "base64"
+    );
+    const path = `./operators/${char.name.replace(/\s/g, "_")}.png`;
+    fs.writeFileSync(path, buff);
+    return { ...char, image: path };
+    return {...char, tags: [...new Set(char.tags)]};
+    const name = char.name;
+    if (name.includes("Justice Knight")) {
+      return {
+        ...char,
+        name: "Justice Knight",
+        image: "./operator/Justice_Knight.png",
+      };
+    } else return char;
+    */
   return char;
 });
 
