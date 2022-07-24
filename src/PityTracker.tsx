@@ -19,6 +19,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   type BannerData = {
     id: string;
     name: string;
+    f10: boolean;
     img?: string;
   };
 
@@ -26,12 +27,19 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   const [specialBanners, setSpecialBanners] = useState<BannerData[]>([]);
 
   const BannerDataFromString = (s: string): BannerData | null => {
-    const data = /^\{\s*(.*?)\s*:\s*\"(.*?)\"(?:\s*:\s*(.*?))?\s*}$/.exec(s);
+    const data = /^\{(!)?\s*(.*?)\s*:\s*\"(.*?)\"(?:\s*:\s*(.*?))?\s*}$/.exec(
+      s
+    );
     console.log(data, s);
-    if (!data || !data[1] || !data[2]) {
+    if (!data || !data[2] || !data[3]) {
       return null;
     } else {
-      return { id: data[1], name: data[2], img: data[3] };
+      return {
+        id: data[2],
+        name: data[3],
+        img: data[4],
+        f10: data[1] ? true : false,
+      };
     }
   };
 
@@ -97,7 +105,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
               key={`${banner.id}`}
               name={banner.name}
               id={banner.id}
-              noF10={false}
+              noF10={banner.f10}
               addCount={() => {
                 setPityTracker((p) => ({ ...p, standard: p.standard + 1 }));
               }}
@@ -122,7 +130,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
                 key={`${banner.id}`}
                 name={banner.name}
                 id={banner.id}
-                noF10={true}
+                noF10={banner.f10}
                 addCount={function (): void {
                   setPityTracker((p) => {
                     return {

@@ -9,14 +9,21 @@
 }
 
 .rollType fieldset {
+  text-align: center;
   legend {
     margin: 0 auto;
     color: lightgray;
     font-weight: bolder;
   }
+  .f10 {
+    color: blue;
+    font-weight: bolder;
+    width: 100%;
+  }
   border-color: black;
   border-style: solid;
-  .roll {
+  .roll,
+  .reset {
     width: 100%;
     background-color: darkgray;
     color: black;
@@ -31,6 +38,9 @@
       box-shadow: none;
       transform: translateY(1px);
     }
+  }
+  .reset {
+    margin-top: 10px;
   }
   .rollOptions {
     transition-duration: 0.2s;
@@ -52,7 +62,7 @@
   .dropdown_menu {
     width: fit-content;
     padding: 0;
-    margin: 10px auto;
+    margin: 10px auto 0px auto;
     list-style: none;
     display: none;
     animation: growDown 0.2s ease-in-out forwards;
@@ -60,7 +70,7 @@
   }
   .dropdown_menu li {
     display: inline-block;
-    margin: 5px;
+    margin: 5px 5px 0 5px;
     border: 1px solid black;
     background-color: lightgray;
     color: blue;

@@ -7,6 +7,7 @@
   width: 25%;
 }
 .rollType fieldset {
+  text-align: center;
   border-color: black;
   border-style: solid;
 }
@@ -15,7 +16,13 @@
   color: lightgray;
   font-weight: bolder;
 }
-.rollType fieldset .roll {
+.rollType fieldset .f10 {
+  color: blue;
+  font-weight: bolder;
+  width: 100%;
+}
+.rollType fieldset .roll,
+.rollType fieldset .reset {
   width: 100%;
   background-color: darkgray;
   color: black;
@@ -23,13 +30,18 @@
   box-shadow: darkblue 1px 1px 1px 1px;
   transition-duration: 0.1s;
 }
-.rollType fieldset .roll:hover {
+.rollType fieldset .roll:hover,
+.rollType fieldset .reset:hover {
   box-shadow: darkblue 2px 2px 2px 2px;
   transform: translateY(-2px);
 }
-.rollType fieldset .roll:active {
+.rollType fieldset .roll:active,
+.rollType fieldset .reset:active {
   box-shadow: none;
   transform: translateY(1px);
+}
+.rollType fieldset .reset {
+  margin-top: 10px;
 }
 .rollType fieldset .rollOptions {
   transition-duration: 0.2s;
@@ -49,7 +61,7 @@
 .rollType fieldset .dropdown_menu {
   width: fit-content;
   padding: 0;
-  margin: 10px auto;
+  margin: 10px auto 0px auto;
   list-style: none;
   display: none;
   animation: growDown 0.2s ease-in-out forwards;
@@ -57,7 +69,7 @@
 }
 .rollType fieldset .dropdown_menu li {
   display: inline-block;
-  margin: 5px;
+  margin: 5px 5px 0 5px;
   border: 1px solid black;
   background-color: lightgray;
   color: blue;

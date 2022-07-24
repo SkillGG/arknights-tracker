@@ -71,6 +71,15 @@ function App() {
     <>
       {page === "recruit" ? (
         <>
+          <button
+            className="switch"
+            onClick={() => {
+              history.pushState(null, "", "pity");
+              setPage("pity");
+            }}
+          >
+            Pity
+          </button>
           <FilterPicker
             select={select}
             isSelected={isSelected}
@@ -85,7 +94,18 @@ function App() {
           />
         </>
       ) : (
-        <PityTracker />
+        <>
+          <button
+            className="switch"
+            onClick={() => {
+              history.pushState(null, "", "recruit");
+              setPage("recruit");
+            }}
+          >
+            Recruitment
+          </button>
+          <PityTracker />
+        </>
       )}
     </>
   );

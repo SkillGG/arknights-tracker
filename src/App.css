@@ -1,0 +1,21 @@
+.switch {
+  width: 100px;
+  padding: 5px 15px;
+  margin: 5px auto;
+  display: block;
+  background-color: gray;
+  border: none;
+  transition-duration: 0.1s;
+  box-shadow: black 1px 1px 1px 1px;
+}
+.switch:hover {
+  background-color: darkgray;
+  box-shadow: black 1px 1px 1px 1px;
+  translate: 0 -1px;
+}
+.switch:active {
+  background-color: black;
+  color: white;
+  translate: 0 2px;
+  box-shadow: none;
+}
