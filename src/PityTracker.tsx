@@ -4,45 +4,73 @@ interface PityTrackerProps {}
 
 type PityTrackerData = {
   standard: number;
-  special: number;
+  special: Map<string, number>;
 };
 
 import "./pity.css";
+import Banner from "./PityTrackerWindow";
 
 const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   const [pityTracker, setPityTracker] = useState<PityTrackerData>({
     standard: parseInt(localStorage.getItem("standardPity") || "0"),
-    special: 0,
+    special: new Map([]),
   });
 
-  const [standardID, setStandardID] = useState<string>("");
-  const [specialID, setSpecialID] = useState<string>("");
+  type BannerData = {
+    id: string;
+    name: string;
+    img?: string;
+  };
 
-  const [first10, setFirst10] = useState(!localStorage.getItem("first10"));
+  const [standardBanners, setStandardBanners] = useState<BannerData[]>([]);
+  const [specialBanners, setSpecialBanners] = useState<BannerData[]>([]);
 
-  const [showStandardRoll, setShowStandardRoll] = useState(false);
-  const [showSpecialRoll, setShowSpecialRoll] = useState(false);
+  const BannerDataFromString = (s: string): BannerData | null => {
+    const data = /^\{(.*?):\"(.*?)\"(?::(.*?))?}$/.exec(s);
+    console.log(data);
+    if (!data || !data[1] || !data[2]) {
+      return null;
+    } else {
+      return { id: data[1], name: data[2], img: data[3] };
+    }
+  };
 
   useEffect(() => {
     let set = true;
     (async () => {
       const specialID = await fetch(
-        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/specialID"
+        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/specialID",
+        { cache: "no-cache" }
       ).then((r) => r.text());
       const standardID = await fetch(
-        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/standardID"
+        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/standardID",
+        { cache: "no-store" }
       ).then((r) => r.text());
       if (specialID && standardID && set) {
-        setPityTracker({
-          ...pityTracker,
-          special: parseInt(localStorage.getItem(specialID) || "0"),
-        });
-        setSpecialID(specialID);
-        setStandardID(standardID);
-        if (localStorage.getItem("standardID") !== standardID) {
-          localStorage.removeItem("first10");
-          setFirst10(true);
-        }
+        const standards = standardID.split(",").reduce<BannerData[]>((p, n) => {
+          const b = BannerDataFromString(n);
+          return b ? [...p, b] : p;
+        }, []);
+        const specials = specialID.split(",").reduce<BannerData[]>((p, n) => {
+          const b = BannerDataFromString(n);
+          return b ? [...p, b] : p;
+        }, []);
+        console.log(standards, specials);
+        setStandardBanners(standards);
+        setSpecialBanners(specials);
+        setPityTracker((p) => ({
+          ...p,
+          special: new Map([
+            ...p.special,
+            ...specials.map((banner) => {
+              const ret: [string, number] = [
+                banner.id,
+                parseInt(localStorage.getItem(`${banner.id}_count`) || "0"),
+              ];
+              return ret;
+            }),
+          ]),
+        }));
       }
     })();
     return () => {
@@ -51,69 +79,74 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   }, []);
 
   useEffect(() => {
+    [...pityTracker.special].forEach((banner) => {
+      localStorage.setItem(`${banner[0]}_count`, `${banner[1]}`);
+    });
+  }, [pityTracker.special]);
+
+  useEffect(() => {
     localStorage.setItem("standardPity", `${pityTracker.standard}`);
-    if (specialID) localStorage.setItem(specialID, `${pityTracker.special}`);
-  }, [pityTracker.standard, pityTracker.special]);
+  }, [pityTracker.standard]);
 
   return (
     <div id="pityTracker">
-      <div className="rollType">
-        <fieldset>
-          <legend>Standard</legend>
-          {first10 ? "First 10" : ""}
-          <p>
-            6*:
-            {pityTracker.standard < 50
-              ? 2
-              : (pityTracker.standard - 50 + 1) * 2 + 2}
-            % ({pityTracker.standard}/50)
-          </p>
-          <p> 5*: 8%</p>
-          <p> 4*: 50%</p>
-          <p> 3*: 40%</p>
-          <button
-            className="roll"
-            onClick={() => {
-              setShowStandardRoll(!showStandardRoll);
-            }}
-          >
-            Roll
-          </button>
-          <ul
-            className="dropdown_menu dropdown_menu--animated dropdown_menu-6"
-            style={showStandardRoll ? { display: "block" } : {}}
-          >
-            <li
-              style={{ color: "darkgoldenrod" }}
-              onClick={() =>
-                setPityTracker((p) => {
-                  return { ...p, standard: 0 };
-                })
-              }
-            >
-              {"★".repeat(6)}
-            </li>
-            <li
-              onClick={() => {
-                if (first10 && pityTracker.standard + 1 > 10) {
-                  localStorage.removeItem("first10");
-                  setFirst10(false);
-                }
-                setPityTracker((p) => {
-                  return { ...p, standard: p.standard + 1 };
-                });
+      <>
+        {standardBanners.map((banner) => {
+          return (
+            <Banner
+              key={`${banner.id}`}
+              name={banner.name}
+              id={banner.id}
+              noF10={false}
+              addCount={() => {
+                setPityTracker((p) => ({ ...p, standard: p.standard + 1 }));
               }}
-            >
-              &lt;={"★".repeat(5)}
-            </li>
-          </ul>
-        </fieldset>
-      </div>
-      <div className="rollType">
-        <fieldset>
-          <legend>Special</legend>
-        </fieldset>
-      </div>
+              resetCount={function (): void {
+                setPityTracker((p) => ({ ...p, standard: 0 }));
+              }}
+              count={pityTracker.standard}
+            />
+          );
+        })}
+        {specialBanners.map((banner) => {
+          const hasCount = pityTracker.special.get(banner.id);
+          if (hasCount === undefined) {
+            setPityTracker((p) => {
+              return { ...p, special: new Map([...p.special, [banner.id, 0]]) };
+            });
+          }
+          return (
+            hasCount !== undefined && (
+              <Banner
+                key={`${banner.id}`}
+                name={banner.name}
+                id={banner.id}
+                noF10={true}
+                addCount={function (): void {
+                  setPityTracker((p) => {
+                    return {
+                      ...p,
+                      special: new Map([
+                        ...p.special,
+                        [banner.id, (p.special.get(banner.id) || 0) + 1],
+                      ]),
+                    };
+                  });
+                }}
+                resetCount={function (): void {
+                  setPityTracker((p) => {
+                    return {
+                      ...p,
+                      special: new Map([...p.special, [banner.id, 0]]),
+                    };
+                  });
+                }}
+                count={hasCount}
+              />
+            )
+          );
+        })}
+      </>
     </div>
   );
 };
