@@ -14,14 +14,14 @@ const fs = require("fs");
 const operatorJSON = JSON.parse(fs.readFileSync("./operators.json").toString());
 
 const newOperatorJSON = operatorJSON.map((char, i) => {
-  /*  if (!fs.existsSync("./operators/")) {
-      fs.mkdirSync("./operators/");
+  /*  if (!fs.existsSync("./../public/operators/")) {
+      fs.mkdirSync("./../public/operators/");
     }
     const buff = Buffer.from(
       char.image.substring(char.image.indexOf(",")),
       "base64"
     );
-    const path = `./operators/${char.name.replace(/\s/g, "_")}.png`;
+    const path = `./../public/operators/${char.name.replace(/\s/g, "_")}.png`;
     fs.writeFileSync(path, buff);
     return { ...char, image: path };
     return {...char, tags: [...new Set(char.tags)]};
