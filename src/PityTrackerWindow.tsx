@@ -154,10 +154,18 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
               tenRoll.forEach((rl) => {
                 if (rl === 1) add6Star();
                 else add5Star();
+                setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
               });
             }}
           >
             Save
+          </li>
+          <li
+            onClick={() => {
+              setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            }}
+          >
+            Clear
           </li>
         </ul>
         <button
