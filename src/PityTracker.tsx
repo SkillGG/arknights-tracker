@@ -27,7 +27,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
 
   const BannerDataFromString = (s: string): BannerData | null => {
     const data = /^\{\s*(.*?)\s*:\s*\"(.*?)\"(?:\s*:\s*(.*?))?\s*}$/.exec(s);
-    console.log(data);
+    console.log(data, s);
     if (!data || !data[1] || !data[2]) {
       return null;
     } else {
@@ -40,7 +40,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
     (async () => {
       const specialID = await fetch(
         "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/specialID",
-        { cache: "no-cache" }
+        { cache: "no-store" }
       ).then((r) => r.text());
       const standardID = await fetch(
         "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/standardID",
@@ -105,6 +105,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
                 setPityTracker((p) => ({ ...p, standard: 0 }));
               }}
               count={pityTracker.standard}
+              img={banner.img}
             />
           );
         })}
@@ -141,6 +142,7 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
                     };
                   });
                 }}
+                img={banner.img}
                 count={hasCount}
               />
             )

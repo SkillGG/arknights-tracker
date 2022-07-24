@@ -7,6 +7,7 @@ interface PityTrackerWindowProps {
   addCount(): void;
   resetCount(): void;
   count: number;
+  img?: string;
 }
 
 const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
@@ -16,6 +17,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
   addCount,
   resetCount,
   noF10 = false,
+  img,
 }) => {
   const [first10, setFirst10] = useState(
     noF10 ? false : localStorage.getItem(`${id}_first10`) ? false : true
@@ -27,7 +29,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
     <div className="rollType">
       <fieldset>
         <legend>{name}</legend>
-        {first10 ? "First 10" : ""}
+        {img && <img src={img} />}
         <p>
           6*:
           {count < 50 ? 2 : (count - 50 + 1) * 2 + 2}% ({count}/50)
