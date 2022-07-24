@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/pity"
+  to = "/"
+  status = 200
+
+[[redirects]]
+  from = "/recruit"
+  to = "/"
+  status = 200
