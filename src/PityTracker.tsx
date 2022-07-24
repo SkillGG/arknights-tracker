@@ -34,7 +34,12 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
     if (!data || !data[2] || !data[3]) {
       return null;
     } else {
-      return { id: data[2], name: data[3], img: data[4].trim(), f10: !data[1] };
+      return {
+        id: data[2],
+        name: data[3],
+        img: data[4].trim(),
+        f10: !!data[1],
+      };
     }
   };
 
