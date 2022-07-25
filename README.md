@@ -7,3 +7,4 @@ TODO
 =====
 - CN/EN Distinction
 - Pity Export/Import
+- Mobile friendly design for pity screen
