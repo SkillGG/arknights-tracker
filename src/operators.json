@@ -751,7 +751,30 @@
       "Support",
       "Ranged",
       "Medic"
-      ],
+    ],
     "image": "./operators/Purestream.png"
+  },
+  {
+    "name":"Leizi",
+    "stars": 5,
+    "tags": [
+      "Senior Operator",
+      "Caster",
+      "Ranged",
+      "DPS"
+    ],
+    "image":"./operators/Leizi.png"
+  },
+  {
+    "name":"Ceobe",
+    "stars": 6,
+    "tags": [
+      "Top Operator",
+      "Ranged",
+      "DPS",
+      "Crowd Control",
+      "Caster"
+    ]
+    "image": "./operators/Ceobe.png"
   }
 ]
