@@ -752,6 +752,6 @@
       "Ranged",
       "Medic"
       ],
-    image: "./operators/Purestream.png"
+    "image": "./operators/Purestream.png"
   }
 ]
