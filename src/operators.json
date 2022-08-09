@@ -742,5 +742,16 @@
     "stars": 5,
     "tags": ["DP-Recovery", "Support", "Vanguard", "Melee", "Senior Operator"],
     "image": "./operators/Zima.png"
+  },
+  {
+    "name":"Purestream",
+    "stars": 4,
+    "tags": [
+      "Healing",
+      "Support",
+      "Ranged",
+      "Medic"
+      ],
+    image: "./operators/Purestream.png"
   }
 ]
