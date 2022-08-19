@@ -132,7 +132,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
                   onClick={() => {
                     setTenRoll((p) => {
                       const r = p.map<number>((r, x) =>
-                        x === i ? (r !== 0 ? 0 : 1) : r
+                        x === i ? (r === 1 ? 0 : 1) : r
                       ) as TenRoll;
                       return r;
                     });
@@ -144,7 +144,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
                   onClick={() => {
                     setTenRoll((p) => {
                       const r = p.map((r, x) =>
-                        x === i ? (r !== 0 ? 0 : 2) : r
+                        x === i ? (r === 2 ? 0 : 2) : r
                       ) as TenRoll;
                       return r;
                     });
@@ -161,7 +161,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
                     onClick={() => {
                       setTenRoll((p) => {
                         const r = p.map<number>((r, x) =>
-                          x === i ? (r !== 0 ? 0 : 3) : r
+                          x === i ? (r === 3 ? 0 : 3) : r
                         ) as TenRoll;
                         return r;
                       });
