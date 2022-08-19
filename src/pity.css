@@ -87,3 +87,16 @@
   box-shadow: none;
   transform: translateY(1px);
 }
+.rollType fieldset .dropdown_menu li.no-save {
+  cursor: not-allowed;
+  color: gray;
+  background-color: darkgray;
+  box-shadow: none;
+}
+.rollType fieldset .dropdown_menu li.no-save:hover {
+  box-shadow: none;
+  transform: none;
+}
+.rollType fieldset .dropdown_menu li.no-save:active {
+  transform: none;
+}

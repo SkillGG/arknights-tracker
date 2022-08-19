@@ -23,10 +23,15 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
     noF10 ? false : localStorage.getItem(`${id}_first10`) ? false : true
   );
 
+  const [no5Rolls, setNo5Rolls] = useState(
+    noF10 ? 0 : parseInt(localStorage.getItem(`${id}_no5Rolls`) || "0")
+  );
+
   const [f10Done, f10Undone] = [
     () => {
       setFirst10(false);
       localStorage.setItem(`${id}_first10`, "true");
+      localStorage.removeItem(`${id}_no5Rolls`);
     },
     () => {
       setFirst10(true);
@@ -68,7 +73,11 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
     f10Done();
   };
 
-  const add4Star = () => add6Count();
+  const add4Star = () => {
+    if (first10) localStorage.setItem(`${id}_no5Rolls`, no5Rolls + 1 + "");
+    setNo5Rolls(no5Rolls + 1);
+    add6Count();
+  };
 
   const STARS = (n: number) => "★".repeat(n);
 
@@ -81,7 +90,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
         <p>
           6*: {count < 50 ? 2 : (count - 50 + 1) * 2 + 2}% ({count}/50)
         </p>
-        <p> 5*: 8% {first10 && `(${count}/10)`}</p>
+        <p> 5*: 8% {first10 && `(${no5Rolls}/10)`}</p>
         <p> 4*: 50%</p>
         <p> 3*: 40%</p>
         <button
@@ -106,7 +115,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
           >
             {STARS(5)}
           </li>
-          {(!first10 || count < 9) && (
+          {(!first10 || no5Rolls < 9) && (
             <li onClick={() => add4Star()}>&lt;={STARS(4)}</li>
           )}
           <li
@@ -156,7 +165,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
                 >
                   {STARS(5)}
                 </li>
-                {(!first10 || canBe4Star(count, i, tenRoll)) && (
+                {(!first10 || canBe4Star(no5Rolls, i, tenRoll)) && (
                   <li
                     onClick={() => {
                       setTenRoll((p) => {
@@ -178,6 +187,9 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
             );
           })}
           <li
+            className={
+              tenRoll.reduce<number>((p, n) => p * n, 1) > 0 ? "" : "no-save"
+            }
             onClick={() => {
               if (tenRoll.includes(0)) return;
               tenRoll.forEach((rl) => {

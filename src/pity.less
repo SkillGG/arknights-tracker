@@ -87,5 +87,18 @@
       box-shadow: none;
       transform: translateY(1px);
     }
+    &.no-save {
+      cursor: not-allowed;
+      color: gray;
+      background-color: darkgray;
+      box-shadow: none;
+      &:hover {
+        box-shadow: none;
+        transform: none;
+      }
+      &:active {
+        transform: none;
+      }
+    }
   }
 }
