@@ -14,7 +14,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
   name,
   id,
   count,
-  addCount,
+  addCount: add6Count,
   resetCount,
   noF10 = false,
   img,
@@ -52,10 +52,10 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-  const canBe5Star = (count: number, i: number, tenRoll: TenRoll) => {
+  const canBe4Star = (count: number, i: number, tenRoll: TenRoll) => {
     const prev = tenRoll.slice(0, i);
-    const prevHas6Star = prev.includes(1);
-    return prevHas6Star || count + i !== 9;
+    const prevHasStar = prev.includes(1) || prev.includes(2);
+    return prevHasStar || count + i !== 9;
   };
 
   const add6Star = () => {
@@ -63,7 +63,14 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
     f10Done();
   };
 
-  const add5Star = () => addCount();
+  const add5Star = () => {
+    add6Count();
+    f10Done();
+  };
+
+  const add4Star = () => add6Count();
+
+  const STARS = (n: number) => "★".repeat(n);
 
   return (
     <div className="rollType">
@@ -74,7 +81,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
         <p>
           6*: {count < 50 ? 2 : (count - 50 + 1) * 2 + 2}% ({count}/50)
         </p>
-        <p> 5*: 8%</p>
+        <p> 5*: 8% {first10 && `(${count}/10)`}</p>
         <p> 4*: 50%</p>
         <p> 3*: 40%</p>
         <button
@@ -91,10 +98,16 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
           style={showRoll ? { display: "block" } : {}}
         >
           <li style={{ color: "darkgoldenrod" }} onClick={() => add6Star()}>
-            {"★".repeat(6)}
+            {STARS(6)}
+          </li>
+          <li
+            style={{ color: "rgb(158, 113, 158)" }}
+            onClick={() => add5Star()}
+          >
+            {STARS(5)}
           </li>
           {(!first10 || count < 9) && (
-            <li onClick={() => add5Star()}>&lt;={"★".repeat(5)}</li>
+            <li onClick={() => add4Star()}>&lt;={STARS(4)}</li>
           )}
           <li
             onClick={() => {
@@ -119,29 +132,45 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
                   onClick={() => {
                     setTenRoll((p) => {
                       const r = p.map<number>((r, x) =>
-                        x === i ? 1 : r
+                        x === i ? (r !== 0 ? 0 : 1) : r
                       ) as TenRoll;
                       return r;
                     });
                   }}
                 >
-                  {"★".repeat(6)}
+                  {STARS(6)}
                 </li>
-                {(!first10 || canBe5Star(count, i, tenRoll)) && (
+                <li
+                  onClick={() => {
+                    setTenRoll((p) => {
+                      const r = p.map((r, x) =>
+                        x === i ? (r !== 0 ? 0 : 2) : r
+                      ) as TenRoll;
+                      return r;
+                    });
+                  }}
+                  style={{
+                    color: "rgb(158, 113, 158)",
+                    backgroundColor: tenRoll[i] === 2 ? "darkblue" : "",
+                  }}
+                >
+                  {STARS(5)}
+                </li>
+                {(!first10 || canBe4Star(count, i, tenRoll)) && (
                   <li
                     onClick={() => {
                       setTenRoll((p) => {
                         const r = p.map<number>((r, x) =>
-                          x === i ? 2 : r
+                          x === i ? (r !== 0 ? 0 : 3) : r
                         ) as TenRoll;
                         return r;
                       });
                     }}
                     style={{
-                      backgroundColor: tenRoll[i] === 2 ? "darkblue" : "",
+                      backgroundColor: tenRoll[i] === 3 ? "darkblue" : "",
                     }}
                   >
-                    &lt;={"★".repeat(5)}
+                    &lt;={STARS(4)}
                   </li>
                 )}
                 <br />
@@ -153,7 +182,8 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
               if (tenRoll.includes(0)) return;
               tenRoll.forEach((rl) => {
                 if (rl === 1) add6Star();
-                else add5Star();
+                else if (rl === 2) add5Star();
+                else add4Star();
                 setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
               });
             }}
