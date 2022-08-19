@@ -47,11 +47,11 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
     let set = true;
     (async () => {
       const specialID = await fetch(
-        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/specialID",
+        "./specialID",
         { cache: "no-store" }
       ).then((r) => r.text());
       const standardID = await fetch(
-        "https://raw.githubusercontent.com/SkillGG/arknights-tracker/master/src/standardID",
+        "./standardID",
         { cache: "no-store" }
       ).then((r) => r.text());
       if (specialID && standardID && set) {
