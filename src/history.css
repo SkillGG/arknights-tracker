@@ -1,0 +1,53 @@
+table.history {
+  width: 75%;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+table.history td,
+table.history th {
+  padding: 5px;
+}
+table.history tr td:not(:first-child) {
+  text-align: center;
+}
+table.history thead tr {
+  background-color: black;
+  color: white;
+}
+table.history tbody td:last-child {
+  color: red;
+  text-align: right;
+  cursor: pointer;
+}
+table.history tbody td:last-child:hover {
+  text-decoration: underline;
+}
+table.history tbody tr:nth-child(2n) {
+  background-color: #111;
+}
+table.history tbody tr:hover {
+  background-color: #ccc;
+  color: black;
+}
+.outcome-modal {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: none;
+  background-color: var(--modalout);
+}
+.outcome-modal.outcome-show {
+  display: block;
+}
+.outcome-modal .outcome {
+  position: relative;
+  background-color: var(--modalin);
+  margin: auto;
+  margin-top: 50px;
+  width: 50%;
+  padding: 0 15px 15px 15px;
+}

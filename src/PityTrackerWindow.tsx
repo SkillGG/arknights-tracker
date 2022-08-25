@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 
+import StorageIDS from "./localStorageIDs.json";
+
 interface PityTrackerWindowProps {
   name: string;
   id: string;
@@ -20,22 +22,30 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
   img,
 }) => {
   const [first10, setFirst10] = useState(
-    noF10 ? false : localStorage.getItem(`${id}_first10`) ? false : true
+    noF10
+      ? false
+      : localStorage.getItem(`${id}${StorageIDS.pity.first10Suffix}`)
+      ? false
+      : true
   );
 
   const [no5Rolls, setNo5Rolls] = useState(
-    noF10 ? 0 : parseInt(localStorage.getItem(`${id}_no5Rolls`) || "0")
+    noF10
+      ? 0
+      : parseInt(
+          localStorage.getItem(`${id}${StorageIDS.pity.no5Suffix}`) || "0"
+        )
   );
 
   const [f10Done, f10Undone] = [
     () => {
       setFirst10(false);
-      localStorage.setItem(`${id}_first10`, "true");
-      localStorage.removeItem(`${id}_no5Rolls`);
+      localStorage.setItem(`${id}${StorageIDS.pity.first10Suffix}`, "true");
+      localStorage.removeItem(`${id}${StorageIDS.pity.no5Suffix}`);
     },
     () => {
       setFirst10(true);
-      localStorage.removeItem(`${id}_first10`);
+      localStorage.removeItem(`${id}${StorageIDS.pity.first10Suffix}`);
     },
   ];
 
@@ -74,7 +84,11 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
   };
 
   const add4Star = () => {
-    if (first10) localStorage.setItem(`${id}_no5Rolls`, no5Rolls + 1 + "");
+    if (first10)
+      localStorage.setItem(
+        `${id}${StorageIDS.pity.no5Suffix}`,
+        no5Rolls + 1 + ""
+      );
     setNo5Rolls(no5Rolls + 1);
     add6Count();
   };
@@ -103,7 +117,7 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
           Roll
         </button>
         <ul
-          className="dropdown_menu dropdown_menu--animated dropdown_menu-6"
+          className="dropdown_menu"
           style={showRoll ? { display: "block" } : {}}
         >
           <li style={{ color: "darkgoldenrod" }} onClick={() => add6Star()}>

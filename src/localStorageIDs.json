@@ -1,0 +1,12 @@
+{
+  "recruitment": {
+    "history": "recruitmentHistory"
+  },
+  "pity": {
+    "standard": "standardPity",
+    "countSuffix": "_count",
+    "first10Suffix": "_first10",
+    "no5Suffix": "_no5Rolls"
+  },
+  "settings": "_settings"
+}

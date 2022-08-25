@@ -1,21 +1,32 @@
-.switch {
-  width: 100px;
-  padding: 5px 15px;
-  margin: 5px auto;
-  display: block;
-  background-color: gray;
-  border: none;
-  transition-duration: 0.1s;
+#root {
+  --modalout: #111c;
+  --modalin: #fffa;
+}
+
+.switches {
+  display: flex;
+  margin: 0 auto;
+  width: min-content;
+  flex-flow: row;
+
+  .switch {
+    width: 100px;
+    padding: 5px 15px;
+    margin: 5px;
+    background-color: gray;
+    border: none;
+    transition-duration: 0.1s;
     box-shadow: black 1px 1px 1px 1px;
     &:hover {
-    background-color: darkgray;
-    box-shadow: black 1px 1px 1px 1px;
-    translate: 0 -1px;
-  }
-  &:active {
-    background-color: black;
-    color: white;
-    translate: 0 2px;
-    box-shadow: none;
+      background-color: darkgray;
+      box-shadow: black 1px 1px 1px 1px;
+      translate: 0 -1px;
+    }
+    &:active {
+      background-color: black;
+      color: white;
+      translate: 0 2px;
+      box-shadow: none;
+    }
   }
 }

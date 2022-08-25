@@ -34,6 +34,13 @@ body {
     background-color: blue;
     color: white;
   }
+  &.canSave:hover {
+    cursor: pointer;
+    user-select: none;
+    & > .groupname {
+      background-color: green;
+    }
+  }
   .characters {
     display: grid;
     max-width: 100%;

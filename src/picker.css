@@ -1,3 +1,28 @@
+.howto {
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  width: 20%;
+}
+@media only screen and (max-width: 1500px) {
+  .howto {
+    position: static;
+    margin: 0 auto;
+    text-align: justify;
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  .howto {
+    width: 75%;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .howto {
+    width: calc(100% - 20px);
+    margin-inline: 10px 10px;
+  }
+}
 #filterpicker {
   width: 50%;
   margin-inline: auto;
@@ -7,7 +32,7 @@
     width: 75%;
   }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   #filterpicker {
     width: 100%;
   }

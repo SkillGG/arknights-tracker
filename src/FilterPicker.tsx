@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Filter } from "./utils";
+import { Filter, Settings } from "./utils";
 
 interface FilterPickerProps {
   isSelected: (s: string) => boolean;
@@ -7,6 +7,7 @@ interface FilterPickerProps {
   unselectAll: () => void;
   tag: boolean;
   setTag: React.Dispatch<React.SetStateAction<boolean>>;
+  settings: Settings;
 }
 
 import "./picker.css";
@@ -20,6 +21,16 @@ const FilterPicker: FunctionComponent<FilterPickerProps> = ({
 }) => {
   return (
     <>
+      <div className="howto">
+        <h3>How to use:</h3>
+        <ol>
+          <li>Select tags that came out</li>
+          <li>Click the panel with tags you used in recrutation</li>
+          <li>
+            Go to recruitment to select the outcome after the recrutation ended!
+          </li>
+        </ol>
+      </div>
       <div id="filterpicker">
         <div className="qual">
           <div className="head">Qualification</div>

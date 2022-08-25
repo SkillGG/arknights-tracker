@@ -2,18 +2,49 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import CharacterShow from "./CharacterShow";
 import FilterPicker from "./FilterPicker";
-import { ArkData, Filter, parseLocation } from "./utils";
+import PityTracker from "./PityTracker";
+import {
+  ArkData,
+  checkIfIsASetting,
+  DEFAULT_SETTINGS,
+  Filter,
+  FullRecruitmentTags,
+  PageType,
+  parseLocation,
+  PastRecruitment,
+  Settings,
+} from "./utils";
 
 import Chars from "./operators.json";
-import PityTracker from "./PityTracker";
+import NavBar from "./NavBar";
+import StorageIDS from "./localStorageIDs.json";
+import RecruitmentHistory from "./RecruitmentHistory";
+
 function App() {
   const [filters, setFilters] = useState<Filter[]>([]);
   const [characters] = useState<ArkData[]>(Chars);
+  console.log(Chars.length);
   const [tag, setTag] = useState(true);
 
-  const [page, setPage] = useState<"recruit" | "pity">("recruit");
+  const [page, setPage] = useState<PageType>("recruit");
 
   const [firstLoad, setFirstLoad] = useState(false);
+
+  const [settings, setSettings] = useState<Settings>(
+    JSON.parse(localStorage.getItem(StorageIDS.settings) || DEFAULT_SETTINGS)
+  );
+
+  const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
+    JSON.parse(
+      localStorage.getItem(StorageIDS.recruitment.history) || "[]"
+    ).filter((z: any) => z)
+  );
+
+  const changeSetting = (setting: string, value: any) => {
+    if (checkIfIsASetting(setting)) settings[setting] = value;
+    localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
+    setSettings(Object.assign({}, settings));
+  };
 
   const refreshHistory = () => {
     history.pushState("", "", `?filter=${filters.map((f) => f.id).join(",")}`);
@@ -67,44 +98,100 @@ function App() {
     }
   }, [filters]);
 
+  window.onpopstate = () => {
+    window.location.href = window.location.href;
+  };
+
+  const moveToPage = (page: PageType) => {
+    history.pushState(null, "", page);
+    setPage(page);
+  };
+
+  const addToRecHistory = (
+    ids: FullRecruitmentTags,
+    picked: string[],
+    selected?: ArkData
+  ) => {
+    recHistory.push({
+      tags: ids,
+      date: new Date().getTime(),
+      outcome: selected ? selected.name : undefined,
+      picked,
+    });
+    localStorage.setItem(
+      StorageIDS.recruitment.history,
+      JSON.stringify(recHistory)
+    );
+    setRecHistory((p) => Object.assign([], recHistory));
+  };
+
   return (
     <>
+      <title>
+        {page === "recruit"
+          ? "Recruitment Arknights"
+          : page === "pity"
+          ? "Pity Tracker Arknights"
+          : "Recruitment History Arknights"}
+      </title>
+      <NavBar
+        page={page}
+        moveToPage={moveToPage}
+        changeSetting={changeSetting}
+        settings={settings}
+      />
       {page === "recruit" ? (
         <>
-          <button
-            className="switch"
-            onClick={() => {
-              history.pushState(null, "", "pity");
-              setPage("pity");
-            }}
-          >
-            Pity
-          </button>
           <FilterPicker
             select={select}
             isSelected={isSelected}
             unselectAll={() => setFilters([])}
             tag={tag}
             setTag={setTag}
+            settings={settings}
           />
           <CharacterShow
             characters={characters}
             filters={filters}
             showTag={tag}
+            selectRecruitment={(
+              s: string[],
+              p: string[],
+              selected?: ArkData
+            ) => {
+              addToRecHistory(s, p, selected);
+              setFilters([]);
+            }}
+            settings={settings}
           />
         </>
+      ) : page === "pity" ? (
+        <PityTracker settings={settings} />
       ) : (
         <>
-          <button
-            className="switch"
-            onClick={() => {
-              history.pushState(null, "", "recruit");
-              setPage("recruit");
+          <RecruitmentHistory
+            settings={settings}
+            characters={characters}
+            recHistory={recHistory}
+            setOutcome={(d, o) => {
+              const i = recHistory.findIndex((r) => r.date === d);
+              recHistory[i].outcome = o.name;
+              localStorage.setItem(
+                StorageIDS.recruitment.history,
+                JSON.stringify(recHistory)
+              );
+              setRecHistory(Object.assign([], recHistory));
             }}
-          >
-            Recruitment
-          </button>
-          <PityTracker />
+            removeFromHistory={(d) => {
+              const i = recHistory.findIndex((r) => r.date === d);
+              delete recHistory[i];
+              localStorage.setItem(
+                StorageIDS.recruitment.history,
+                JSON.stringify(recHistory)
+              );
+              setRecHistory(Object.assign([], recHistory));
+            }}
+          />
         </>
       )}
     </>

@@ -1,6 +1,8 @@
 import { FunctionComponent, useEffect, useState } from "react";
 
-interface PityTrackerProps {}
+interface PityTrackerProps {
+  settings: Settings;
+}
 
 type PityTrackerData = {
   standard: number;
@@ -9,10 +11,12 @@ type PityTrackerData = {
 
 import "./pity.css";
 import Banner from "./PityTrackerWindow";
+import { Settings } from "./utils";
+import StorageIDS from "./localStorageIDs.json";
 
-const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
+const PityTracker: FunctionComponent<PityTrackerProps> = ({ settings }) => {
   const [pityTracker, setPityTracker] = useState<PityTrackerData>({
-    standard: parseInt(localStorage.getItem("standardPity") || "0"),
+    standard: parseInt(localStorage.getItem(StorageIDS.pity.standard) || "0"),
     special: new Map([]),
   });
 
@@ -46,14 +50,12 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
   useEffect(() => {
     let set = true;
     (async () => {
-      const specialID = await fetch(
-        "./specialID",
-        { cache: "no-store" }
-      ).then((r) => r.text());
-      const standardID = await fetch(
-        "./standardID",
-        { cache: "no-store" }
-      ).then((r) => r.text());
+      const specialID = await fetch("./specialID", { cache: "no-store" }).then(
+        (r) => r.text()
+      );
+      const standardID = await fetch("./standardID", {
+        cache: "no-store",
+      }).then((r) => r.text());
       if (specialID && standardID && set) {
         const standards = standardID.split(",").reduce<BannerData[]>((p, n) => {
           const b = BannerDataFromString(n);
@@ -73,7 +75,11 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
             ...specials.map((banner) => {
               const ret: [string, number] = [
                 banner.id,
-                parseInt(localStorage.getItem(`${banner.id}_count`) || "0"),
+                parseInt(
+                  localStorage.getItem(
+                    `${banner.id}${StorageIDS.pity.countSuffix}`
+                  ) || "0"
+                ),
               ];
               return ret;
             }),
@@ -88,12 +94,15 @@ const PityTracker: FunctionComponent<PityTrackerProps> = ({}) => {
 
   useEffect(() => {
     [...pityTracker.special].forEach((banner) => {
-      localStorage.setItem(`${banner[0]}_count`, `${banner[1]}`);
+      localStorage.setItem(
+        `${banner[0]}${StorageIDS.pity.countSuffix}`,
+        `${banner[1]}`
+      );
     });
   }, [pityTracker.special]);
 
   useEffect(() => {
-    localStorage.setItem("standardPity", `${pityTracker.standard}`);
+    localStorage.setItem(StorageIDS.pity.standard, `${pityTracker.standard}`);
   }, [pityTracker.standard]);
 
   return (

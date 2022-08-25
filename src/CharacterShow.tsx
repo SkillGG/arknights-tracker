@@ -1,87 +1,61 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { ArkData, Filter } from "./utils";
+import {
+  ArkData,
+  Filter,
+  calculateRecruitmentCharacters,
+  Settings,
+} from "./utils";
 
 interface CharacterShowProps {
   characters: ArkData[];
   filters: Filter[];
   showTag: boolean;
+  selectRecruitment(tags: string[], picked: string[], selected?: ArkData): void;
+  settings: Settings;
 }
 
 import "./characters.css";
+import Character from "./Character";
 
 const CharacterShow: FunctionComponent<CharacterShowProps> = ({
   characters,
   filters,
   showTag,
+  selectRecruitment,
+  settings,
 }) => {
-  const hits = characters.reduce<string[][]>((p, n) => {
-    return [
-      ...p,
-      filters.reduce<string[]>((p, f) => (f.filter(n) ? [...p, f.id] : p), []),
-    ];
-  }, []);
-  const chars = hits
-    .map<[string[], number]>((h, i) => [h, i])
-    .filter((h) => h[0].length > 0);
-  chars.sort((p, n) => n[0].length - p[0].length);
-  const sc: { group: string; ids: number[] }[] = [];
-  chars.forEach((c) => {
-    const addToGroup = (g: string, id: number) => {
-      const gi = sc.findIndex((o) => o.group === g);
-      if (gi === -1) sc.push({ group: g, ids: [id] });
-      else sc[gi].ids.push(id);
-    };
-    const type = c[0].join(",");
-    const id = c[1];
-    if (characters[id].stars < 3) return;
-    if (c[0].length > 3) return;
-    if (characters[id].stars === 6 && !c[0].includes("Top Operator")) return;
-    addToGroup(type, id);
-    if (c[0].length === 3) {
-      const g1 = c[0].slice(0, 2).join(",");
-      const g2 = c[0].slice(1, 3).join(",");
-      const g3 = [c[0][0], c[0][2]].join(",");
-      addToGroup(g1, id);
-      addToGroup(g2, id);
-      addToGroup(g3, id);
-    }
-    if (c[0].length > 1) {
-      c[0].forEach((g) => {
-        const gi = sc.findIndex((o) => o.group === g);
-        if (gi === -1) sc.push({ group: g, ids: [id] });
-        else sc[gi].ids.push(id);
-      });
-    }
-  });
-  sc.sort((p, n) => p.ids.length - n.ids.length);
+  const sc = calculateRecruitmentCharacters(characters, filters);
   sc.forEach((f) =>
     f.ids.sort((p, n) => characters[n].stars - characters[p].stars)
   );
   const getItem = (c: ArkData, s: string) => {
     return (
-      <div className="character" data-good={c.stars} key={`${c.name}_${s}`}>
-        <figure
-          onClick={() =>
-            window.open(
-              `https://aceship.github.io/AN-EN-Tags/akhrchars.html?opname=${c.name}`,
-              "_blank"
-            )
+      <div
+        onClick={() => {
+          if (!settings.saveHistory) return;
+          if (settings.clickToSelectOutcome) {
+            selectRecruitment(
+              filters.map((f) => f.id),
+              s.split(",").map((r) => r.trim()),
+              c
+            );
           }
-          title={`Check ${c.name}`}
-        >
-          <img src={c.image} width={100} height={100} />
-          <figcaption>
-            {c.name}
-            <br />
-            <b>{"⭐".repeat(c.stars)}</b>
-            {showTag && (
-              <>
-                <br />
-                <p>{c.tags.join(", ")}</p>
-              </>
-            )}
-          </figcaption>
-        </figure>
+        }}
+        key={`${c.name}_${s}`}
+      >
+        <Character
+          image={c.image}
+          name={c.name}
+          stars={c.stars}
+          tags={c.tags}
+          settings={settings}
+          showTag={showTag}
+          hoveredStyle={
+            settings.saveHistory && settings.clickToSelectOutcome
+              ? { backgroundColor: "green" }
+              : {}
+          }
+        />
       </div>
     );
   };
@@ -93,12 +67,44 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
         : Math.trunc(window.innerWidth / 400)
     );
   };
+
+  const isCharacter = (e: Element) => {
+    let cL = e.classList;
+    let tempE = e;
+    console.log(cL.length);
+    while (cL.length == 0) {
+      if (!tempE.parentElement) return false;
+      cL = tempE.parentElement.classList;
+      tempE = tempE.parentElement;
+    }
+    return cL.contains("character");
+  };
+
   return (
     <>
       {sc.map((s) => {
         return (
           <React.Fragment key={s.group}>
-            <div className="category">
+            <div
+              className={`category${settings.saveHistory ? " canSave" : ""}`}
+              onClick={(e) => {
+                if (!settings.saveHistory) return;
+                const target = e.target as Element;
+                if (isCharacter(target)) {
+                  if (!settings.characterDatabase)
+                    if (!settings.clickToSelectOutcome)
+                      selectRecruitment(
+                        filters.map((f) => f.id),
+                        s.group.split(",").map((r) => r.trim())
+                      );
+                } else {
+                  selectRecruitment(
+                    filters.map((f) => f.id),
+                    s.group.split(",").map((r) => r.trim())
+                  );
+                }
+              }}
+            >
               <div
                 className="groupname"
                 data-good={s.ids.reduce<number>(
