@@ -13,6 +13,13 @@
     margin-top: 50px;
     width: 50%;
     padding: 0 15px 15px 15px;
+    @media only screen and (max-width: 1100px) {
+      width: 75%;
+    }
+    @media only screen and (max-width: 700px) {
+      width: calc(100% - 60px);
+      margin-inline: auto;
+    }
   }
   &.shown {
     display: block;

@@ -23,7 +23,6 @@ import RecruitmentHistory from "./RecruitmentHistory";
 function App() {
   const [filters, setFilters] = useState<Filter[]>([]);
   const [characters] = useState<ArkData[]>(Chars);
-  console.log(Chars.length);
   const [tag, setTag] = useState(true);
 
   const [page, setPage] = useState<PageType>("recruit");
@@ -83,7 +82,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("Reading from href");
     const locationData = parseLocation();
     setPage(locationData.path);
     if (locationData.path === "recruit") {
@@ -173,6 +171,17 @@ function App() {
             settings={settings}
             characters={characters}
             recHistory={recHistory}
+            toggleStrikeOut={(d, t) => {
+              const index = recHistory.findIndex((r) => r.date === d);
+              if (index > 0) {
+                const tagIndex = recHistory[index].picked.findIndex(
+                  (tag) => tag === t
+                );
+                recHistory[index].picked[tagIndex] =
+                  t.charAt(0) === "-" ? t.substring(1) : `-${t}`;
+                setRecHistory(Object.assign([], recHistory));
+              }
+            }}
             setOutcome={(d, o) => {
               const i = recHistory.findIndex((r) => r.date === d);
               recHistory[i].outcome = o.name;

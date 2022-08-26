@@ -59,6 +59,21 @@ export const parseLocation = (): LinkData => {
   } else return { path: "recruit", filters: [] };
 };
 
+export const getFilters = (tags: string[]): Filter[] => {
+  const canBeTop = tags.includes("Top Operator");
+  return [
+    ...tags
+      .map((t) => ({
+        filter: (d: ArkData) => {
+          return d.tags.includes(t);
+        },
+        id: t,
+      }))
+      .filter((f) => f.id.charAt(0) !== "-"),
+    { filter: (d: ArkData) => +canBeTop - +(d.stars === 6) === 0, id: "" },
+  ];
+};
+
 export const getCharactersForFilters = (
   characters: ArkData[],
   filters: Filter[]

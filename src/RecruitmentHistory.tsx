@@ -5,6 +5,7 @@ import {
   PastRecruitment,
   getCharactersForFilters,
   Settings,
+  getFilters,
 } from "./utils";
 interface RecruitmentHistoryProps {
   recHistory: PastRecruitment[];
@@ -12,6 +13,7 @@ interface RecruitmentHistoryProps {
   characters: ArkData[];
   settings: Settings;
   removeFromHistory(date: number): void;
+  toggleStrikeOut(date: number, tag: string): void;
 }
 
 import "./history.css";
@@ -24,10 +26,19 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
   settings,
   setOutcome,
   removeFromHistory,
+  toggleStrikeOut,
 }) => {
   const [outcomeModal, setOutcomeModal] = useState(0);
 
   const [possibleOutcomes, setPossibleOutcomes] = useState<ArkData[]>([]);
+
+  const calculateOutcomes = (date: number, tags: string[]) => {
+    console.log(getFilters(tags));
+    const sc = getCharactersForFilters(characters, getFilters(tags));
+    sc.sort((p, n) => n.stars - p.stars);
+    setPossibleOutcomes(sc);
+    setOutcomeModal(date);
+  };
 
   return (
     <>
@@ -47,34 +58,19 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
             <tr key={`rec${rec.date}`}>
               <td>{i + 1}.</td>
               <td>{rec.tags.join(", ")}</td>
-              <td>{rec.picked.join(", ")}</td>
+              <td>
+                {rec.picked.map((r, x, o) => (
+                  <React.Fragment key={`${rec.date}_table_${r}`}>
+                    {r.charAt(0) === "-" ? <s>{r.substring(1)}</s> : r}
+                    {x + 1 < o.length ? ", " : ""}
+                  </React.Fragment>
+                ))}
+              </td>
               <td>
                 {rec.outcome || (
                   <button
                     onClick={() => {
-                      const sc = getCharactersForFilters(
-                        characters,
-                        rec.picked.map((tag) => {
-                          const filter: Filter = {
-                            filter: (d) => d.tags.includes(tag),
-                            id: tag,
-                          };
-                          return filter;
-                        })
-                      );
-                      console.log(
-                        sc,
-                        rec.picked.map((tag) => {
-                          const filter: Filter = {
-                            filter: (d) => d.tags.includes(tag),
-                            id: tag,
-                          };
-                          return filter;
-                        })
-                      );
-                      sc.sort((p, n) => n.stars - p.stars);
-                      setPossibleOutcomes(sc);
-                      setOutcomeModal(rec.date);
+                      calculateOutcomes(rec.date, rec.picked);
                     }}
                   >
                     Add Outcome
@@ -103,6 +99,25 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
         <div className="outcome category">
           <fieldset>
             <legend>Select outcome</legend>
+            <div className="crossed">
+              {recHistory
+                .find((r) => r.date === outcomeModal)
+                ?.picked.map((r, n, a) => (
+                  <div
+                    key={`${outcomeModal}_${r}`}
+                    className={`${
+                      r.charAt(0) === "-" ? "crossedOut" : "viable"
+                    }`}
+                    onClick={() => {
+                      a[n] = r.charAt(0) === "-" ? r.substring(1) : `-${r}`;
+                      console.log(a);
+                      calculateOutcomes(outcomeModal, a);
+                    }}
+                  >
+                    {r.charAt(0) === "-" ? <s>{r.substring(1)}</s> : r}
+                  </div>
+                ))}
+            </div>
             <div className="characters">
               {possibleOutcomes.map((po) => (
                 <div

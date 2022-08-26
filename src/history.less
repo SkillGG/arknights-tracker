@@ -52,3 +52,48 @@ table.history {
     padding: 0 15px 15px 15px;
   }
 }
+
+.crossed {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  > div {
+    flex: 1;
+    padding: 5px;
+    margin: 5px;
+    background-color: var(--modalout);
+    box-shadow: inset 0px 0px 2px 2px white;
+    color: white;
+    translate: 0px 0px;
+    transition-duration: 10ms;
+    transition-timing-function: ease-in-out;
+    user-select: none;
+    &:not(.crossedOut):active {
+      translate: 1px 1px;
+      box-shadow: inset 0px 0px 3px 3px white;
+      background-color: #111c;
+      color: white;
+      text-decoration: line-through;
+    }
+    &.crossedOut {
+      background-color: #ccc;
+      color: black;
+      box-shadow: 1px 1px 1px 1px black;
+      translate: -1px -1px;
+      > s {
+        text-decoration: line-through;
+        text-decoration-thickness: 3px;
+      }
+      &:active {
+        translate: 1px 1px;
+        box-shadow: inset 0px 0px 3px 3px white;
+        background-color: #111c;
+        color: white;
+        > s {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
