@@ -11,3 +11,4 @@ TODO
 - Use [Arknights Game Data Gacha Table](https://github.com/Kengxxiao/ArknightsGameData/blob/master/en_US/gamedata/excel/gacha_table.json)
 - Add rerolled tags to history
 - Add timer settings
+- Cache the images instead of re-downloading them all of the time
