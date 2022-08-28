@@ -9,3 +9,5 @@ TODO
 - Pity Export/Import
 - Mobile friendly design for pity screen
 - Use [Arknights Game Data Gacha Table](https://github.com/Kengxxiao/ArknightsGameData/blob/master/en_US/gamedata/excel/gacha_table.json)
+- Add rerolled tags to history
+- Add timer settings

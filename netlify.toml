@@ -7,3 +7,8 @@
   from = "/recruit"
   to = "/"
   status = 200
+  
+ [[redirects]]
+  from = "/recHis"
+  to = "/"
+  status = 200
