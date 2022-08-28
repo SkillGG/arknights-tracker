@@ -11,12 +11,20 @@ export type HistoryUpdate = FullHistoryUpdate | SingularHistoryUpdate;
 export const isFullHistoryUpdate = (p: HistoryUpdate): p is FullHistoryUpdate =>
   typeof (p as any).d !== "number";
 
+import FilterIDs from "./filterIDs.json";
+
+const filterToID = (f: string) => {
+  return FilterIDs.findIndex((fil) => fil === f);
+};
+
 export const RecHis = {
   compress: (d: PastRecruitment[]) => {
     return d
       .filter((d) => d.date > 0)
       .map((r) => {
-        return `${r.date}.${r.tags.join(",")}.${r.picked.join(",")}.${
+        return `${r.date}.${r.tags
+          .map((f) => filterToID(f))
+          .join(",")}.${r.picked.map((f) => filterToID(f)).join(",")}.${
           r.outcome || "-"
         }`;
       })
@@ -29,8 +37,17 @@ export const RecHis = {
       const [date, tags, picked, outcome] = rec.split(".");
       return {
         date: parseInt(date),
-        tags: tags.split(","),
-        picked: picked.split(","),
+        tags: tags.split(",").map((f) => {
+          return /\d/.exec(f) ? FilterIDs[parseInt(f, 10)] : f;
+        }),
+        picked: picked
+          .split(",")
+          .map(
+            (f) =>
+              `${f.charAt(0) === "-" ? "-" : ""}${
+                /\d/.exec(f) ? FilterIDs[parseInt(f, 10)] : f
+              }`
+          ),
         outcome: outcome === "-" ? undefined : outcome,
       };
     });

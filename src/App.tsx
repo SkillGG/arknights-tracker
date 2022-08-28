@@ -132,7 +132,8 @@ function App() {
 
   const saveHistoryChangeToLS = (o: HistoryUpdate) => {
     const useCompression = (sh: PastRecruitment[]) => {
-      // const JSONstr = JSON.stringify(sh);
+      const JSONstr = JSON.stringify(sh);
+      console.log(JSONstr);
       const RECHstr = RecHis.compress(sh);
       return RECHstr;
     };
