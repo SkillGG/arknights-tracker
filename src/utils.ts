@@ -34,7 +34,6 @@ export type PastRecruitment = {
   tags: string[];
   picked: string[];
   outcome?: string;
-  chosen?: string[];
 };
 
 export type FullRecruitmentTags = PastRecruitment["tags"];
@@ -57,6 +56,11 @@ export const parseLocation = (): LinkData => {
     if (filterSearch) filters.push(...filterSearch.split(","));
     return { path: "recruit", filters };
   } else return { path: "recruit", filters: [] };
+};
+
+export const toggleTag = (tags: string[], tag: string): string[] => {
+  if (tags.includes(tag)) return tags.filter((t) => t !== tag);
+  else return [...tags, tag];
 };
 
 export const getFilters = (tags: string[]): Filter[] => {
@@ -93,7 +97,10 @@ export const calculateRecruitmentCharacters = (
   const hits = characters.reduce<string[][]>((p, n) => {
     return [
       ...p,
-      filters.reduce<string[]>((p, f) => (f.filter(n) ? [...p, f.id] : p), []),
+      filters.reduce<string[]>(
+        (p, f) => (f.id && f.filter(n) ? [...p, f.id] : p),
+        []
+      ),
     ];
   }, []);
   const chars = hits

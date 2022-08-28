@@ -9,16 +9,19 @@ import {
   DEFAULT_SETTINGS,
   Filter,
   FullRecruitmentTags,
+  getFilters,
   PageType,
   parseLocation,
   PastRecruitment,
   Settings,
+  toggleTag,
 } from "./utils";
 
 import Chars from "./operators.json";
 import NavBar from "./NavBar";
 import StorageIDS from "./localStorageIDs.json";
 import RecruitmentHistory from "./RecruitmentHistory";
+import { HistoryUpdate, isFullHistoryUpdate, RecHis } from "./rechis.util";
 
 function App() {
   const [filters, setFilters] = useState<Filter[]>([]);
@@ -34,7 +37,7 @@ function App() {
   );
 
   const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
-    JSON.parse(
+    RecHis.decompress(
       localStorage.getItem(StorageIDS.recruitment.history) || "[]"
     ).filter((z: any) => z)
   );
@@ -45,40 +48,32 @@ function App() {
     setSettings(Object.assign({}, settings));
   };
 
-  const refreshHistory = () => {
-    history.pushState("", "", `?filter=${filters.map((f) => f.id).join(",")}`);
+  const refreshURLHistory = () => {
+    history.pushState(
+      "",
+      "",
+      `?filter=${filters
+        .filter((f) => f.id)
+        .map((f) => f.id)
+        .join(",")}`
+    );
   };
 
   const isSelected = (s: string) => {
     return !!filters.find((f) => f.id === s);
   };
-  const tooMuch = (f: Filter[]) => f.length >= 5;
+  const tooMany = (s: string[]) => s.length > 5;
   const select = (s: string) => {
-    if (isSelected(s)) {
-      setFilters((p) => p.filter((f) => f.id !== s));
-    } else {
-      setFilters((p) =>
-        tooMuch(filters)
-          ? p
-          : [...p, { filter: (d) => d.tags.includes(s), id: s }]
-      );
-    }
+    const curr = toggleTag(
+      filters.map((f) => f.id),
+      s
+    ).filter((t) => !!t);
+    if (tooMany(curr)) return;
+    setFilters(getFilters(curr));
   };
   const selectMany = (sarr: string[]) => {
-    let len = filters.length;
-    sarr.forEach((s) => {
-      if (len >= 5) return;
-      if (isSelected(s)) {
-        setFilters((p) => p.filter((f) => f.id !== s));
-      } else {
-        setFilters((p) =>
-          tooMuch(filters)
-            ? p
-            : [...p, { filter: (d) => d.tags.includes(s), id: s }]
-        );
-      }
-      len++;
-    });
+    const checked = sarr.slice(0, 5);
+    setFilters(getFilters(checked));
   };
 
   useEffect(() => {
@@ -90,15 +85,19 @@ function App() {
     setFirstLoad(true);
   }, []);
 
+  window.onpopstate = () => {
+    const locationData = parseLocation();
+    setPage(locationData.path);
+    if (locationData.path === "recruit") {
+      selectMany(locationData.filters);
+    }
+  };
+
   useEffect(() => {
     if (firstLoad || filters.length > 0) {
-      refreshHistory();
+      refreshURLHistory();
     }
   }, [filters]);
-
-  window.onpopstate = () => {
-    window.location.href = window.location.href;
-  };
 
   const moveToPage = (page: PageType) => {
     history.pushState(null, "", page);
@@ -110,17 +109,44 @@ function App() {
     picked: string[],
     selected?: ArkData
   ) => {
-    recHistory.push({
-      tags: ids,
-      date: new Date().getTime(),
-      outcome: selected ? selected.name : undefined,
-      picked,
+    saveHistoryChangeToLS({
+      f: (rh: PastRecruitment[]) => {
+        rh.push({
+          tags: ids,
+          date: new Date().getTime(),
+          outcome: selected ? selected.name : undefined,
+          picked,
+        });
+        return rh;
+      },
     });
-    localStorage.setItem(
-      StorageIDS.recruitment.history,
-      JSON.stringify(recHistory)
+  };
+
+  const tagsRefreshed = () => {
+    addToRecHistory(
+      filters.map((r) => r.id),
+      []
     );
-    setRecHistory((p) => Object.assign([], recHistory));
+    setFilters([]);
+  };
+
+  const saveHistoryChangeToLS = (o: HistoryUpdate) => {
+    const useCompression = (sh: PastRecruitment[]) => {
+      // const JSONstr = JSON.stringify(sh);
+      const RECHstr = RecHis.compress(sh);
+      return RECHstr;
+    };
+    let srh = [...recHistory];
+    if (!isFullHistoryUpdate(o)) {
+      const index = recHistory.findIndex((rh) => rh.date === o.d);
+      if (index !== -1) {
+        srh[index] = o.f(srh[index]);
+      }
+    } else if (isFullHistoryUpdate(o)) {
+      srh = o.f(srh);
+    }
+    localStorage.setItem(StorageIDS.recruitment.history, useCompression(srh));
+    setRecHistory(srh);
   };
 
   return (
@@ -144,6 +170,7 @@ function App() {
             select={select}
             isSelected={isSelected}
             unselectAll={() => setFilters([])}
+            tagsRefreshed={tagsRefreshed}
             tag={tag}
             setTag={setTag}
             settings={settings}
@@ -172,33 +199,33 @@ function App() {
             characters={characters}
             recHistory={recHistory}
             toggleStrikeOut={(d, t) => {
-              const index = recHistory.findIndex((r) => r.date === d);
-              if (index > 0) {
-                const tagIndex = recHistory[index].picked.findIndex(
-                  (tag) => tag === t
-                );
-                recHistory[index].picked[tagIndex] =
-                  t.charAt(0) === "-" ? t.substring(1) : `-${t}`;
-                setRecHistory(Object.assign([], recHistory));
-              }
+              saveHistoryChangeToLS({
+                d,
+                f: (rh: PastRecruitment) => {
+                  const tagIndex = rh.picked.findIndex((tag) => tag === t);
+                  rh.picked[tagIndex] =
+                    t.charAt(0) === "-" ? t.substring(1) : `-${t}`;
+                  return rh;
+                },
+              });
             }}
             setOutcome={(d, o) => {
-              const i = recHistory.findIndex((r) => r.date === d);
-              recHistory[i].outcome = o.name;
-              localStorage.setItem(
-                StorageIDS.recruitment.history,
-                JSON.stringify(recHistory)
-              );
-              setRecHistory(Object.assign([], recHistory));
+              saveHistoryChangeToLS({
+                d,
+                f: (rh: PastRecruitment) => {
+                  rh.outcome = o.name;
+                  return rh;
+                },
+              });
             }}
             removeFromHistory={(d) => {
-              const i = recHistory.findIndex((r) => r.date === d);
-              delete recHistory[i];
-              localStorage.setItem(
-                StorageIDS.recruitment.history,
-                JSON.stringify(recHistory)
-              );
-              setRecHistory(Object.assign([], recHistory));
+              saveHistoryChangeToLS({
+                d,
+                f: (rh: PastRecruitment) => {
+                  rh = { date: 0, picked: [], tags: [] };
+                  return rh;
+                },
+              });
             }}
           />
         </>

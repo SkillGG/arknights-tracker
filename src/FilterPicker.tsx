@@ -8,6 +8,7 @@ interface FilterPickerProps {
   tag: boolean;
   setTag: React.Dispatch<React.SetStateAction<boolean>>;
   settings: Settings;
+  tagsRefreshed(): void;
 }
 
 import "./picker.css";
@@ -18,6 +19,7 @@ const FilterPicker: FunctionComponent<FilterPickerProps> = ({
   unselectAll,
   tag,
   setTag,
+  tagsRefreshed,
 }) => {
   return (
     <>
@@ -257,6 +259,14 @@ const FilterPicker: FunctionComponent<FilterPickerProps> = ({
         </div>
         <div className="clear" onClick={() => unselectAll()}>
           Clear all
+        </div>
+        <div
+          className="clear"
+          onClick={() => {
+            tagsRefreshed();
+          }}
+        >
+          Refresh
         </div>
         <div
           className={`clear ${tag ? "" : "tag_closed"}`}
