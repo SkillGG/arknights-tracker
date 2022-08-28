@@ -112,7 +112,7 @@ function App() {
     saveHistoryChangeToLS({
       f: (rh: PastRecruitment[]) => {
         rh.push({
-          tags: ids,
+          tags: ids.filter((f) => !!f),
           date: new Date().getTime(),
           outcome: selected ? selected.name : undefined,
           picked,

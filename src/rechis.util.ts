@@ -14,42 +14,62 @@ export const isFullHistoryUpdate = (p: HistoryUpdate): p is FullHistoryUpdate =>
 import FilterIDs from "./filterIDs.json";
 
 const filterToID = (f: string) => {
+  if (FilterIDs.findIndex((fil) => fil === f) === -1)
+    console.error("Cannot find ", f, "in FilterIDs", FilterIDs);
+  if (f.charAt(0) === "-")
+    return "-" + FilterIDs.findIndex((fil) => fil === f.substring(1));
   return FilterIDs.findIndex((fil) => fil === f);
 };
 
 export const RecHis = {
   compress: (d: PastRecruitment[]) => {
+    console.log(d);
     return d
       .filter((d) => d.date > 0)
       .map((r) => {
         return `${r.date}.${r.tags
-          .map((f) => filterToID(f))
-          .join(",")}.${r.picked.map((f) => filterToID(f)).join(",")}.${
-          r.outcome || "-"
-        }`;
+          .map((f) => {
+            return filterToID(f);
+          })
+          .join(",")}.${r.picked
+          .map((f) => {
+            return filterToID(f);
+          })
+          .join(",")}.${r.outcome || "-"}`;
       })
       .join("||");
   },
   decompress: (str: string): PastRecruitment[] => {
     if (str.charAt(0) === "[") return JSON.parse(str); // backwards compatibility with JSON saved recruitment
     const records = str.split("||").filter((r) => r.length > 0);
-    return records.map((rec) => {
-      const [date, tags, picked, outcome] = rec.split(".");
-      return {
-        date: parseInt(date),
-        tags: tags.split(",").map((f) => {
-          return /\d/.exec(f) ? FilterIDs[parseInt(f, 10)] : f;
-        }),
-        picked: picked
-          .split(",")
-          .map(
-            (f) =>
-              `${f.charAt(0) === "-" ? "-" : ""}${
-                /\d/.exec(f) ? FilterIDs[parseInt(f, 10)] : f
-              }`
-          ),
-        outcome: outcome === "-" ? undefined : outcome,
-      };
-    });
+    try {
+      return records.map((rec) => {
+        const [date, tags, picked, outcome] = rec.split(".");
+        const retObj = {
+          date: parseInt(date),
+          tags: tags
+            .split(",")
+            .filter((f) => f)
+            .map((f) => {
+              return /\d/.exec(f) ? FilterIDs[parseInt(f, 10)] : f;
+            }),
+          picked: picked
+            .split(",")
+            .filter((f) => f)
+            .map((f) => {
+              return !!f
+                ? `${f.charAt(0) === "-" ? "-" : ""}${
+                    /\d/.exec(f) ? FilterIDs[Math.abs(parseInt(f, 10))] : f
+                  }`
+                : "";
+            }),
+          outcome: outcome === "-" ? undefined : outcome,
+        };
+        return retObj;
+      });
+    } catch (e) {
+      console.error("Buggy history string!");
+      return [];
+    }
   },
 };

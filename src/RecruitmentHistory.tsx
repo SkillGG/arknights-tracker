@@ -115,6 +115,7 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
                     key={`${outcomeModal}_${r}`}
                     className={`${r.charAt(0) === "-" ? "crossedOut" : ""}`}
                     onClick={() => {
+                      toggleStrikeOut(outcomeModal, a[n]);
                       a[n] = r.charAt(0) === "-" ? r.substring(1) : `-${r}`;
                       calculateOutcomes(outcomeModal, a);
                     }}
