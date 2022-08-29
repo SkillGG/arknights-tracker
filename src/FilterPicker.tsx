@@ -13,6 +13,20 @@ interface FilterPickerProps {
 
 import "./picker.css";
 
+/*
+TODO: Swap the placement of the tags to match the order they appear in the game
+
+Guard > Sniper > Defender > Medic > Caster > Specialist > Vanguard  > Supporter 
+
+Starter > Senior Operator > Top Operator
+
+Melee Ranged
+
+AoE > Defense > Healing > Fast-Redeploy > Survival > DP-Recovery > Shift > Summon
+??REST??
+
+*/
+
 const FilterPicker: FunctionComponent<FilterPickerProps> = ({
   isSelected,
   select,

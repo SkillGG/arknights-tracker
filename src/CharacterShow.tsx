@@ -4,6 +4,7 @@ import {
   Filter,
   calculateRecruitmentCharacters,
   Settings,
+  calculateRecruitmentCharactersv2,
 } from "./utils";
 
 interface CharacterShowProps {
@@ -24,10 +25,9 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
   selectRecruitment,
   settings,
 }) => {
-  const sc = calculateRecruitmentCharacters(characters, filters);
-  sc.forEach((f) =>
-    f.ids.sort((p, n) => characters[n].stars - characters[p].stars)
-  );
+  const sc = calculateRecruitmentCharactersv2(characters, filters);
+  // const sc = calculateRecruitmentCharacters(characters, filters);
+  sc.forEach((f) => f.chars.sort((p, n) => n.stars - p.stars));
   const getItem = (c: ArkData, s: string) => {
     return (
       <div
@@ -84,7 +84,7 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
     <>
       {sc.map((s) => {
         return (
-          <React.Fragment key={s.group}>
+          <React.Fragment key={s.group.join(", ")}>
             <div
               className={`category${settings.saveHistory ? " canSave" : ""}`}
               onClick={(e) => {
@@ -95,34 +95,34 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
                     if (!settings.clickToSelectOutcome)
                       selectRecruitment(
                         filters.map((f) => f.id),
-                        s.group.split(",").map((r) => r.trim())
+                        s.group.map((r) => r.trim())
                       );
                 } else {
                   selectRecruitment(
                     filters.map((f) => f.id),
-                    s.group.split(",").map((r) => r.trim())
+                    s.group.map((r) => r.trim())
                   );
                 }
               }}
             >
               <div
                 className="groupname"
-                data-good={s.ids.reduce<number>(
-                  (p, n) => (characters[n].stars < p ? characters[n].stars : p),
+                data-good={s.chars.reduce<number>(
+                  (p, n) => (n.stars < p ? n.stars : p),
                   6
                 )}
               >
-                {s.group}
+                {s.group.join(", ")}
               </div>
               <div
                 className="characters"
                 style={{
                   gridTemplateColumns: `1fr `.repeat(
-                    s.ids.length > cols ? cols : s.ids.length
+                    s.chars.length > cols ? cols : s.chars.length
                   ),
                 }}
               >
-                {s.ids.map((c) => getItem(characters[c], s.group))}
+                {s.chars.map((c) => getItem(c, s.group.join(", ")))}
               </div>
             </div>
           </React.Fragment>
