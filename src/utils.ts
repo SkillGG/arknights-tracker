@@ -118,91 +118,36 @@ export const calculateRecruitmentCharactersv2 = (
         )
       : characters;
   const groups: RecruitmentGroup[] = [];
-  const addCharToGroup = (group: string[], char: ArkData) => {
+  const addGroup = (group: string[]) => {
     const gg = groups.find(
       (g) => symmetricArrayDiff<string>(group, g.group).length === 0
     );
-    console.log("adding to ", char.name, group, gg);
     if (!gg) {
-      groups.push({ chars: new Set([char]), group });
-    } else {
-      gg.chars.add(char);
+      const chars = getCharactersForFilters(characters, getFilters(group));
+      if (chars.length > 0)
+        groups.push({
+          chars: new Set(chars),
+          group,
+        });
     }
   };
-  chars.forEach((char) => {
-    const matchingTags = regf.filter((f) => f.filter(char)).map((f) => f.id);
-    if (matchingTags.length === 0) return;
-    // console.log(char.name, matchingTags);
-    matchingTags.forEach((m) => {
-      addCharToGroup([m], char);
-      matchingTags
-        .filter((t) => t !== m)
-        .forEach((m2) => {
-          addCharToGroup([m, m2], char);
-          matchingTags
-            .filter((mt) => mt !== m2 && mt !== m)
-            .forEach((m3) => {
-              addCharToGroup([m, m2, m3], char);
-            });
-        });
-    });
+  const matchingTags = new Set<string>(regf.map((f) => f.id));
+
+  [...matchingTags].forEach((m) => {
+    addGroup([m]);
+    [...matchingTags]
+      .filter((t) => t !== m)
+      .forEach((m2) => {
+        addGroup([m, m2]);
+        [...matchingTags]
+          .filter((mt) => mt !== m2 && mt !== m)
+          .forEach((m3) => {
+            addGroup([m, m2, m3]);
+          });
+      });
   });
+
   groups.sort((a, b) => [...a.chars].length - [...b.chars].length);
   console.log(groups);
   return groups.map((g) => ({ ...g, chars: [...g.chars] }));
-};
-
-export const calculateRecruitmentCharacters = (
-  characters: ArkData[],
-  filters: Filter[]
-) => {
-  const hits = characters.reduce<string[][]>((p, n) => {
-    return [
-      ...p,
-      filters.reduce<string[]>((p, f) => {
-        // console.log(f.filter(n), n, f.id);
-        if (f.id.length === 0) return p;
-        return f.filter(n) ? [...p, f.id] : p;
-      }, []),
-    ];
-  }, []);
-  // console.log("hits", hits);
-  const chars = hits
-    .map<[string[], number]>((h, i) => [h, i])
-    .filter((h) => h[0].length > 0);
-  chars.sort((p, n) => n[0].length - p[0].length);
-  const sc: { group: string; ids: number[] }[] = [];
-  chars.forEach((c) => {
-    // console.log("char", characters[c[1]].name);
-    const addToGroup = (g: string, id: number) => {
-      // console.log("Add", g, id);
-      const gi = sc.findIndex((o) => o.group === g);
-      if (gi === -1) sc.push({ group: g, ids: [id] });
-      else sc[gi].ids.push(id);
-    };
-    const type = c[0].join(",");
-    const id = c[1];
-    if (characters[id].stars < 3) return;
-    if (c[0].length > 3) return;
-    if (characters[id].stars === 6 && !c[0].includes("Top Operator")) return;
-    addToGroup(type, id);
-    if (c[0].length === 3) {
-      const g1 = c[0].slice(0, 2).join(",");
-      const g2 = c[0].slice(1, 3).join(",");
-      const g3 = [c[0][0], c[0][2]].join(",");
-      addToGroup(g1, id);
-      addToGroup(g2, id);
-      addToGroup(g3, id);
-    }
-    if (c[0].length > 1) {
-      c[0].forEach((g) => {
-        const gi = sc.findIndex((o) => o.group === g);
-        if (gi === -1) sc.push({ group: g, ids: [id] });
-        else sc[gi].ids.push(id);
-      });
-    }
-  });
-  // console.log(sc.map((r) => [r.group, r.ids.map((i) => characters[i].name)]));
-  sc.sort((p, n) => p.ids.length - n.ids.length);
-  return sc;
 };

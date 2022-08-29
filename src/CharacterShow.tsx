@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   ArkData,
   Filter,
-  calculateRecruitmentCharacters,
   Settings,
   calculateRecruitmentCharactersv2,
 } from "./utils";
