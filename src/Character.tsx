@@ -26,8 +26,16 @@ const Character: FunctionComponent<CharacterProps> = ({
       className="character"
       style={hover ? hoveredStyle : {}}
       data-good={stars}
+      tabIndex={
+        settings.characterDatabase ||
+        (settings.saveHistory && settings.clickToSelectOutcome)
+          ? 0
+          : -1
+      }
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
     >
       <figure
         onClick={() =>

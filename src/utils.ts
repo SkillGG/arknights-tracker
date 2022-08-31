@@ -48,6 +48,7 @@ export type LinkData =
 
 export const parseLocation = (): LinkData => {
   const path = location.pathname.replace(/\//g, "");
+  if (path === "") location.pathname = "recruit";
   if (path === "pity") return { path: "pity" };
   if (path === "recHis") return { path: "recHis" };
   else if (path === "recruit") {
@@ -110,7 +111,6 @@ export const calculateRecruitmentCharactersv2 = (
   if (filters.length === 0) return [];
   const lfh = filters.filter((f) => !f.id);
   const regf = filters.filter((f) => f.id);
-  console.log(regf, lfh, filters);
   const chars =
     lfh.length > 0
       ? characters.filter((c) =>
@@ -148,6 +148,5 @@ export const calculateRecruitmentCharactersv2 = (
   });
 
   groups.sort((a, b) => [...a.chars].length - [...b.chars].length);
-  console.log(groups);
   return groups.map((g) => ({ ...g, chars: [...g.chars] }));
 };

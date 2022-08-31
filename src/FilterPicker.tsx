@@ -16,13 +16,13 @@ import "./picker.css";
 /*
 TODO: Swap the placement of the tags to match the order they appear in the game
 
-Guard > Sniper > Defender > Medic > Caster > Specialist > Vanguard  > Supporter 
+Guard > Sniper > Defender > Medic >  Specialist > Caster > Vanguard  > Supporter 
 
 Starter > Senior Operator > Top Operator
 
 Melee Ranged
 
-AoE > Defense > Healing > Fast-Redeploy > Survival > DP-Recovery > Shift > Summon
+AoE > Defense > Healing > Support > Slow > Fast-Redeploy > Survival > DP-Recovery > Shift > Summon
 ??REST??
 
 */
@@ -51,243 +51,272 @@ const FilterPicker: FunctionComponent<FilterPickerProps> = ({
         <div className="qual">
           <div className="head">Qualification</div>
           <div className="opts smallscreens">
-            <div
+            <button
               className="tech"
               data-selected={isSelected("Starter")}
               onClick={() => select("Starter")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Starter
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Senior Operator")}
               onClick={() => select("Senior Operator")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Senior Operator
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Top Operator")}
               onClick={() => select("Top Operator")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Top Operator
-            </div>
+            </button>
           </div>
         </div>
         <div className="qual">
           <div className="head">Position</div>
           <div className="opts">
-            <div
+            <button
               className="tech"
               data-selected={isSelected("Ranged")}
               onClick={() => select("Ranged")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Ranged
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Melee")}
               onClick={() => select("Melee")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Melee
-            </div>
+            </button>
           </div>
         </div>
         <div className="qual">
           <div className="head">Class</div>
           <div className="opts tags smallscreens">
-            <div
+            <button
               className="tech"
               data-selected={isSelected("Caster")}
               onClick={() => select("Caster")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Caster
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Sniper")}
               onClick={() => select("Sniper")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Sniper
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Defender")}
               onClick={() => select("Defender")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Defender
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Guard")}
               onClick={() => select("Guard")}
+              onMouseUp={(e) => e.currentTarget.blur()}
             >
               Guard
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Medic")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Medic")}
             >
               Medic
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Specialist")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Specialist")}
             >
               Specialist
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Supporter")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Supporter")}
             >
               Supporter
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Vanguard")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Vanguard")}
             >
               Vanguard
-            </div>
+            </button>
           </div>
         </div>
         <div className="qual">
           <div className="head">Tags</div>
           <div className="opts tags smallscreens">
-            <div
+            <button
               className="tech"
               data-selected={isSelected("AoE")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("AoE")}
             >
               AoE
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Control")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Control")}
             >
               Control
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Crowd-Control")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Crowd-Control")}
             >
               Crowd-Control
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Debuff")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Debuff")}
             >
               Debuff
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Defense")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Defense")}
             >
               Defense
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("DP-Recovery")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("DP-Recovery")}
             >
               DP-Recovery
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("DPS")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("DPS")}
             >
               DPS
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Fast-Redeploy")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Fast-Redeploy")}
             >
               Fast-Redeploy
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Healing")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Healing")}
             >
               Healing
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Nuker")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Nuker")}
             >
               Nuker
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Robot")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Robot")}
             >
               Robot
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Shift")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Shift")}
             >
               Shift
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Slow")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Slow")}
             >
               Slow
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Summon")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Summon")}
             >
               Summon
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Support")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Support")}
             >
               Support
-            </div>
-            <div
+            </button>
+            <button
               className="tech"
               data-selected={isSelected("Survival")}
+              onMouseUp={(e) => e.currentTarget.blur()}
               onClick={() => select("Survival")}
             >
               Survival
-            </div>
+            </button>
           </div>
         </div>
-        <div className="clear" onClick={() => unselectAll()}>
+        <button className="clear" onClick={() => unselectAll()}>
           Clear all
-        </div>
-        <div
+        </button>
+        <button
           className="clear"
           onClick={() => {
             tagsRefreshed();
           }}
         >
           Refresh
-        </div>
-        <div
+        </button>
+        <button
           className={`clear ${tag ? "" : "tag_closed"}`}
           onClick={() => setTag(!tag)}
         >
           Show tags
-        </div>
+        </button>
       </div>
     </>
   );

@@ -41,16 +41,18 @@
   display: grid;
   border: 1px solid black;
 }
-#filterpicker .clear:hover {
+#filterpicker .clear:hover,
+#filterpicker .clear:focus {
   background-color: gray;
   cursor: pointer;
 }
-#filterpicker div.tag_closed {
+#filterpicker button.tag_closed {
   background-color: darkgray;
   color: black;
 }
 #filterpicker .head,
 #filterpicker .clear {
+  font-size: 1em;
   background-color: black;
   color: white;
   display: flex;
@@ -60,8 +62,13 @@
   height: 30px;
   user-select: none;
   grid-column: 1 / -1;
+  border: none;
 }
 #filterpicker .tech {
+  background-color: transparent;
+  color: white;
+  border: 0;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   height: 30px;
@@ -73,7 +80,8 @@
 #filterpicker .tech[data-selected="true"] {
   background-color: #aaa;
 }
-#filterpicker .tech:hover {
+#filterpicker .tech:hover,
+#filterpicker .tech:focus {
   background-color: #ccc;
   color: black;
 }

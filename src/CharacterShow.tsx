@@ -70,7 +70,6 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
   const isCharacter = (e: Element) => {
     let cL = e.classList;
     let tempE = e;
-    console.log(cL.length);
     while (cL.length == 0) {
       if (!tempE.parentElement) return false;
       cL = tempE.parentElement.classList;
@@ -85,6 +84,13 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
         return (
           <React.Fragment key={s.group.join(", ")}>
             <div
+              tabIndex={
+                settings.saveHistory
+                  ? settings.clickToSelectOutcome || settings.characterDatabase
+                    ? -1
+                    : 0
+                  : -1
+              }
               className={`category${settings.saveHistory ? " canSave" : ""}`}
               onClick={(e) => {
                 if (!settings.saveHistory) return;

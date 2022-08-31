@@ -31,16 +31,18 @@
     display: grid;
     border: 1px solid black;
   }
-  .clear:hover {
+  .clear:hover,
+  .clear:focus {
     background-color: gray;
     cursor: pointer;
   }
-  & div.tag_closed {
+  & button.tag_closed {
     background-color: darkgray;
     color: black;
   }
   .head,
   .clear {
+    font-size: 1em;
     background-color: black;
     color: white;
     display: flex;
@@ -50,8 +52,13 @@
     height: 30px;
     user-select: none;
     grid-column: 1 / -1;
+    border: none;
   }
   .tech {
+    background-color: transparent;
+    color: white;
+    border: 0;
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     height: 30px;
@@ -63,7 +70,8 @@
   .tech[data-selected="true"] {
     background-color: #aaa;
   }
-  .tech:hover {
+  .tech:hover,
+  .tech:focus {
     background-color: #ccc;
     color: black;
   }

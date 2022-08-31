@@ -2,6 +2,9 @@
   --modalout: #111c;
   --modalin: #fffa;
 }
+* {
+  font-family: Helvetica, sans-serif, Arial;
+}
 .switches {
   display: flex;
   margin: 0 auto;

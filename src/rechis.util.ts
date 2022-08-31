@@ -14,7 +14,11 @@ export const isFullHistoryUpdate = (p: HistoryUpdate): p is FullHistoryUpdate =>
 import FilterIDs from "./filterIDs.json";
 
 const filterToID = (f: string) => {
-  if (FilterIDs.findIndex((fil) => fil === f) === -1)
+  if (
+    FilterIDs.findIndex((fil) => fil === f) === -1 &&
+    f.charAt(0) === "-" &&
+    FilterIDs.findIndex((fil) => fil === f.substring(1)) === -1
+  )
     console.error("Cannot find ", f, "in FilterIDs", FilterIDs);
   if (f.charAt(0) === "-")
     return "-" + FilterIDs.findIndex((fil) => fil === f.substring(1));
@@ -23,7 +27,6 @@ const filterToID = (f: string) => {
 
 export const RecHis = {
   compress: (d: PastRecruitment[]) => {
-    console.log(d);
     return d
       .filter((d) => d.date > 0)
       .map((r) => {
