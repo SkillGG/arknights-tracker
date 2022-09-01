@@ -2,9 +2,4 @@
     standard_4:
     "Standard Pool 69 (Global)":
     ./BannerImages/EN_Standard_Pool_69_banner.webp
-},
-{
-    standard_3:
-    "Spark Blossom":
-    ./BannerImages/EN_Spark_Blossom_banner.webp
 }
