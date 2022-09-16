@@ -1,5 +1,10 @@
 {
-    standard_5:
-    "Standard Pool 70 (Global)":
-    ./BannerImages/EN_Standard_Pool_70_banner.webp
+    standard_6:
+    "Standard Pool 71 (Global)":
+    ./BannerImages/EN_Standard_Pool_71_banner.webp
+},
+{
+    standard_7:
+    "Flame of Immaculacy":
+    ./BannerImages/EN_Flame_of_Immaculacy_banner.webp
 }
