@@ -14,6 +14,7 @@ import {
   parseLocation,
   PastRecruitment,
   Settings,
+  ShallowCopy,
   toggleTag,
 } from "./utils";
 
@@ -49,7 +50,7 @@ function App() {
   const changeSetting = (setting: string, value: any) => {
     if (checkIfIsASetting(setting)) settings[setting] = value;
     localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
-    setSettings(Object.assign({}, settings));
+    setSettings(ShallowCopy(settings));
   };
 
   const refreshURLHistory = () => {

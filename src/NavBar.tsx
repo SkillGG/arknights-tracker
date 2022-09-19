@@ -25,23 +25,23 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
 
   return (
     <>
-      <div className="switches">
+      <div className="navSwitches">
         {page !== "recruit" && (
-          <button className="switch" onClick={() => moveToPage("recruit")}>
+          <button className="navSwitch" onClick={() => moveToPage("recruit")}>
             Recruitment
           </button>
         )}
         {page !== "recHis" && (
-          <button className="switch" onClick={() => moveToPage("recHis")}>
+          <button className="navSwitch" onClick={() => moveToPage("recHis")}>
             History
           </button>
         )}
         {page !== "pity" && (
-          <button className="switch" onClick={() => moveToPage("pity")}>
+          <button className="navSwitch" onClick={() => moveToPage("pity")}>
             Pity
           </button>
         )}
-        <button className="switch" onClick={() => setSettingsModal(true)}>
+        <button className="navSwitch" onClick={() => setSettingsModal(true)}>
           Settings
         </button>
       </div>

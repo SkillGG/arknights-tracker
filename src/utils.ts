@@ -1,3 +1,10 @@
+export const ShallowCopy = (p: any) =>
+  typeof p === "object"
+    ? Object.assign({}, p)
+    : Array.isArray(p)
+    ? Object.assign([], p)
+    : p;
+
 export type ArkData = {
   tags: string[];
   name: string;

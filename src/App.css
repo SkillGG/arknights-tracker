@@ -5,13 +5,13 @@
 * {
   font-family: Helvetica, sans-serif, Arial;
 }
-.switches {
+.navSwitches {
   display: flex;
   margin: 0 auto;
   width: min-content;
   flex-flow: row;
 }
-.switches .switch {
+.navSwitches .navSwitch {
   width: 100px;
   padding: 5px 15px;
   margin: 5px;
@@ -20,14 +20,59 @@
   transition-duration: 0.1s;
   box-shadow: black 1px 1px 1px 1px;
 }
-.switches .switch:hover {
+.navSwitches .navSwitch:hover {
   background-color: darkgray;
   box-shadow: black 1px 1px 1px 1px;
   translate: 0 -1px;
 }
-.switches .switch:active {
+.navSwitches .navSwitch:active {
   background-color: black;
   color: white;
   translate: 0 2px;
   box-shadow: none;
+}
+button.crossedSwitch {
+  flex: 1;
+  padding: 5px;
+  margin: 5px;
+  background-color: var(--modalout);
+  box-shadow: inset 0px 0px 2px 2px white;
+  color: white;
+  translate: 0px 0px;
+  transition-duration: 10ms;
+  transition-timing-function: ease-in-out;
+  user-select: none;
+}
+button.crossedSwitch:not(.crossedOut):active {
+  translate: 1px 1px;
+  box-shadow: inset 0px 0px 3px 3px white;
+  background-color: #111c;
+  color: white;
+  text-decoration: line-through;
+}
+button.crossedSwitch.unpressed {
+  translate: 1px 1px;
+  box-shadow: inset 0px 0px 3px 3px white;
+  background-color: #111c;
+  color: white;
+  text-decoration: line-through;
+}
+button.crossedSwitch.crossedOut {
+  background-color: #ccc;
+  color: black;
+  box-shadow: 1px 1px 1px 1px black;
+  translate: -1px -1px;
+}
+button.crossedSwitch.crossedOut > s {
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+}
+button.crossedSwitch.crossedOut:active {
+  translate: 1px 1px;
+  box-shadow: inset 0px 0px 3px 3px white;
+  background-color: #111c;
+  color: white;
+}
+button.crossedSwitch.crossedOut:active > s {
+  text-decoration: none;
 }

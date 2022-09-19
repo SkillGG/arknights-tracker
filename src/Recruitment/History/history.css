@@ -57,41 +57,55 @@ table.history tbody tr:hover {
   align-items: center;
   justify-content: center;
 }
-.crossed > div {
-  flex: 1;
-  padding: 5px;
-  margin: 5px;
-  background-color: var(--modalout);
-  box-shadow: inset 0px 0px 2px 2px white;
-  color: white;
-  translate: 0px 0px;
-  transition-duration: 10ms;
-  transition-timing-function: ease-in-out;
+.historyFilter {
+  position: absolute;
+  text-align: center;
   user-select: none;
+  left: 5px;
+  top: 10px;
+  width: 10%;
 }
-.crossed > div:not(.crossedOut):active {
-  translate: 1px 1px;
-  box-shadow: inset 0px 0px 3px 3px white;
-  background-color: #111c;
-  color: white;
-  text-decoration: line-through;
+.historyFilter > div {
+  clear: both;
+  width: 60%;
+  margin: 0 auto;
 }
-.crossed > div.crossedOut {
-  background-color: #ccc;
-  color: black;
-  box-shadow: 1px 1px 1px 1px black;
-  translate: -1px -1px;
+.historyFilter > div > label {
+  float: left;
 }
-.crossed > div.crossedOut > s {
-  text-decoration: line-through;
-  text-decoration-thickness: 3px;
+.historyFilter > div > input {
+  float: right;
 }
-.crossed > div.crossedOut:active {
-  translate: 1px 1px;
-  box-shadow: inset 0px 0px 3px 3px white;
-  background-color: #111c;
-  color: white;
+@media only screen and (max-width: 1500px) {
+  .historyFilter {
+    position: static;
+    margin: 0 auto;
+    width: 50%;
+  }
 }
-.crossed > div.crossedOut:active > s {
-  text-decoration: none;
+@media only screen and (max-width: 1100px) {
+  .historyFilter {
+    width: 75%;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .historyFilter {
+    width: calc(100% - 50px);
+    margin-inline: 10px 10px;
+  }
+}
+.historyFilterButton {
+  padding: 5px;
+  margin: 10px auto;
+  width: 70%;
+  border: 0px;
+  background-color: var(--modalin);
+  display: block;
+  border: 1px solid lightgray;
+  box-shadow: 1px 1px 1px 1px var(--modalout);
+}
+.historyFilterButton:active {
+  border: 1px solid black;
+  box-shadow: 0px 0px 1px 1px inset black;
+  transform: translate(1px, 1px);
 }

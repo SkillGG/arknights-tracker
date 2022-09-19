@@ -5,6 +5,7 @@ import {
   getCharactersForFilters,
   Settings,
   getFilters,
+  ShallowCopy,
 } from "../../utils";
 interface RecruitmentHistoryProps {
   recHistory: PastRecruitment[];
@@ -18,6 +19,7 @@ interface RecruitmentHistoryProps {
 import "./history.css";
 import "./../Picker/characters.css";
 import Character from "../Picker/Character";
+import { HistoryFilters } from "./rechis.util";
 
 const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
   recHistory,
@@ -31,6 +33,10 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
 
   const [possibleOutcomes, setPossibleOutcomes] = useState<ArkData[]>([]);
 
+  const [historyFilters, setHistoryFilters] = useState<HistoryFilters>({});
+
+  const [hiddenHistory, setHiddenHistory] = useState(false);
+
   const calculateOutcomes = (date: number, tags: string[]) => {
     const sc = getCharactersForFilters(characters, getFilters(tags));
     sc.sort((p, n) => n.stars - p.stars);
@@ -38,8 +44,94 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
     setOutcomeModal(date);
   };
 
+  const filtersOut = (r: PastRecruitment, hs: HistoryFilters): boolean => {
+    if (!hs.type) return false;
+    if (hs.type === "finalised") return !r.outcome;
+    if (hs.type === "refreshed") return !(!r.outcome && !r.picked.length);
+    if (hs.type === "ongoing") return !(!r.outcome && !!r.picked.length);
+    return false;
+  };
+
   return (
     <>
+      <div className="historyFilter">
+        {hiddenHistory && (
+          <button
+            className="historyFilterButton"
+            onClick={() => setHiddenHistory(false)}
+          >
+            Filter
+          </button>
+        )}
+
+        {!hiddenHistory && (
+          <>
+            <button
+              className="historyFilterButton"
+              onClick={() => setHiddenHistory(true)}
+            >
+              Hide
+            </button>
+            <div>
+              Items:{" "}
+              {recHistory.reduce(
+                (p, n) => p + (!filtersOut(n, historyFilters) ? 1 : 0),
+                0
+              )}
+            </div>
+            <div>
+              <label htmlFor="finished">Finished:</label>
+              <input
+                type="radio"
+                name="finished"
+                id="finished"
+                checked={historyFilters.type === "finalised"}
+                onChange={(e) => {
+                  setHistoryFilters((p) => ({ ...p, type: "finalised" }));
+                }}
+              />
+            </div>
+            <div>
+              <label htmlFor="ongoing">Active:</label>
+              <input
+                type="radio"
+                name="ongoing"
+                id="ongoing"
+                checked={historyFilters.type === "ongoing"}
+                onChange={(e) => {
+                  setHistoryFilters((p) => ({ ...p, type: "ongoing" }));
+                }}
+              />
+            </div>
+            <div>
+              <label htmlFor="refreshed">Refreshed:</label>
+              <input
+                type="radio"
+                name="refreshed"
+                id="refreshed"
+                checked={historyFilters.type === "refreshed"}
+                onChange={(e) => {
+                  setHistoryFilters((p) => ({ ...p, type: "refreshed" }));
+                }}
+              />
+            </div>
+            <br />
+            <div>
+              <button
+                className="historyFilterButton"
+                onClick={() =>
+                  setHistoryFilters((p) => {
+                    delete p.type;
+                    return ShallowCopy(p);
+                  })
+                }
+              >
+                Clear
+              </button>
+            </div>
+          </>
+        )}
+      </div>
       <table className="history">
         <thead>
           <tr>
@@ -54,7 +146,7 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
         </thead>
         <tbody>
           {recHistory.map((rec, i) =>
-            rec.date == 0 ? null : (
+            rec.date == 0 || filtersOut(rec, historyFilters) ? null : (
               <tr key={`rec${rec.date}`}>
                 <td>{i + 1}.</td>
                 <td>{rec.tags.join(", ")}</td>
@@ -110,9 +202,11 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
               {recHistory
                 .find((r) => r?.date === outcomeModal)
                 ?.picked.map((r, n, a) => (
-                  <div
+                  <button
                     key={`${outcomeModal}_${r}`}
-                    className={`${r.charAt(0) === "-" ? "crossedOut" : ""}`}
+                    className={`crossedSwitch ${
+                      r.charAt(0) === "-" ? "crossedOut" : ""
+                    }`}
                     onClick={() => {
                       toggleStrikeOut(outcomeModal, a[n]);
                       a[n] = r.charAt(0) === "-" ? r.substring(1) : `-${r}`;
@@ -120,7 +214,7 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
                     }}
                   >
                     {r.charAt(0) === "-" ? <s>{r.substring(1)}</s> : r}
-                  </div>
+                  </button>
                 ))}
             </div>
             <div className="characters">

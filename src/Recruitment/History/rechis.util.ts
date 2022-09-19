@@ -6,6 +6,10 @@ type SingularHistoryUpdate = {
 };
 type FullHistoryUpdate = { f: (p: PastRecruitment[]) => PastRecruitment[] };
 
+export type HistoryFilters = {
+  type?: "refreshed" | "finalised" | "ongoing";
+};
+
 export type HistoryUpdate = FullHistoryUpdate | SingularHistoryUpdate;
 
 export const isFullHistoryUpdate = (p: HistoryUpdate): p is FullHistoryUpdate =>
