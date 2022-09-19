@@ -71,7 +71,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
               <label htmlFor="save-db">Send Data to Database</label>
               <input
                 type="checkbox"
-                disabled={!settings.saveHistory}
+                disabled={true}
                 name=""
                 id="save-db"
                 checked={settings.sendHistoryToDB}
