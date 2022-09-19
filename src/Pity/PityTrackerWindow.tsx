@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 
-import StorageIDS from "./localStorageIDs.json";
+import StorageIDS from "./../localStorageIDs.json";
 
 interface PityTrackerWindowProps {
   name: string;

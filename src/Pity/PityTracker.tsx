@@ -11,8 +11,8 @@ type PityTrackerData = {
 
 import "./pity.css";
 import Banner from "./PityTrackerWindow";
-import { Settings } from "./utils";
-import StorageIDS from "./localStorageIDs.json";
+import { Settings } from "./../utils";
+import StorageIDS from "./../localStorageIDs.json";
 
 const PityTracker: FunctionComponent<PityTrackerProps> = ({ settings }) => {
   const [pityTracker, setPityTracker] = useState<PityTrackerData>({

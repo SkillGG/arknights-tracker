@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Filter, Settings } from "./utils";
+import { Settings } from "../../utils";
 
 interface FilterPickerProps {
   isSelected: (s: string) => boolean;

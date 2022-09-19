@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import CharacterShow from "./CharacterShow";
-import FilterPicker from "./FilterPicker";
-import PityTracker from "./PityTracker";
+import CharacterShow from "./Recruitment/Picker/CharacterShow";
+import FilterPicker from "./Recruitment/Picker/FilterPicker";
+import PityTracker from "./Pity/PityTracker";
 import {
   ArkData,
   checkIfIsASetting,
@@ -20,8 +20,12 @@ import {
 import Chars from "./operators.json";
 import NavBar from "./NavBar";
 import StorageIDS from "./localStorageIDs.json";
-import RecruitmentHistory from "./RecruitmentHistory";
-import { HistoryUpdate, isFullHistoryUpdate, RecHis } from "./rechis.util";
+import RecruitmentHistory from "./Recruitment/History/RecruitmentHistory";
+import {
+  HistoryUpdate,
+  isFullHistoryUpdate,
+  RecHis,
+} from "./Recruitment/History/rechis.util";
 
 function App() {
   const [filters, setFilters] = useState<Filter[]>([]);

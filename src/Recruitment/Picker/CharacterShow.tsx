@@ -4,7 +4,7 @@ import {
   Filter,
   Settings,
   calculateRecruitmentCharactersv2,
-} from "./utils";
+} from "../../utils";
 
 interface CharacterShowProps {
   characters: ArkData[];

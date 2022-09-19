@@ -1,5 +1,5 @@
 import { CSSProperties, FunctionComponent, useState } from "react";
-import { Settings } from "./utils";
+import { Settings } from "./../../utils";
 
 interface CharacterProps {
   stars: number;

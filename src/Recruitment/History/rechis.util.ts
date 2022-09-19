@@ -1,4 +1,4 @@
-import { PastRecruitment } from "./utils";
+import { PastRecruitment } from "./../../utils";
 
 type SingularHistoryUpdate = {
   d: number;
@@ -11,7 +11,7 @@ export type HistoryUpdate = FullHistoryUpdate | SingularHistoryUpdate;
 export const isFullHistoryUpdate = (p: HistoryUpdate): p is FullHistoryUpdate =>
   typeof (p as any).d !== "number";
 
-import FilterIDs from "./filterIDs.json";
+import FilterIDs from "./../../filterIDs.json";
 
 const filterToID = (f: string) => {
   if (

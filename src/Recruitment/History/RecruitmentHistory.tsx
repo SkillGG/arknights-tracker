@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
   ArkData,
-  Filter,
   PastRecruitment,
   getCharactersForFilters,
   Settings,
   getFilters,
-} from "./utils";
+} from "../../utils";
 interface RecruitmentHistoryProps {
   recHistory: PastRecruitment[];
   setOutcome(date: number, outcome: ArkData): void;
@@ -17,8 +16,8 @@ interface RecruitmentHistoryProps {
 }
 
 import "./history.css";
-import "./characters.css";
-import Character from "./Character";
+import "./../Picker/characters.css";
+import Character from "../Picker/Character";
 
 const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
   recHistory,
