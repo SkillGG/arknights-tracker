@@ -118,110 +118,115 @@ const PityTrackerWindow: FunctionComponent<PityTrackerWindowProps> = ({
         </button>
         <ul
           className="dropdown_menu"
-          style={showRoll ? { display: "block" } : {}}
+          style={showRoll ? { display: "flex" } : {}}
         >
-          <li style={{ color: "darkgoldenrod" }} onClick={() => add6Star()}>
-            {STARS(6)}
-          </li>
-          <li
-            style={{ color: "rgb(158, 113, 158)" }}
-            onClick={() => add5Star()}
-          >
-            {STARS(5)}
-          </li>
-          {(!first10 || no5Rolls < 9) && (
-            <li onClick={() => add4Star()}>&lt;={STARS(4)}</li>
-          )}
-          <li
-            onClick={() => {
-              setShow10Roll(!show10Roll);
-            }}
-          >
-            +10
+          <li>
+            <div style={{ color: "darkgoldenrod" }} onClick={() => add6Star()}>
+              {STARS(6)}
+            </div>
+            <div
+              style={{ color: "rgb(158, 113, 158)" }}
+              onClick={() => add5Star()}
+            >
+              {STARS(5)}
+            </div>
+            {(!first10 || no5Rolls < 9) && (
+              <div onClick={() => add4Star()}>&lt;={STARS(4)}</div>
+            )}
+            <div
+              onClick={() => {
+                setShow10Roll(!show10Roll);
+              }}
+            >
+              +10
+            </div>
           </li>
         </ul>
         <ul
           className="dropdown_menu"
-          style={show10Roll ? { display: "block" } : {}}
+          style={show10Roll ? { display: "grid" } : {}}
         >
           {tenRoll.map((roll, i) => {
             return (
               <React.Fragment key={`tenRoll_roll#${i}`}>
-                <li
-                  style={{
-                    color: "darkgoldenrod",
-                    backgroundColor: tenRoll[i] === 1 ? "darkblue" : "",
-                  }}
-                  onClick={() => {
-                    setTenRoll((p) => {
-                      const r = p.map<number>((r, x) =>
-                        x === i ? (r === 1 ? 0 : 1) : r
-                      ) as TenRoll;
-                      return r;
-                    });
-                  }}
-                >
-                  {STARS(6)}
-                </li>
-                <li
-                  onClick={() => {
-                    setTenRoll((p) => {
-                      const r = p.map((r, x) =>
-                        x === i ? (r === 2 ? 0 : 2) : r
-                      ) as TenRoll;
-                      return r;
-                    });
-                  }}
-                  style={{
-                    color: "rgb(158, 113, 158)",
-                    backgroundColor: tenRoll[i] === 2 ? "darkblue" : "",
-                  }}
-                >
-                  {STARS(5)}
-                </li>
-                {(!first10 || canBe4Star(no5Rolls, i, tenRoll)) && (
-                  <li
+                <li>
+                  <div
+                    style={{
+                      color: "darkgoldenrod",
+                      backgroundColor: tenRoll[i] === 1 ? "darkblue" : "",
+                    }}
                     onClick={() => {
                       setTenRoll((p) => {
                         const r = p.map<number>((r, x) =>
-                          x === i ? (r === 3 ? 0 : 3) : r
+                          x === i ? (r === 1 ? 0 : 1) : r
+                        ) as TenRoll;
+                        return r;
+                      });
+                    }}
+                  >
+                    {STARS(6)}
+                  </div>
+                  <div
+                    onClick={() => {
+                      setTenRoll((p) => {
+                        const r = p.map((r, x) =>
+                          x === i ? (r === 2 ? 0 : 2) : r
                         ) as TenRoll;
                         return r;
                       });
                     }}
                     style={{
-                      backgroundColor: tenRoll[i] === 3 ? "darkblue" : "",
+                      color: "rgb(158, 113, 158)",
+                      backgroundColor: tenRoll[i] === 2 ? "darkblue" : "",
                     }}
                   >
-                    &lt;={STARS(4)}
-                  </li>
-                )}
-                <br />
+                    {STARS(5)}
+                  </div>
+                  {(!first10 || canBe4Star(no5Rolls, i, tenRoll)) && (
+                    <div
+                      onClick={() => {
+                        setTenRoll((p) => {
+                          const r = p.map<number>((r, x) =>
+                            x === i ? (r === 3 ? 0 : 3) : r
+                          ) as TenRoll;
+                          return r;
+                        });
+                      }}
+                      style={{
+                        backgroundColor: tenRoll[i] === 3 ? "darkblue" : "",
+                      }}
+                    >
+                      &lt;={STARS(4)}
+                    </div>
+                  )}
+                </li>
               </React.Fragment>
             );
           })}
-          <li
-            className={
-              tenRoll.reduce<number>((p, n) => p * n, 1) > 0 ? "" : "no-save"
-            }
-            onClick={() => {
-              if (tenRoll.includes(0)) return;
-              tenRoll.forEach((rl) => {
-                if (rl === 1) add6Star();
-                else if (rl === 2) add5Star();
-                else add4Star();
+          <li>
+            <div
+              className={
+                tenRoll.reduce<number>((p, n) => p * n, 1) > 0 ? "" : "no-save"
+              }
+              onClick={() => {
+                if (tenRoll.includes(0)) return;
+                tenRoll.forEach((rl) => {
+                  if (rl === 1) add6Star();
+                  else if (rl === 2) add5Star();
+                  else add4Star();
+                  setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                });
+              }}
+            >
+              Save
+            </div>
+            <div
+              onClick={() => {
                 setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-              });
-            }}
-          >
-            Save
-          </li>
-          <li
-            onClick={() => {
-              setTenRoll([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            }}
-          >
-            Clear
+              }}
+            >
+              Clear
+            </div>
           </li>
         </ul>
         <button

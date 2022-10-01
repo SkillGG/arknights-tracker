@@ -2,9 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-.rollType {
-  width: 25%;
+  flex-wrap: wrap;
 }
 .rollType fieldset {
   text-align: center;
@@ -15,6 +13,11 @@
   margin: 0 auto;
   color: lightgray;
   font-weight: bolder;
+}
+@media only screen and (max-width: 300px) {
+  .rollType fieldset img {
+    width: 80vw;
+  }
 }
 .rollType fieldset .f10 {
   color: blue;
@@ -68,7 +71,12 @@
   transform-origin: top center;
 }
 .rollType fieldset .dropdown_menu li {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.rollType fieldset .dropdown_menu li div {
   margin: 5px 5px 0 5px;
   border: 1px solid black;
   background-color: lightgray;
@@ -79,24 +87,24 @@
   box-shadow: darkblue 1px 1px 1px 1px;
   transition-duration: 0.1s;
 }
-.rollType fieldset .dropdown_menu li:hover {
+.rollType fieldset .dropdown_menu li div:hover {
   box-shadow: darkblue 2px 2px 2px 2px;
   transform: translateY(-2px);
 }
-.rollType fieldset .dropdown_menu li:active {
+.rollType fieldset .dropdown_menu li div:active {
   box-shadow: none;
   transform: translateY(1px);
 }
-.rollType fieldset .dropdown_menu li.no-save {
+.rollType fieldset .dropdown_menu li div.no-save {
   cursor: not-allowed;
   color: gray;
   background-color: darkgray;
   box-shadow: none;
 }
-.rollType fieldset .dropdown_menu li.no-save:hover {
+.rollType fieldset .dropdown_menu li div.no-save:hover {
   box-shadow: none;
   transform: none;
 }
-.rollType fieldset .dropdown_menu li.no-save:active {
+.rollType fieldset .dropdown_menu li div.no-save:active {
   transform: none;
 }

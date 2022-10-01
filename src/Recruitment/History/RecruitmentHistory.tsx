@@ -35,7 +35,7 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
 
   const [historyFilters, setHistoryFilters] = useState<HistoryFilters>({});
 
-  const [hiddenHistory, setHiddenHistory] = useState(false);
+  const [hiddenHistory, setHiddenHistory] = useState(true);
 
   const calculateOutcomes = (date: number, tags: string[]) => {
     const sc = getCharactersForFilters(characters, getFilters(tags));

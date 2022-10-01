@@ -8,8 +8,9 @@
 .navSwitches {
   display: flex;
   margin: 0 auto;
-  width: min-content;
-  flex-flow: row;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .navSwitches .navSwitch {
   width: 100px;
