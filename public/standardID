@@ -2,4 +2,9 @@
     standard_8:
     "Standard Pool 72 (Global)":
     ./BannerImages/EN_Standard_Pool_72_banner.png
+},
+{
+    standard_9:
+    "Erg Passenger Rerun":
+    ./BannerImages/EN_Erg_Passenger_Rerun_banner.webp
 }
