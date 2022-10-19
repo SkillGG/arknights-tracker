@@ -776,5 +776,40 @@
       "Caster"
     ],
     "image": "./operators/Ceobe.png"
+  },
+  {
+    "name":"Bagpipe",
+    "stars":6,
+    "tags":[
+      "Top Operator",
+      "DP-Recovery",
+      "DPS",
+      "Vanguard",
+      "Melee"
+    ],
+    "image":"./operators/Bagpipe.png"
+  },
+  {
+    "name":"Sesa",
+    "stars":5,
+    "tags":[
+      "Senior Operator",
+      "AoE",
+      "Debuff",
+      "Sniper",
+      "Ranged"
+    ],
+    "image":"./operators/Sesa.png"
+  },
+  {
+    "name":"Utage",
+    "stars":4,
+    "tags":[
+      "DPS",
+      "Survival",
+      "Guard",
+      "Melee"
+    ],
+    "image":"./operators/Utage.png"
   }
 ]
