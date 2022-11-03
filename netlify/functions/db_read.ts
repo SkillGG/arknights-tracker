@@ -1,9 +1,5 @@
 import { Handler } from "@netlify/functions";
-import {
-  DB_ReadFromServer,
-  DB_ReadToServer,
-  isReadToServerData,
-} from "./../../src/db_utils";
+import { isReadToServerData } from "./../../src/db_utils";
 import { getDBCollection } from "./db";
 
 const handler: Handler = async (event, _) => {

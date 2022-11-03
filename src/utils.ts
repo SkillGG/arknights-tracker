@@ -14,19 +14,23 @@ export type ArkData = {
 
 export type PageType = "recruit" | "pity" | "recHis";
 
-export type Settings = {
-  saveHistory: boolean;
-  sendHistoryToDB: boolean;
-  characterDatabase: boolean;
-  clickToSelectOutcome: boolean;
-};
+export type Settings = typeof DEF_SETTINGS;
 
-const DEF_SETTINGS: Settings = {
+const DEF_SETTINGS = {
   saveHistory: true,
   sendHistoryToDB: false,
   characterDatabase: false,
   clickToSelectOutcome: false,
 };
+
+export const isSettings = (n: any): n is Settings =>
+  n &&
+  typeof n === "object" &&
+  !Object.keys(DEFAULT_SETTINGS).reduce(
+    (p, x) => p || n[x] === undefined,
+    false
+  );
+
 export const checkIfIsASetting = (set: string): set is keyof Settings =>
   Object.keys(DEF_SETTINGS).includes(set);
 export const DEFAULT_SETTINGS = JSON.stringify(DEF_SETTINGS);
