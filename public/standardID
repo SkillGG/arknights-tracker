@@ -2,9 +2,4 @@
     standard_12:
     "Standard Pool 74 (Global)":
     ./BannerImages/EN_Standard_Pool_74_banner.webp
-},
-{
-    standard_11:
-    "Roaring Cliffrunner":
-    ./BannerImages/EN_Roaring_Cliffrunner_banner.webp
 }
