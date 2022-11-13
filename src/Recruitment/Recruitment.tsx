@@ -53,6 +53,13 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
    */
   const [filters, setFilters] = useState<Filter[]>([]);
 
+  /**
+   * Filters that have IDs
+   *
+   * Non-id filters hide 6* and timer-based operator (Robot, Starter etc.)
+   */
+  const namedFilters = filters.filter((f) => f.id);
+
   const [firstLoad, setFirstLoad] = useState(false);
 
   const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
@@ -83,22 +90,19 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     history.pushState(
       "",
       "",
-      `?filter=${filters
-        .filter((f) => f.id)
-        .map((f) => f.id)
-        .join(",")}`
+      `?filter=${namedFilters.map((f) => f.id).join(",")}`
     );
   };
 
   const isSelected = (s: string) => {
-    return !!filters.find((f) => f.id === s);
+    return !!namedFilters.find((f) => f.id === s);
   };
   const tooMany = (s: string[]) => s.length > 5;
   const select = (s: string) => {
     const curr = toggleTag(
-      filters.map((f) => f.id),
+      namedFilters.map((f) => f.id),
       s
-    ).filter((t) => !!t);
+    );
     if (tooMany(curr)) return;
     setFilters(getFilters(curr));
   };
@@ -111,15 +115,13 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     const locationData = parseLocation();
     if (locationData.path !== "recruit") return () => {};
     if (firstLoad || filters.length > 0) {
-      if (locationData.filters.length !== filters.filter((f) => f.id).length)
+      if (locationData.filters.length !== namedFilters.length)
         refreshURLHistory();
     }
   }, [filters]);
 
   const saveHistoryChangeToLS = (o: HistoryUpdate) => {
     const useCompression = (sh: PastRecruitment[]) => {
-      const JSONstr = JSON.stringify(sh);
-      // console.log(JSONstr);
       const RECHstr = RecHis.compress(sh);
       return RECHstr;
     };
@@ -156,7 +158,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
 
   const tagsRefreshed = () => {
     addToRecHistory(
-      filters.map((r) => r.id),
+      namedFilters.map((r) => r.id),
       []
     );
     setFilters([]);
