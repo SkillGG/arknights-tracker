@@ -1,3 +1,8 @@
+/**
+ * Shalowly copy an object
+ * @param p Object to copy
+ * @returns A shallow copy of the object
+ */
 export const ShallowCopy = (p: any) =>
   typeof p === "object"
     ? Object.assign({}, p)
@@ -21,6 +26,9 @@ export type Settings = {
   clickToSelectOutcome: boolean;
 };
 
+/**
+ * Deafult User settings
+ */
 const DEF_SETTINGS: Settings = {
   saveHistory: true,
   sendHistoryToDB: false,
@@ -53,6 +61,10 @@ export type LinkData =
   | { path: "pity" }
   | { path: "recHis" };
 
+/**
+ * Get Data from href of the window
+ * @returns Data about current href parameters
+ */
 export const parseLocation = (): LinkData => {
   const path = location.pathname.replace(/\//g, "");
   if (path === "") location.pathname = "recruit";
