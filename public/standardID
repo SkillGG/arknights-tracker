@@ -1,10 +1,5 @@
 {
-    standard_15:
-    "Standard Pool 77 (Global)":
-    ./BannerImages/EN_Standard_Pool_77_banner.webp
-},
-{
-    joint_6:
-    "Joint Operation 6":
-    ./BannerImages/EN_Joint_Operation_6_banner.webp
+    standard_16:
+    "Standard Pool 78 (Global)":
+    ./BannerImages/EN_Standard_Pool_78_banner.webp
 }
