@@ -2,4 +2,9 @@
     standard_16:
     "Standard Pool 78 (Global)":
     ./BannerImages/EN_Standard_Pool_78_banner.webp
+},
+{
+    Dissonanzen1:
+    "Dissonanzen":
+    ./BannerImages/EN_Dissonanzen_banner.webp
 }
