@@ -29,10 +29,10 @@ const RecruitmentHistory: React.FunctionComponent<RecruitmentHistoryProps> = ({
   removeFromHistory,
   toggleStrikeOut,
 }) => {
-  const [outcomeModal, setOutcomeModal] = useState(0);
-
+  const [outcomeModal, setOutcomeModal] = useState(25);
+  
   const [possibleOutcomes, setPossibleOutcomes] = useState<ArkData[]>([]);
-
+  
   const [historyFilters, setHistoryFilters] = useState<HistoryFilters>({});
 
   const [hiddenHistory, setHiddenHistory] = useState(true);
