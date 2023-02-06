@@ -150,6 +150,7 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
                                 filters.map((f) => f.id),
                                 customCombination
                             );
+                            setCustomCombination([]);
                         }}
                     >
                         Apply
