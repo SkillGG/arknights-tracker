@@ -23,5 +23,3 @@ dist-ssr
 *.sw?
 
 /.netlify
-/dist/*
-/dist/operators
