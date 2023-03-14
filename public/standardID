@@ -2,4 +2,9 @@
     standard_83:
     "Standard Pool 83 (Global)":
     ./BannerImages/EN_Standard_Pool_83_banner.webp
+},
+{
+    pathfinder_of_sands:
+    "Pathfinder of Sands":
+    ./BannerImages/EN_Pathfinder_of_Sands_banner.webp
 }
