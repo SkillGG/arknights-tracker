@@ -1,10 +1,10 @@
 {
-    standard_84:
-    "Standard Pool 84 (Global)":
-    ./BannerImages/EN_Standard_Pool_84_banner.webp
+    standard_85:
+    "Standard Pool 85 (Global)":
+    ./BannerImages/EN_Standard_Pool_85_banner.webp
 },
 {
-    pathfinder_of_sands:
-    "Pathfinder of Sands":
-    ./BannerImages/EN_Pathfinder_of_Sands_banner.webp
+    never_vowed:
+    "Never Vowed":
+    ./BannerImages/EN_Never_Vowed_banner.webp
 }
