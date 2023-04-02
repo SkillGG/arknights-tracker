@@ -38,13 +38,24 @@ interface RecruitmentPageProps {
      * Flag that triggers onpopstate useEffect
      */
     popped: boolean;
+    /**
+     * Flag that triggers refresh after importing
+     */
+    refresh: boolean;
 }
+
+export const getHistoryDataFromStorage = () => {
+    return RecHis.decompress(
+        localStorage.getItem(StorageIDS.recruitment.history) || "[]"
+    ).filter((z) => z);
+};
 
 const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     characters,
     page,
     settings,
     popped,
+    refresh,
 }) => {
     const [tag, setTag] = useState(true);
 
@@ -63,9 +74,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     const [firstLoad, setFirstLoad] = useState(false);
 
     const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
-        RecHis.decompress(
-            localStorage.getItem(StorageIDS.recruitment.history) || "[]"
-        ).filter((z) => z)
+        getHistoryDataFromStorage()
     );
 
     const [time, setTime] = useState(9);
@@ -183,6 +192,10 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
         );
         setFilters([]);
     };
+
+    useEffect(() => {
+        setRecHistory(getHistoryDataFromStorage());
+    }, [refresh]);
 
     return (
         <>

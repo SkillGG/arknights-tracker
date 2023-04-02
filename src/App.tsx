@@ -19,8 +19,12 @@ import untypedChars from "./operators.json";
  */
 import StorageIDS from "./localStorageIDs.json";
 
-import NavBar from "./NavBar";
-import RecruitmentPage from "./Recruitment/Recruitment";
+import NavBar from "./NavBar/NavBar";
+import RecruitmentPage, {
+    getHistoryDataFromStorage,
+} from "./Recruitment/Recruitment";
+import { RecHis } from "./Recruitment/History/rechis.util";
+import { getPityDataFromStorage } from "./Pity/utils";
 
 const App: FC<object> = () => {
     /**
@@ -46,6 +50,12 @@ const App: FC<object> = () => {
      * Flag that changes when onpopstate has bee triggered to relay that information to recruitment filters to update based on url
      */
     const [popState, setPopState] = useState(false);
+
+    /**
+     * Flags that make pity and history refresh their data from local storage
+     */
+    const [refPity, setRefPity] = useState(false);
+    const [refHis, setRefHis] = useState(false);
 
     /**
      * Changes a given setting
@@ -101,11 +111,50 @@ const App: FC<object> = () => {
                 moveToPage={moveToPage}
                 changeSetting={changeSetting}
                 settings={settings}
+                getPityDataToSave={async () => {
+                    return JSON.stringify(
+                        await getPityDataFromStorage(),
+                        undefined,
+                        4
+                    );
+                }}
+                getHistoryDataToSave={async () =>
+                    JSON.stringify(getHistoryDataFromStorage(), undefined, 4)
+                }
+                importPity={(ptd) => {
+                    //
+                    localStorage.setItem(
+                        StorageIDS.pity.standard,
+                        `${ptd.standard}`
+                    );
+                    [...ptd.special].forEach(([id, count]) => {
+                        localStorage.setItem(
+                            `${id}${StorageIDS.pity.countSuffix}`,
+                            `${count}`
+                        );
+                    });
+                    setRefPity(true);
+                }}
+                importHistory={(rhd) => {
+                    localStorage.setItem(
+                        StorageIDS.recruitment.history,
+                        RecHis.compress(rhd)
+                    );
+                    setRefHis(true);
+                }}
+                importSettings={(std) => {
+                    setSettings(std);
+                    localStorage.setItem(
+                        StorageIDS.settings,
+                        JSON.stringify(std)
+                    );
+                }}
             />
             {page === "pity" ? (
-                <PityTracker settings={settings} />
+                <PityTracker settings={settings} refresh={refPity} />
             ) : (
                 <RecruitmentPage
+                    refresh={refHis}
                     characters={characters}
                     settings={settings}
                     page={page}

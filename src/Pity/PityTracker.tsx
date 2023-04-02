@@ -1,20 +1,21 @@
 import React, { FC, useEffect, useState } from "react";
-
-interface PityTrackerProps {
-    settings: Settings;
-}
-
-type PityTrackerData = {
-    standard: number;
-    special: Map<string, number>;
-};
-
 import "./pity.css";
 import Banner from "./PityTrackerWindow";
 import { Settings } from "./../utils";
 import StorageIDS from "./../localStorageIDs.json";
+import {
+    PityTrackerData,
+    BannerData,
+    BannerDataFromString,
+    getPityDataFromStorage,
+} from "./utils";
 
-const PityTracker: FC<PityTrackerProps> = () => {
+interface PityTrackerProps {
+    settings: Settings;
+    refresh: boolean;
+}
+
+const PityTracker: FC<PityTrackerProps> = ({ refresh }) => {
     const [pityTracker, setPityTracker] = useState<PityTrackerData>({
         standard: parseInt(
             localStorage.getItem(StorageIDS.pity.standard) || "0"
@@ -22,32 +23,8 @@ const PityTracker: FC<PityTrackerProps> = () => {
         special: new Map([]),
     });
 
-    type BannerData = {
-        id: string;
-        name: string;
-        f10: boolean;
-        img?: string;
-    };
-
     const [standardBanners, setStandardBanners] = useState<BannerData[]>([]);
     const [specialBanners, setSpecialBanners] = useState<BannerData[]>([]);
-
-    const BannerDataFromString = (s: string): BannerData | null => {
-        const data =
-            /^\{\s*(!)?\s*(.*?)\s*:\s*"(.*?)"(?:\s*:\s*(.*?))?\s*\}$/.exec(
-                s.trim()
-            );
-        if (!data || !data[2] || !data[3]) {
-            return null;
-        } else {
-            return {
-                id: data[2],
-                name: data[3],
-                img: data[4].trim(),
-                f10: !!data[1],
-            };
-        }
-    };
 
     useEffect(() => {
         let set = true;
@@ -97,6 +74,18 @@ const PityTracker: FC<PityTrackerProps> = () => {
             set = false;
         };
     }, []);
+
+    useEffect(() => {
+        async () => {
+            const pityData = await getPityDataFromStorage();
+            setPityTracker({
+                standard: parseInt(
+                    localStorage.getItem(StorageIDS.pity.standard) || "0"
+                ),
+                special: pityData.special,
+            });
+        };
+    }, [refresh]);
 
     useEffect(() => {
         [...pityTracker.special].forEach((banner) => {
