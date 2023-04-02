@@ -1,21 +1,16 @@
-import React, { useState } from "react";
-import {
-    checkIfIsASetting,
-    DEFAULT_SETTINGS,
-    PageType,
-    Settings,
-} from "./utils";
+import React, { FC, useState } from "react";
+import { PageType, Settings } from "./utils";
 
 interface NavBarProps {
     page: PageType;
     moveToPage(page: PageType): void;
     settings: Settings;
-    changeSetting(setting: string, value: any): void;
+    changeSetting(setting: keyof Settings, value: Settings[keyof Settings]): void;
 }
 
 import "./NavBar.css";
 
-const NavBar: React.FunctionComponent<NavBarProps> = ({
+const NavBar: FC<NavBarProps> = ({
     page,
     moveToPage,
     settings,
@@ -105,7 +100,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
                         </div>
                         <div className="setting-box">
                             <label htmlFor="save-outside">
-                                Click character to open it's database entry
+                                Click character to open it&apos;s database entry
                             </label>
                             <input
                                 type="checkbox"

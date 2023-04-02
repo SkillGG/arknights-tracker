@@ -90,6 +90,14 @@ body {
         background-color: blue;
         color: white;
     }
+    .groupname[data-good="2"] {
+        background-color: darkmagenta;
+        color: white;
+    }
+    .groupname[data-good="1"] {
+        background-color: darkred;
+        color: white;
+    }
     &.canSave:hover {
         cursor: pointer;
         user-select: none;
@@ -126,6 +134,12 @@ body {
                         margin-inline: auto;
                     }
                 }
+            }
+            &[data-good="1"] figure {
+                background-color: gray;
+            }
+            &[data-good="2"] figure {
+                background-color: lightgoldenrodyellow;
             }
             &[data-good="3"] figure {
                 background-color: lightblue;

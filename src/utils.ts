@@ -3,7 +3,7 @@
  * @param p Object to copy
  * @returns A shallow copy of the object
  */
-export const ShallowCopy = (p: any) =>
+export const ShallowCopy = <T>(p: T) =>
     typeof p === "object"
         ? Object.assign({}, p)
         : Array.isArray(p)
@@ -37,13 +37,12 @@ const DEF_SETTINGS: Settings = {
     clickToSelectOutcome: false,
     allowCombinations: false,
 };
-export const checkIfIsASetting = (set: string): set is keyof Settings =>
-    Object.keys(DEF_SETTINGS).includes(set);
 export const DEFAULT_SETTINGS = JSON.stringify(DEF_SETTINGS);
 
 export type Filter = {
     filter(d: ArkData): boolean;
     id: string;
+    time: number;
 };
 
 export type PastRecruitment = {
@@ -51,6 +50,7 @@ export type PastRecruitment = {
     tags: string[];
     picked: string[];
     outcome?: string;
+    time: number;
 };
 
 export type FullRecruitmentTags = PastRecruitment["tags"];
@@ -59,6 +59,7 @@ export type LinkData =
     | {
           path: "recruit";
           filters: string[];
+          time: number;
       }
     | { path: "pity" }
     | { path: "recHis" };
@@ -73,11 +74,15 @@ export const parseLocation = (): LinkData => {
     if (path === "pity") return { path: "pity" };
     if (path === "recHis") return { path: "recHis" };
     else if (path === "recruit") {
-        const filterSearch = /filter=([^&]*)/.exec(location.search)?.[1];
+        const filterSearch = decodeURI(
+            /filter=([^&]*)/.exec(location.search)?.[1] || ""
+        );
+        const timeSearch = /time=([^&]*)/.exec(location.search)?.[1];
+        const time: number = parseFloat(timeSearch || "9");
         const filters: string[] = [];
         if (filterSearch) filters.push(...filterSearch.split(","));
-        return { path: "recruit", filters };
-    } else return { path: "recruit", filters: [] };
+        return { path: "recruit", filters, time };
+    } else return { path: "recruit", filters: [], time: 9 };
 };
 
 export const toggleTag = (tags: string[], tag: string): string[] => {
@@ -93,9 +98,11 @@ export const toggleTag = (tags: string[], tag: string): string[] => {
  * @param time How long does the recruitment take
  * @returns An array of Filters to filter the data by
  */
-export const getFilters = (tags: string[], time: number = 9): Filter[] => {
+export const getFilters = (tags: string[], time?: number): Filter[] => {
+    if (!time) time = 9;
+    if (time < 1 || time > 9) time = 9;
     const canBeTop = tags.includes("Top Operator");
-    const canBeSenior = tags.includes("Senior Operator");
+    // const canBeSenior = tags.includes("Senior Operator");
     const canBe1Star = time < 4;
     const canBe2Star = time < 8;
     return [
@@ -105,16 +112,23 @@ export const getFilters = (tags: string[], time: number = 9): Filter[] => {
                     return d.tags.includes(t);
                 },
                 id: t,
+                time: time || 9,
             }))
             .filter((f) => f.id.charAt(0) !== "-"),
-        { filter: (d: ArkData) => +canBeTop - +(d.stars === 6) === 0, id: "" },
         {
-            filter: (d: ArkData) => +canBe1Star - +(d.stars === 1) === 0,
+            filter: (d: ArkData) => (d.stars === 6 ? canBeTop : true),
             id: "",
+            time,
         },
         {
-            filter: (d: ArkData) => +canBe2Star - +(d.stars === 2) === 0,
+            filter: (d: ArkData) => (d.stars === 2 ? canBe2Star : true),
             id: "",
+            time,
+        },
+        {
+            filter: (d: ArkData) => (d.stars === 1 ? canBe1Star : true),
+            id: "",
+            time,
         },
     ];
 };
@@ -189,7 +203,7 @@ export const calculateRecruitmentCharactersv2 = (
             // If group doesn't exist - add characters to it
             const chars = getCharactersForFilters(
                 characters,
-                getFilters(group)
+                getFilters(group, filters[0].time)
             );
             if (chars.length > 0)
                 groups.push({

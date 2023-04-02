@@ -91,6 +91,14 @@ body {
   background-color: blue;
   color: white;
 }
+.category .groupname[data-good="2"] {
+  background-color: darkmagenta;
+  color: white;
+}
+.category .groupname[data-good="1"] {
+  background-color: darkred;
+  color: white;
+}
 .category.canSave:hover {
   cursor: pointer;
   user-select: none;
@@ -129,6 +137,12 @@ body {
   max-width: 120px;
   display: block;
   margin-inline: auto;
+}
+.category .characters .character[data-good="1"] figure {
+  background-color: gray;
+}
+.category .characters .character[data-good="2"] figure {
+  background-color: lightgoldenrodyellow;
 }
 .category .characters .character[data-good="3"] figure {
   background-color: lightblue;

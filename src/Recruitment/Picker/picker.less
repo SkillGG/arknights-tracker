@@ -1,93 +1,107 @@
 .howto {
-  position: absolute;
-  left: 5px;
-  top: 10px;
-  width: 20%;
-  @media only screen and (max-width: 1500px) {
-    position: static;
-    margin: 0 auto;
-    text-align: justify;
-    width: 50%;
-  }
-  @media only screen and (max-width: 1100px) {
-    width: 75%;
-  }
-  @media only screen and (max-width: 700px) {
-    width: calc(100% - 20px);
-    margin-inline: 10px 10px;
-  }
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    width: 20%;
+    @media only screen and (max-width: 1500px) {
+        position: static;
+        margin: 0 auto;
+        text-align: justify;
+        width: 50%;
+    }
+    @media only screen and (max-width: 1100px) {
+        width: 75%;
+    }
+    @media only screen and (max-width: 700px) {
+        width: calc(100% - 20px);
+        margin-inline: 10px 10px;
+    }
 }
 #filterpicker {
-  margin-inline: auto;
-  width: 50%;
-  @media only screen and (max-width: 1500px) {
-    width: 75%;
-  }
-  @media only screen and (max-width: 700px) {
-    width: 100%;
-  }
-  margin-inline: auto;
-  & > div {
-    display: grid;
-    border: 1px solid black;
-  }
-  .clear:hover,
-  .clear:focus {
-    background-color: gray;
-    cursor: pointer;
-  }
-  & button.tag_closed {
-    background-color: darkgray;
-    color: black;
-  }
-  .head,
-  .clear {
-    font-size: 1em;
-    background-color: black;
-    color: white;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    height: 30px;
-    user-select: none;
-    grid-column: 1 / -1;
-    border: none;
-  }
-  .tech {
-    background-color: transparent;
-    color: white;
-    border: 0;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    height: 30px;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-  }
-  .tech[data-selected="true"] {
-    background-color: #aaa;
-  }
-  .tech:hover,
-  .tech:focus {
-    background-color: #ccc;
-    color: black;
-  }
-  .opts {
-    display: grid;
-    grid-auto-flow: column;
-    margin-bottom: 10px;
-  }
-  .tags {
-    grid-auto-flow: unset;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-  .smallscreens {
-    @media only screen and (max-width: 400px) {
-      grid-auto-flow: row;
-      grid-template-columns: unset;
+    margin-inline: auto;
+    width: 50%;
+    @media only screen and (max-width: 1500px) {
+        width: 75%;
     }
-  }
+    @media only screen and (max-width: 700px) {
+        width: 100%;
+    }
+    margin-inline: auto;
+    & > div {
+        display: grid;
+        border: 1px solid black;
+    }
+    .clear:hover,
+    .clear:focus {
+        background-color: gray;
+        cursor: pointer;
+    }
+    & button.tag_closed {
+        background-color: darkgray;
+        color: black;
+    }
+    .head,
+    .clear {
+        font-size: 1em;
+        background-color: black;
+        color: white;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        user-select: none;
+        grid-column: 1 / -1;
+        border: none;
+    }
+    .tech {
+        background-color: transparent;
+        color: white;
+        border: 0;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        height: 30px;
+        user-select: none;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    .tech[data-selected="true"] {
+        background-color: #aaa;
+    }
+    .tech:hover,
+    .tech:focus {
+        background-color: #ccc;
+        color: black;
+    }
+    .opts {
+        display: grid;
+        grid-auto-flow: column;
+        margin-bottom: 10px;
+    }
+    .tags {
+        grid-auto-flow: unset;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .tags3 {
+        grid-auto-flow: unset;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .smallscreens {
+        @media only screen and (max-width: 400px) {
+            grid-auto-flow: row;
+            grid-template-columns: unset;
+        }
+    }
+    .timer {
+        margin-bottom: 0;
+        .timerTime {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import {
     ArkData,
     Filter,
@@ -16,12 +16,13 @@ interface CharacterShowProps {
         selected?: ArkData
     ): void;
     settings: Settings;
+    recruitmentTime: number;
 }
 
 import "./characters.css";
 import Character from "./Character";
 
-const CharacterShow: FunctionComponent<CharacterShowProps> = ({
+const CharacterShow: FC<CharacterShowProps> = ({
     characters,
     filters,
     showTag,
@@ -85,11 +86,11 @@ const CharacterShow: FunctionComponent<CharacterShowProps> = ({
         return cL.contains("character");
     };
 
-    console.log(filters, filters.filter((f) => f.id).length);
+    // console.log(filters, filters.filter((f) => f.id).length);
 
     return (
         <>
-            {filters.filter((f) => f.id).length > 1 && (
+            {filters.filter((f) => f.id).length >= 1 && (
                 <div
                     className="show-panel combination-picker-btn"
                     onClick={() => setShowCombinationPicker((p) => !p)}
