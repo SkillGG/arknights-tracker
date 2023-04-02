@@ -35,7 +35,7 @@ const DEF_SETTINGS: Settings = {
     sendHistoryToDB: false,
     characterDatabase: false,
     clickToSelectOutcome: false,
-    allowCombinations: false,
+    allowCombinations: true,
 };
 export const DEFAULT_SETTINGS = JSON.stringify(DEF_SETTINGS);
 

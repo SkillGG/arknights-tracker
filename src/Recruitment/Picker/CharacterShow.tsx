@@ -90,14 +90,16 @@ const CharacterShow: FC<CharacterShowProps> = ({
 
     return (
         <>
-            {filters.filter((f) => f.id).length >= 1 && (
-                <div
-                    className="show-panel combination-picker-btn"
-                    onClick={() => setShowCombinationPicker((p) => !p)}
-                >
-                    {showCombinationPicker ? "Hide" : "Show"} custom recruitment
-                </div>
-            )}
+            {settings.allowCombinations &&
+                filters.filter((f) => f.id).length >= 1 && (
+                    <div
+                        className="show-panel combination-picker-btn"
+                        onClick={() => setShowCombinationPicker((p) => !p)}
+                    >
+                        {showCombinationPicker ? "Hide" : "Show"} custom
+                        recruitment
+                    </div>
+                )}
             {showCombinationPicker && (
                 <div className="show-panel combination-picker">
                     <div className="combination-picker-buttons">
