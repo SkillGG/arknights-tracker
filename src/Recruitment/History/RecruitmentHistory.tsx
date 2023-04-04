@@ -158,7 +158,7 @@ const RecruitmentHistory: FC<RecruitmentHistoryProps> = ({
                             <br />
                             Tags
                         </th>
-                        <th>
+                        <th className="breaking">
                             Recruited
                             <br />
                             Operator

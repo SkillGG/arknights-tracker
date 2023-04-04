@@ -9,6 +9,7 @@ table.history {
     }
     th.breaking {
         overflow-wrap: anywhere;
+        min-width: 3em;
     }
     tr td:not(:first-child) {
         text-align: center;
@@ -31,6 +32,18 @@ table.history {
     tbody tr:hover {
         background-color: #ccc;
         color: black;
+    }
+    @media only screen and (max-width: 500px) {
+        tbody th:nth-child(1) {
+            display: contents;
+        }
+        tbody tr td:nth-child(3),
+        tbody tr td:nth-child(4),
+        tbody tr td:nth-child(2) {
+            overflow-wrap: break-word;
+            word-break: break-all;
+            min-width: 3em;
+        }
     }
 }
 
