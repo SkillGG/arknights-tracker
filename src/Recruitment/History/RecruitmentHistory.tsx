@@ -148,9 +148,21 @@ const RecruitmentHistory: FC<RecruitmentHistoryProps> = ({
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Recruitment Tags</th>
-                        <th>Picked Tags</th>
-                        <th>Recruited Operator</th>
+                        <th className="breaking">
+                            Recruitment
+                            <br />
+                            Tags
+                        </th>
+                        <th className="breaking">
+                            Picked
+                            <br />
+                            Tags
+                        </th>
+                        <th>
+                            Recruited
+                            <br />
+                            Operator
+                        </th>
                         <th>Date</th>
                         <th>Length</th>
                         <th></th>

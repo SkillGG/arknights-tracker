@@ -8,6 +8,9 @@ table.history td,
 table.history th {
   padding: 5px;
 }
+table.history th.breaking {
+  overflow-wrap: anywhere;
+}
 table.history tr td:not(:first-child) {
   text-align: center;
 }
@@ -90,8 +93,7 @@ table.history tbody tr:hover {
 }
 @media only screen and (max-width: 700px) {
   .historyFilter {
-    width: calc(100% - 50px);
-    margin-inline: 10px 10px;
+    width: max(140px, 100%);
   }
 }
 .historyFilterButton {
