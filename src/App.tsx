@@ -157,7 +157,7 @@ const App: FC<object> = () => {
     });
 
     return (
-        <>
+        <div data-page={page}>
             <title>
                 {page === "recruit"
                     ? "Recruitment Arknights"
@@ -228,7 +228,7 @@ const App: FC<object> = () => {
             ) : (
                 <StatsPage historyData={recHistory} pityData={pityData} />
             )}
-        </>
+        </div>
     );
 };
 

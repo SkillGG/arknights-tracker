@@ -30,22 +30,6 @@ table.history tbody tr:hover {
   background-color: #ccc;
   color: black;
 }
-@media only screen and (max-width: 500px) {
-  table.history {
-    font-size: 0.8rem;
-  }
-  table.history tbody th:nth-child(1) {
-    display: contents;
-  }
-}
-@media only screen and (max-width: 400px) {
-  table.history {
-    font-size: 0.7rem;
-  }
-  table.history tbody th:nth-child(1) {
-    display: contents;
-  }
-}
 .outcome-modal {
   width: 100%;
   height: 100%;
