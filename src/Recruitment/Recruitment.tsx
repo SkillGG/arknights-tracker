@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+    Dispatch,
+    FunctionComponent,
+    SetStateAction,
+    useEffect,
+    useState,
+} from "react";
 import {
     ArkData,
     Filter,
@@ -39,9 +45,10 @@ interface RecruitmentPageProps {
      */
     popped: boolean;
     /**
-     * Flag that triggers refresh after importing
+     * History data
      */
-    refresh: boolean;
+    history: PastRecruitment[];
+    setHistory: Dispatch<SetStateAction<PastRecruitment[]>>;
 }
 
 export const getHistoryDataFromStorage = () => {
@@ -55,7 +62,8 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     page,
     settings,
     popped,
-    refresh,
+    history: recHistory,
+    setHistory: setRecHistory,
 }) => {
     const [tag, setTag] = useState(true);
 
@@ -72,10 +80,6 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     const namedFilters = filters.filter((f) => f.id);
 
     const [firstLoad, setFirstLoad] = useState(false);
-
-    const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
-        getHistoryDataFromStorage()
-    );
 
     const [time, setTime] = useState(9);
 
@@ -192,11 +196,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
         );
         setFilters([]);
     };
-
-    useEffect(() => {
-        setRecHistory(getHistoryDataFromStorage());
-    }, [refresh]);
-
+    
     return (
         <>
             {page === "recruit" && (

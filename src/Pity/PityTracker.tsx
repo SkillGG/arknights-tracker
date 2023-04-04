@@ -1,112 +1,34 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
 import "./pity.css";
 import Banner from "./PityTrackerWindow";
 import { Settings } from "./../utils";
 import StorageIDS from "./../localStorageIDs.json";
-import {
-    PityTrackerData,
-    BannerData,
-    BannerDataFromString,
-    getPityDataFromStorage,
-} from "./utils";
+import { PityData } from "./utils";
 
 interface PityTrackerProps {
     settings: Settings;
-    refresh: boolean;
+    pityData: PityData;
+    setPityData: Dispatch<SetStateAction<PityData>>;
 }
 
-const PityTracker: FC<PityTrackerProps> = ({ refresh }) => {
-    const [pityTracker, setPityTracker] = useState<PityTrackerData>({
-        standard: parseInt(
-            localStorage.getItem(StorageIDS.pity.standard) || "0"
-        ),
-        special: new Map([]),
-    });
-
-    const [standardBanners, setStandardBanners] = useState<BannerData[]>([]);
-    const [specialBanners, setSpecialBanners] = useState<BannerData[]>([]);
-
+const PityTracker: FC<PityTrackerProps> = ({ pityData, setPityData }) => {
     useEffect(() => {
-        let set = true;
-        (async () => {
-            const specialID = await fetch("./specialID", {
-                cache: "no-store",
-            }).then((r) => r.text());
-            const standardID = await fetch("./standardID", {
-                cache: "no-store",
-            }).then((r) => r.text());
-            if (specialID && standardID && set) {
-                const standards = standardID
-                    .split(",")
-                    .reduce<BannerData[]>((p, n) => {
-                        const b = BannerDataFromString(n);
-                        return b ? [...p, b] : p;
-                    }, []);
-                const specials = specialID
-                    .split(",")
-                    .reduce<BannerData[]>((p, n) => {
-                        const b = BannerDataFromString(n);
-                        return b ? [...p, b] : p;
-                    }, []);
-                // console.log(standards, specials);
-                setStandardBanners(standards);
-                setSpecialBanners(specials);
-                setPityTracker((p) => ({
-                    ...p,
-                    special: new Map([
-                        ...p.special,
-                        ...specials.map((banner) => {
-                            const ret: [string, number] = [
-                                banner.id,
-                                parseInt(
-                                    localStorage.getItem(
-                                        `${banner.id}${StorageIDS.pity.countSuffix}`
-                                    ) || "0"
-                                ),
-                            ];
-                            return ret;
-                        }),
-                    ]),
-                }));
-            }
-        })();
-        return () => {
-            set = false;
-        };
-    }, []);
-
-    useEffect(() => {
-        async () => {
-            const pityData = await getPityDataFromStorage();
-            setPityTracker({
-                standard: parseInt(
-                    localStorage.getItem(StorageIDS.pity.standard) || "0"
-                ),
-                special: pityData.special,
-            });
-        };
-    }, [refresh]);
-
-    useEffect(() => {
-        [...pityTracker.special].forEach((banner) => {
+        [...pityData.special].forEach((banner) => {
             localStorage.setItem(
                 `${banner[0]}${StorageIDS.pity.countSuffix}`,
                 `${banner[1]}`
             );
         });
-    }, [pityTracker.special]);
+    }, [pityData.special]);
 
     useEffect(() => {
-        localStorage.setItem(
-            StorageIDS.pity.standard,
-            `${pityTracker.standard}`
-        );
-    }, [pityTracker.standard]);
+        localStorage.setItem(StorageIDS.pity.standard, `${pityData.standard}`);
+    }, [pityData.standard]);
 
     return (
         <div id="pityTracker">
             <>
-                {standardBanners.map((banner) => {
+                {pityData.banners.standard.map((banner) => {
                     return (
                         <Banner
                             key={`${banner.id}`}
@@ -114,23 +36,23 @@ const PityTracker: FC<PityTrackerProps> = ({ refresh }) => {
                             id={banner.id}
                             noF10={banner.f10}
                             addCount={() => {
-                                setPityTracker((p) => ({
+                                setPityData((p) => ({
                                     ...p,
                                     standard: p.standard + 1,
                                 }));
                             }}
                             resetCount={function (): void {
-                                setPityTracker((p) => ({ ...p, standard: 0 }));
+                                setPityData((p) => ({ ...p, standard: 0 }));
                             }}
-                            count={pityTracker.standard}
+                            count={pityData.standard}
                             img={banner.img}
                         />
                     );
                 })}
-                {specialBanners.map((banner) => {
-                    const hasCount = pityTracker.special.get(banner.id);
+                {pityData.banners.special.map((banner) => {
+                    const hasCount = pityData.special.get(banner.id);
                     if (hasCount === undefined) {
-                        setPityTracker((p) => {
+                        setPityData((p) => {
                             return {
                                 ...p,
                                 special: new Map([
@@ -148,7 +70,7 @@ const PityTracker: FC<PityTrackerProps> = ({ refresh }) => {
                                 id={banner.id}
                                 noF10={banner.f10}
                                 addCount={function (): void {
-                                    setPityTracker((p) => {
+                                    setPityData((p) => {
                                         return {
                                             ...p,
                                             special: new Map([
@@ -163,7 +85,7 @@ const PityTracker: FC<PityTrackerProps> = ({ refresh }) => {
                                     });
                                 }}
                                 resetCount={function (): void {
-                                    setPityTracker((p) => {
+                                    setPityData((p) => {
                                         return {
                                             ...p,
                                             special: new Map([

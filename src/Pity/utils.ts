@@ -1,5 +1,9 @@
 import StorageIDS from "./../localStorageIDs.json";
 
+export type PityData = PityTrackerData & {
+    banners: { standard: BannerData[]; special: BannerData[] };
+};
+
 export type PityTrackerData = {
     standard: number;
     special: Map<string, number>;

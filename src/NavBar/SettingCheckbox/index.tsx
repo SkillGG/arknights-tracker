@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { CSSProperties, FC } from "react";
 import HelpIcon, { HelpIconProps } from "../../HelpIcon";
 
 interface SettingCheckboxProps {
@@ -9,6 +9,7 @@ interface SettingCheckboxProps {
     checked: boolean;
     disabled?: boolean;
     helpIcon?: HelpIconProps;
+    divStyle?: CSSProperties;
 }
 
 const SettingCheckbox: FC<SettingCheckboxProps> = ({
@@ -19,9 +20,10 @@ const SettingCheckbox: FC<SettingCheckboxProps> = ({
     label,
     title,
     id,
+    divStyle,
 }) => {
     return (
-        <div className="setting-box" title={title}>
+        <div className="setting-box" style={divStyle} title={title}>
             <label htmlFor={id}>{label}</label>
             <input
                 type="checkbox"

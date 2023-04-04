@@ -68,6 +68,14 @@ const NavBar: FC<NavBarProps> = ({
                         Pity
                     </button>
                 )}
+                {page !== "stats" && (
+                    <button
+                        className="navSwitch"
+                        onClick={() => moveToPage("stats")}
+                    >
+                        Stats
+                    </button>
+                )}
                 <button
                     className="navSwitch"
                     onClick={() => {
@@ -244,7 +252,7 @@ const NavBar: FC<NavBarProps> = ({
                                             `h:${historyData + "\n\n"}p:${
                                                 pityData + "\n\n"
                                             }s:${settingsData}\n\n`,
-                                        ]);
+                                        ], {type: "application/arknights-tracker-data+xjson"});
                                         const downloadAgent =
                                             document.createElement("a");
                                         downloadAgent.download =

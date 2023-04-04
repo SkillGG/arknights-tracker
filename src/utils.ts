@@ -17,7 +17,7 @@ export type ArkData = {
     image: string;
 };
 
-export type PageType = "recruit" | "pity" | "recHis";
+export type PageType = "recruit" | "pity" | "recHis" | "stats";
 
 export type Settings = {
     saveHistory: boolean;

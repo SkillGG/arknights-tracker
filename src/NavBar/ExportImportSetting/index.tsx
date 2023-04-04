@@ -75,12 +75,10 @@ const ExportImportSetting: FC<EIProps> = ({
                         <div className="export-extension">
                             <span>Data to export:</span>
                             <div>
-                                <label htmlFor="expext_data">History</label>
-                                <input
-                                    type="checkbox"
+                                <SettingCheckbox
                                     id="expext_data"
                                     checked={exportData.data.history}
-                                    onChange={() => {
+                                    toggleSetting={() => {
                                         setData((p) =>
                                             p
                                                 ? {
@@ -95,14 +93,14 @@ const ExportImportSetting: FC<EIProps> = ({
                                                 : p
                                         );
                                     }}
+                                    label={"History"}
                                 />
-                                <br />
-                                <label htmlFor="expext_pity">Pity data</label>
-                                <input
-                                    type="checkbox"
+                                <SettingCheckbox
+                                    divStyle={{ marginTop: "2px" }}
                                     id="expext_pity"
+                                    label="Pity data"
                                     checked={exportData.data.pity}
-                                    onChange={() => {
+                                    toggleSetting={() => {
                                         setData((p) =>
                                             p
                                                 ? {
@@ -117,15 +115,12 @@ const ExportImportSetting: FC<EIProps> = ({
                                         );
                                     }}
                                 />
-                                <br />
-                                <label htmlFor="expext_settings">
-                                    Settings
-                                </label>
-                                <input
-                                    type="checkbox"
+                                <SettingCheckbox
+                                    divStyle={{ marginTop: "2px" }}
+                                    label="Settings"
                                     id="expext_settings"
                                     checked={exportData.data.settings}
-                                    onChange={() => {
+                                    toggleSetting={() => {
                                         setData((p) =>
                                             p
                                                 ? {

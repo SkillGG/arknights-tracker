@@ -18,7 +18,7 @@ const HelpIcon: FC<HelpIconProps> = ({ title, style, id, className }) => {
             id={id}
             className={className}
         >
-            &#x1F6C8;
+            ?
         </div>
     );
 };

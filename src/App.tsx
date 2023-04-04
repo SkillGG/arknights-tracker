@@ -6,6 +6,7 @@ import {
     DEFAULT_SETTINGS,
     PageType,
     parseLocation,
+    PastRecruitment,
     Settings,
     ShallowCopy,
 } from "./utils";
@@ -24,7 +25,13 @@ import RecruitmentPage, {
     getHistoryDataFromStorage,
 } from "./Recruitment/Recruitment";
 import { RecHis } from "./Recruitment/History/rechis.util";
-import { getPityDataFromStorage } from "./Pity/utils";
+import {
+    BannerData,
+    BannerDataFromString,
+    PityData,
+    getPityDataFromStorage,
+} from "./Pity/utils";
+import StatsPage from "./StatsPage";
 
 const App: FC<object> = () => {
     /**
@@ -52,12 +59,6 @@ const App: FC<object> = () => {
     const [popState, setPopState] = useState(false);
 
     /**
-     * Flags that make pity and history refresh their data from local storage
-     */
-    const [refPity, setRefPity] = useState(false);
-    const [refHis, setRefHis] = useState(false);
-
-    /**
      * Changes a given setting
      * @param setting Setting to change
      * @param value new value for a setting
@@ -74,9 +75,52 @@ const App: FC<object> = () => {
     /**
      * Set page based on url
      */
-    window.onload = () => {
+    window.onload = async () => {
         const locationData = parseLocation();
         setPage(locationData.path);
+        const specialID = await fetch("./specialID", {
+            cache: "no-store",
+        }).then((r) => r.text());
+        const standardID = await fetch("./standardID", {
+            cache: "no-store",
+        }).then((r) => r.text());
+        if (specialID && standardID) {
+            const standards = standardID
+                .split(",")
+                .reduce<BannerData[]>((p, n) => {
+                    const b = BannerDataFromString(n);
+                    return b ? [...p, b] : p;
+                }, []);
+            const specials = specialID
+                .split(",")
+                .reduce<BannerData[]>((p, n) => {
+                    const b = BannerDataFromString(n);
+                    return b ? [...p, b] : p;
+                }, []);
+            // console.log(standards, specials);
+            setPityData((p) =>
+                p
+                    ? {
+                          ...p,
+                          banners: { standard: standards, special: specials },
+                          special: new Map([
+                              ...p.special,
+                              ...specials.map((banner) => {
+                                  const ret: [string, number] = [
+                                      banner.id,
+                                      parseInt(
+                                          localStorage.getItem(
+                                              `${banner.id}${StorageIDS.pity.countSuffix}`
+                                          ) || "0"
+                                      ),
+                                  ];
+                                  return ret;
+                              }),
+                          ]),
+                      }
+                    : p
+            );
+        }
     };
 
     /**
@@ -97,6 +141,21 @@ const App: FC<object> = () => {
         setPage(page);
     };
 
+    const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
+        getHistoryDataFromStorage()
+    );
+
+    const [pityData, setPityData] = useState<PityData>({
+        standard: parseInt(
+            localStorage.getItem(StorageIDS.pity.standard) || "0"
+        ),
+        special: new Map([]),
+        banners: {
+            special: [],
+            standard: [],
+        },
+    });
+
     return (
         <>
             <title>
@@ -104,6 +163,8 @@ const App: FC<object> = () => {
                     ? "Recruitment Arknights"
                     : page === "pity"
                     ? "Pity Tracker Arknights"
+                    : page === "stats"
+                    ? "Recruitment Statistics"
                     : "Recruitment History Arknights"}
             </title>
             <NavBar
@@ -119,7 +180,7 @@ const App: FC<object> = () => {
                     );
                 }}
                 getHistoryDataToSave={async () =>
-                    JSON.stringify(getHistoryDataFromStorage(), undefined, 4)
+                    JSON.stringify(recHistory, undefined, 4)
                 }
                 importPity={(ptd) => {
                     //
@@ -133,14 +194,13 @@ const App: FC<object> = () => {
                             `${count}`
                         );
                     });
-                    setRefPity(true);
                 }}
                 importHistory={(rhd) => {
                     localStorage.setItem(
                         StorageIDS.recruitment.history,
                         RecHis.compress(rhd)
                     );
-                    setRefHis(true);
+                    setRecHistory(rhd);
                 }}
                 importSettings={(std) => {
                     setSettings(std);
@@ -151,15 +211,22 @@ const App: FC<object> = () => {
                 }}
             />
             {page === "pity" ? (
-                <PityTracker settings={settings} refresh={refPity} />
-            ) : (
+                <PityTracker
+                    settings={settings}
+                    pityData={pityData}
+                    setPityData={setPityData}
+                />
+            ) : page !== "stats" ? (
                 <RecruitmentPage
-                    refresh={refHis}
+                    history={recHistory}
+                    setHistory={setRecHistory}
                     characters={characters}
                     settings={settings}
                     page={page}
                     popped={popState}
                 />
+            ) : (
+                <StatsPage historyData={recHistory} pityData={pityData} />
             )}
         </>
     );
