@@ -174,7 +174,15 @@ const RecruitmentHistory: FC<RecruitmentHistoryProps> = ({
                         filtersOut(rec, historyFilters) ? null : (
                             <tr key={`rec${rec.date}`}>
                                 <td>{i + 1}.</td>
-                                <td>{rec.tags.join(", ")}</td>
+                                <td>
+                                    {rec.tags.map((t) => (
+                                        <>
+                                            <span>
+                                                {t},<br />
+                                            </span>
+                                        </>
+                                    ))}
+                                </td>
                                 {rec.picked.length > 0 ? (
                                     <>
                                         <td>

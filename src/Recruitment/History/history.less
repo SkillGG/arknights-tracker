@@ -7,10 +7,6 @@ table.history {
     th {
         padding: 5px;
     }
-    th.breaking {
-        overflow-wrap: anywhere;
-        min-width: 3em;
-    }
     tr td:not(:first-child) {
         text-align: center;
     }
@@ -37,14 +33,18 @@ table.history {
         tbody th:nth-child(1) {
             display: contents;
         }
-        tbody tr td:nth-child(3),
-        tbody tr td:nth-child(4),
-        tbody tr td:nth-child(2) {
-            overflow-wrap: break-word;
-            word-break: break-all;
-            min-width: 3em;
+        & {
+            font-size: 0.8rem;
         }
     }
+    @media only screen and (max-width: 400px) {
+      tbody th:nth-child(1) {
+          display: contents;
+      }
+      & {
+          font-size: 0.7rem;
+      }
+  }
 }
 
 .outcome-modal {
