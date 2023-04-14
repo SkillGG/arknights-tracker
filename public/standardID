@@ -1,10 +1,5 @@
 {
-    standard_85:
-    "Standard Pool 85 (Global)":
-    ./BannerImages/EN_Standard_Pool_85_banner.webp
-},
-{
-    never_vowed:
-    "Never Vowed":
-    ./BannerImages/EN_Never_Vowed_banner.webp
+    standard_86:
+    "Standard Pool 86 (Global)":
+    ./BannerImages/EN_Standard_Pool_86_banner.webp
 }
