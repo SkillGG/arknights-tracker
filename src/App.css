@@ -77,3 +77,8 @@ button.crossedSwitch.crossedOut:active {
 button.crossedSwitch.crossedOut:active > s {
   text-decoration: none;
 }
+@media only screen and (max-width: 600px) {
+  div[data-page="recHis"] * {
+    font-size: 2.5vw;
+  }
+}

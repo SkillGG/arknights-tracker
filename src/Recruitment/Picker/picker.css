@@ -72,6 +72,7 @@
   cursor: pointer;
   display: flex;
   height: 30px;
+  user-select: none;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -94,9 +95,22 @@
   grid-auto-flow: unset;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+#filterpicker .tags3 {
+  grid-auto-flow: unset;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 @media only screen and (max-width: 400px) {
   #filterpicker .smallscreens {
     grid-auto-flow: row;
     grid-template-columns: unset;
   }
+}
+#filterpicker .timer {
+  margin-bottom: 0;
+}
+#filterpicker .timer .timerTime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
 }

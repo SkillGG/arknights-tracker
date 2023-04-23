@@ -2,23 +2,76 @@ body {
   background-color: #444;
   color: white;
 }
-.category {
+.show-panel {
   margin-inline: auto;
   width: 50%;
   text-align: center;
-  margin-bottom: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 @media only screen and (max-width: 1500px) {
-  .category {
+  .show-panel {
     width: 75%;
   }
 }
 @media only screen and (max-width: 600px) {
-  .category {
+  .show-panel {
     width: 100%;
   }
+}
+.combination-picker-btn {
+  padding-block: 5px 5px;
+  background-color: black;
+  user-select: none;
+}
+.combination-picker-btn:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+.combination-picker {
+  user-select: none;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  padding-block: 5px 0;
+  margin-block: 5px;
+}
+.combination-picker .combination-picker-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.combination-picker .combination-tag-btn {
+  margin: 10px auto;
+  border: 0px;
+  padding: 5px 10px;
+  background-color: var(--modalin);
+  display: inline-block;
+  margin-inline: 15px;
+  border: 1px solid lightgray;
+  box-shadow: 1px 1px 1px 1px var(--modalout);
+  cursor: pointer;
+}
+.combination-picker .combination-tag-btn:active {
+  border: 1px solid black;
+  box-shadow: 0px 0px 1px 1px inset black;
+  transform: translate(1px, 1px);
+}
+.combination-picker .combination-apply-btn {
+  width: 100%;
+  height: fit-content;
+  padding-block: 5px 5px;
+  border: none;
+  color: white;
+  text-align: center;
+  background-color: black;
+}
+.combination-picker .combination-apply-btn:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+.category {
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 .category .groupname {
   border: 1px solid black;
@@ -38,6 +91,14 @@ body {
   background-color: blue;
   color: white;
 }
+.category .groupname[data-good="2"] {
+  background-color: darkmagenta;
+  color: white;
+}
+.category .groupname[data-good="1"] {
+  background-color: darkred;
+  color: white;
+}
 .category.canSave:hover {
   cursor: pointer;
   user-select: none;
@@ -46,6 +107,7 @@ body {
   background-color: green;
 }
 .category .characters {
+  text-align: center;
   display: grid;
   max-width: 100%;
 }
@@ -75,6 +137,12 @@ body {
   max-width: 120px;
   display: block;
   margin-inline: auto;
+}
+.category .characters .character[data-good="1"] figure {
+  background-color: gray;
+}
+.category .characters .character[data-good="2"] figure {
+  background-color: lightgoldenrodyellow;
 }
 .category .characters .character[data-good="3"] figure {
   background-color: lightblue;

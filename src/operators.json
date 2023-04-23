@@ -772,7 +772,7 @@
       "Top Operator",
       "Ranged",
       "DPS",
-      "Crowd Control",
+      "Crowd-Control",
       "Caster"
     ],
     "image": "./operators/Ceobe.png"
@@ -811,5 +811,37 @@
       "Melee"
     ],
     "image":"./operators/Utage.png"
+  },{
+    "name":"Phantom",
+    "stars":6,
+    "tags":[
+      "Top Operator",
+      "Melee",
+      "Fast-Redeploy",
+      "Crowd-Control",
+      "DPS",
+      "Specialist"
+    ],
+    "image":"./operators/Phantom.png"
+  },{
+    "name":"Shamare",
+    "stars":5,
+    "tags":[
+      "Senior Operator",
+      "Ranged",
+      "Debuff",
+      "Supporter"
+    ],
+    "image":"./operators/Shamare.png"
+  },{
+    "name":"Cutter",
+    "stars":4,
+    "tags":[
+      "Nuker",
+      "Melee",
+      "DPS",
+      "Guard"
+    ],
+    "image":"./operators/Cutter.png"
   }
 ]

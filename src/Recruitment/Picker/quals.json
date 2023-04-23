@@ -1,0 +1,48 @@
+[
+    {
+        "name": "Qualification",
+        "categories": ["Starter", "Senior Operator", "Top Operator"],
+        "optsClass": ""
+    },
+    {
+        "name": "Position",
+        "categories": ["Ranged", "Melee"],
+        "optsClass": ""
+    },
+    {
+        "name": "Class",
+        "categories": [
+            "Caster",
+            "Sniper",
+            "Defender",
+            "Guard",
+            "Medic",
+            "Specialist",
+            "Supporter",
+            "Vanguard"
+        ],
+        "optsClass": "tags"
+    },
+    {
+        "name": "Tags",
+        "categories": [
+            "AoE",
+            "Control",
+            "Crowd-Control",
+            "Debuff",
+            "Defense",
+            "DP-Recovery",
+            "DPS",
+            "Fast-Redeploy",
+            "Healing",
+            "Nuker",
+            "Robot",
+            "Shift",
+            "Slow",
+            "Summon",
+            "Support",
+            "Survival"
+        ],
+        "optsClass": "tags"
+    }
+]

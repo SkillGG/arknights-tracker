@@ -1,87 +1,158 @@
 body {
-  background-color: #444;
-  color: white;
+    background-color: #444;
+    color: white;
+}
+
+.show-panel {
+    margin-inline: auto;
+    width: 50%;
+    @media only screen and (max-width: 1500px) {
+        width: 75%;
+    }
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+    }
+    text-align: center;
+}
+
+.combination-picker-btn {
+    padding-block: 5px 5px;
+    background-color: black;
+    &:hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+    user-select: none;
+}
+
+.combination-picker {
+    user-select: none;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    .combination-picker-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    .combination-tag-btn {
+        margin: 10px auto;
+        border: 0px;
+        padding: 5px 10px;
+        background-color: var(--modalin);
+        display: inline-block;
+        margin-inline: 15px;
+        border: 1px solid lightgray;
+        box-shadow: 1px 1px 1px 1px var(--modalout);
+        cursor: pointer;
+        &:active {
+            border: 1px solid black;
+            box-shadow: 0px 0px 1px 1px inset black;
+            transform: translate(1px, 1px);
+        }
+    }
+    .combination-apply-btn {
+        width: 100%;
+        height: fit-content;
+        padding-block: 5px 5px;
+        border: none;
+        color: white;
+        text-align: center;
+        background-color: black;
+        &:hover {
+            background-color: gray;
+            cursor: pointer;
+        }
+    }
+    padding-block: 5px 0;
+    margin-block: 5px;
 }
 
 .category {
-  margin-inline: auto;
-  width: 50%;
-  @media only screen and (max-width: 1500px) {
-    width: 75%;
-  }
-  @media only screen and (max-width: 600px) {
-    width: 100%;
-  }
-  text-align: center;
-  margin-bottom: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
-  .groupname {
+    margin-bottom: 10px;
     border: 1px solid black;
-    text-align: center;
-    color: black;
-  }
-  .groupname[data-good="6"] {
-    background-color: orange;
-  }
-  .groupname[data-good="5"] {
-    background-color: yellow;
-  }
-  .groupname[data-good="4"] {
-    background-color: darkgray;
-  }
-  .groupname[data-good="3"] {
-    background-color: blue;
-    color: white;
-  }
-  &.canSave:hover {
-    cursor: pointer;
-    user-select: none;
-    & > .groupname {
-      background-color: green;
+    border-radius: 5px;
+    .groupname {
+        border: 1px solid black;
+        text-align: center;
+        color: black;
     }
-  }
-  .characters {
-    display: grid;
-    max-width: 100%;
-    .character {
-      width: 100%;
-      display: flex;
-      margin-bottom: auto;
-      color: black;
-      justify-content: center;
-      figure {
+    .groupname[data-good="6"] {
+        background-color: orange;
+    }
+    .groupname[data-good="5"] {
+        background-color: yellow;
+    }
+    .groupname[data-good="4"] {
+        background-color: darkgray;
+    }
+    .groupname[data-good="3"] {
+        background-color: blue;
+        color: white;
+    }
+    .groupname[data-good="2"] {
+        background-color: darkmagenta;
+        color: white;
+    }
+    .groupname[data-good="1"] {
+        background-color: darkred;
+        color: white;
+    }
+    &.canSave:hover {
         cursor: pointer;
         user-select: none;
-        border-radius: 10px;
-        margin: 5px;
-        padding: 10px;
-        width: 100%;
-        figcaption {
-          margin: 0;
-          padding: 1px;
-          width: 50%;
-          margin: 0 auto;
-          p {
-            width: 100%;
-            max-width: 120px;
-            display: block;
-            margin-inline: auto;
-          }
+        & > .groupname {
+            background-color: green;
         }
-      }
-      &[data-good="3"] figure {
-        background-color: lightblue;
-      }
-      &[data-good="4"] figure {
-        background-color: lightgray;
-      }
-      &[data-good="5"] figure {
-        background-color: lightcoral;
-      }
-      &[data-good="6"] figure {
-        background-color: lightgreen;
-      }
     }
-  }
+    .characters {
+        text-align: center;
+        display: grid;
+        max-width: 100%;
+        .character {
+            width: 100%;
+            display: flex;
+            margin-bottom: auto;
+            color: black;
+            justify-content: center;
+            figure {
+                cursor: pointer;
+                user-select: none;
+                border-radius: 10px;
+                margin: 5px;
+                padding: 10px;
+                width: 100%;
+                figcaption {
+                    margin: 0;
+                    padding: 1px;
+                    width: 50%;
+                    margin: 0 auto;
+                    p {
+                        width: 100%;
+                        max-width: 120px;
+                        display: block;
+                        margin-inline: auto;
+                    }
+                }
+            }
+            &[data-good="1"] figure {
+                background-color: gray;
+            }
+            &[data-good="2"] figure {
+                background-color: lightgoldenrodyellow;
+            }
+            &[data-good="3"] figure {
+                background-color: lightblue;
+            }
+            &[data-good="4"] figure {
+                background-color: lightgray;
+            }
+            &[data-good="5"] figure {
+                background-color: lightcoral;
+            }
+            &[data-good="6"] figure {
+                background-color: lightgreen;
+            }
+        }
+    }
 }

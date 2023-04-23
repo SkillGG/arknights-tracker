@@ -1,4 +1,4 @@
-const fs = require("fs");
+import { readFileSync, writeFileSync } from "fs";
 
 /**
  * @typedef {{name:string, stars:number, tags:string[], image:string}} Operator
@@ -11,9 +11,9 @@ const fs = require("fs");
 /**
  * @type {Operators}
  */
-const operatorJSON = JSON.parse(fs.readFileSync("./operators.json").toString());
+const operatorJSON = JSON.parse(readFileSync("./operators.json").toString());
 
-const newOperatorJSON = operatorJSON.map((char, i) => {
+const newOperatorJSON = operatorJSON.map((char) => {
   /*  if (!fs.existsSync("./../public/operators/")) {
       fs.mkdirSync("./../public/operators/");
     }
@@ -49,4 +49,4 @@ newOperatorJSON.sort((p, n) => {
 
 // console.log(newOperatorJSON.map((r) => r.tags));
 
-fs.writeFileSync("./operators.json", JSON.stringify(newOperatorJSON));
+writeFileSync("./operators.json", JSON.stringify(newOperatorJSON));

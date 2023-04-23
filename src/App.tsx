@@ -1,243 +1,235 @@
-import { useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import "./App.css";
-import CharacterShow from "./Recruitment/Picker/CharacterShow";
-import FilterPicker from "./Recruitment/Picker/FilterPicker";
 import PityTracker from "./Pity/PityTracker";
 import {
-  ArkData,
-  checkIfIsASetting,
-  DEFAULT_SETTINGS,
-  Filter,
-  FullRecruitmentTags,
-  getFilters,
-  PageType,
-  parseLocation,
-  PastRecruitment,
-  Settings,
-  ShallowCopy,
-  toggleTag,
+    ArkData,
+    DEFAULT_SETTINGS,
+    PageType,
+    parseLocation,
+    PastRecruitment,
+    Settings,
+    ShallowCopy,
 } from "./utils";
 
-import Chars from "./operators.json";
-import NavBar from "./NavBar";
+/**
+ * All characters data from json (untyped)
+ */
+import untypedChars from "./operators.json";
+/**
+ * All localStorage IDs
+ */
 import StorageIDS from "./localStorageIDs.json";
-import RecruitmentHistory from "./Recruitment/History/RecruitmentHistory";
+
+import NavBar from "./NavBar/NavBar";
+import RecruitmentPage, {
+    getHistoryDataFromStorage,
+} from "./Recruitment/Recruitment";
+import { RecHis } from "./Recruitment/History/rechis.util";
 import {
-  HistoryUpdate,
-  isFullHistoryUpdate,
-  RecHis,
-} from "./Recruitment/History/rechis.util";
+    BannerData,
+    BannerDataFromString,
+    PityData,
+    getPityDataFromStorage,
+} from "./Pity/utils";
+import StatsPage from "./StatsPage";
 
-function App() {
-  const [filters, setFilters] = useState<Filter[]>([]);
-  const [characters] = useState<ArkData[]>(Chars);
-  const [tag, setTag] = useState(true);
+const App: FC<object> = () => {
+    /**
+     * All character data from json (typed)
+     */
+    const characters: ArkData[] = untypedChars;
 
-  const [page, setPage] = useState<PageType>("recruit");
+    /**
+     * Switch what page are we on
+     */
+    const [page, setPage] = useState<PageType>("recruit");
 
-  const [firstLoad, setFirstLoad] = useState(false);
-
-  const [settings, setSettings] = useState<Settings>(
-    JSON.parse(localStorage.getItem(StorageIDS.settings) || DEFAULT_SETTINGS)
-  );
-
-  const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
-    RecHis.decompress(
-      localStorage.getItem(StorageIDS.recruitment.history) || "[]"
-    ).filter((z: any) => z)
-  );
-
-  const changeSetting = (setting: string, value: any) => {
-    if (checkIfIsASetting(setting)) settings[setting] = value;
-    localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
-    setSettings(ShallowCopy(settings));
-  };
-
-  const refreshURLHistory = () => {
-    history.pushState(
-      "",
-      "",
-      `?filter=${filters
-        .filter((f) => f.id)
-        .map((f) => f.id)
-        .join(",")}`
+    /**
+     * Site settings
+     */
+    const [settings, setSettings] = useState<Settings>(
+        JSON.parse(
+            localStorage.getItem(StorageIDS.settings) || DEFAULT_SETTINGS
+        )
     );
-  };
 
-  const isSelected = (s: string) => {
-    return !!filters.find((f) => f.id === s);
-  };
-  const tooMany = (s: string[]) => s.length > 5;
-  const select = (s: string) => {
-    const curr = toggleTag(
-      filters.map((f) => f.id),
-      s
-    ).filter((t) => !!t);
-    if (tooMany(curr)) return;
-    setFilters(getFilters(curr));
-  };
-  const selectMany = (sarr: string[]) => {
-    const checked = sarr.slice(0, 5);
-    setFilters(getFilters(checked));
-  };
+    /**
+     * Flag that changes when onpopstate has bee triggered to relay that information to recruitment filters to update based on url
+     */
+    const [popState, setPopState] = useState(false);
 
-  useEffect(() => {
-    const locationData = parseLocation();
-    setPage(locationData.path);
-    if (locationData.path === "recruit") {
-      selectMany(locationData.filters);
-    }
-    setFirstLoad(true);
-  }, []);
-
-  window.onpopstate = () => {
-    const locationData = parseLocation();
-    setPage(locationData.path);
-    if (locationData.path === "recruit") {
-      selectMany(locationData.filters);
-    }
-  };
-
-  useEffect(() => {
-    if (firstLoad || filters.length > 0) {
-      refreshURLHistory();
-    }
-  }, [filters]);
-
-  const moveToPage = (page: PageType) => {
-    history.pushState(null, "", page);
-    setPage(page);
-  };
-
-  const addToRecHistory = (
-    ids: FullRecruitmentTags,
-    picked: string[],
-    selected?: ArkData
-  ) => {
-    saveHistoryChangeToLS({
-      f: (rh: PastRecruitment[]) => {
-        rh.push({
-          tags: ids.filter((f) => !!f),
-          date: new Date().getTime(),
-          outcome: selected ? selected.name : undefined,
-          picked,
-        });
-        return rh;
-      },
-    });
-  };
-
-  const tagsRefreshed = () => {
-    addToRecHistory(
-      filters.map((r) => r.id),
-      []
-    );
-    setFilters([]);
-  };
-
-  const saveHistoryChangeToLS = (o: HistoryUpdate) => {
-    const useCompression = (sh: PastRecruitment[]) => {
-      const JSONstr = JSON.stringify(sh);
-      // console.log(JSONstr);
-      const RECHstr = RecHis.compress(sh);
-      return RECHstr;
+    /**
+     * Changes a given setting
+     * @param setting Setting to change
+     * @param value new value for a setting
+     */
+    const changeSetting = (
+        setting: keyof Settings,
+        value: Settings[keyof Settings]
+    ) => {
+        settings[setting] = value;
+        localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
+        setSettings(ShallowCopy<Settings>(settings));
     };
-    let srh = [...recHistory];
-    if (!isFullHistoryUpdate(o)) {
-      const index = recHistory.findIndex((rh) => rh.date === o.d);
-      if (index !== -1) {
-        srh[index] = o.f(srh[index]);
-      }
-    } else if (isFullHistoryUpdate(o)) {
-      srh = o.f(srh);
-    }
-    localStorage.setItem(StorageIDS.recruitment.history, useCompression(srh));
-    setRecHistory(srh);
-  };
 
-  return (
-    <>
-      <title>
-        {page === "recruit"
-          ? "Recruitment Arknights"
-          : page === "pity"
-          ? "Pity Tracker Arknights"
-          : "Recruitment History Arknights"}
-      </title>
-      <NavBar
-        page={page}
-        moveToPage={moveToPage}
-        changeSetting={changeSetting}
-        settings={settings}
-      />
-      {page === "recruit" ? (
-        <>
-          <FilterPicker
-            select={select}
-            isSelected={isSelected}
-            unselectAll={() => setFilters([])}
-            tagsRefreshed={tagsRefreshed}
-            tag={tag}
-            setTag={setTag}
-            settings={settings}
-          />
-          <CharacterShow
-            characters={characters}
-            filters={filters}
-            showTag={tag}
-            selectRecruitment={(
-              s: string[],
-              p: string[],
-              selected?: ArkData
-            ) => {
-              addToRecHistory(s, p, selected);
-              setFilters([]);
-            }}
-            settings={settings}
-          />
-        </>
-      ) : page === "pity" ? (
-        <PityTracker settings={settings} />
-      ) : (
-        <>
-          <RecruitmentHistory
-            settings={settings}
-            characters={characters}
-            recHistory={recHistory}
-            toggleStrikeOut={(d, t) => {
-              saveHistoryChangeToLS({
-                d,
-                f: (rh: PastRecruitment) => {
-                  const tagIndex = rh.picked.findIndex((tag) => tag === t);
-                  rh.picked[tagIndex] =
-                    t.charAt(0) === "-" ? t.substring(1) : `-${t}`;
-                  return rh;
-                },
-              });
-            }}
-            setOutcome={(d, o) => {
-              saveHistoryChangeToLS({
-                d,
-                f: (rh: PastRecruitment) => {
-                  rh.outcome = o.name;
-                  return rh;
-                },
-              });
-            }}
-            removeFromHistory={(d) => {
-              saveHistoryChangeToLS({
-                d,
-                f: (rh: PastRecruitment) => {
-                  rh = { date: 0, picked: [], tags: [] };
-                  return rh;
-                },
-              });
-            }}
-          />
-        </>
-      )}
-    </>
-  );
-}
+    /**
+     * Set page based on url
+     */
+    window.onload = async () => {
+        const locationData = parseLocation();
+        setPage(locationData.path);
+        const specialID = await fetch("./specialID", {
+            cache: "no-store",
+        }).then((r) => r.text());
+        const standardID = await fetch("./standardID", {
+            cache: "no-store",
+        }).then((r) => r.text());
+        if (specialID && standardID) {
+            const standards = standardID
+                .split(",")
+                .reduce<BannerData[]>((p, n) => {
+                    const b = BannerDataFromString(n);
+                    return b ? [...p, b] : p;
+                }, []);
+            const specials = specialID
+                .split(",")
+                .reduce<BannerData[]>((p, n) => {
+                    const b = BannerDataFromString(n);
+                    return b ? [...p, b] : p;
+                }, []);
+            // console.log(standards, specials);
+            setPityData((p) =>
+                p
+                    ? {
+                          ...p,
+                          banners: { standard: standards, special: specials },
+                          special: new Map([
+                              ...p.special,
+                              ...specials.map((banner) => {
+                                  const ret: [string, number] = [
+                                      banner.id,
+                                      parseInt(
+                                          localStorage.getItem(
+                                              `${banner.id}${StorageIDS.pity.countSuffix}`
+                                          ) || "0"
+                                      ),
+                                  ];
+                                  return ret;
+                              }),
+                          ]),
+                      }
+                    : p
+            );
+        }
+    };
+
+    /**
+     * Set page on back button
+     */
+    window.onpopstate = () => {
+        const locationData = parseLocation();
+        setPage(locationData.path);
+        setPopState((popState) => !popState);
+    };
+
+    /**
+     * Change page
+     * @param page What page to change to
+     */
+    const moveToPage = (page: PageType) => {
+        history.pushState(null, "", page);
+        setPage(page);
+    };
+
+    const [recHistory, setRecHistory] = useState<PastRecruitment[]>(
+        getHistoryDataFromStorage()
+    );
+
+    const [pityData, setPityData] = useState<PityData>({
+        standard: parseInt(
+            localStorage.getItem(StorageIDS.pity.standard) || "0"
+        ),
+        special: new Map([]),
+        banners: {
+            special: [],
+            standard: [],
+        },
+    });
+
+    return (
+        <div data-page={page}>
+            <title>
+                {page === "recruit"
+                    ? "Recruitment Arknights"
+                    : page === "pity"
+                    ? "Pity Tracker Arknights"
+                    : page === "stats"
+                    ? "Recruitment Statistics"
+                    : "Recruitment History Arknights"}
+            </title>
+            <NavBar
+                page={page}
+                moveToPage={moveToPage}
+                changeSetting={changeSetting}
+                settings={settings}
+                getPityDataToSave={async () => {
+                    return JSON.stringify(
+                        await getPityDataFromStorage(),
+                        undefined,
+                        4
+                    );
+                }}
+                getHistoryDataToSave={async () =>
+                    JSON.stringify(recHistory, undefined, 4)
+                }
+                importPity={(ptd) => {
+                    //
+                    localStorage.setItem(
+                        StorageIDS.pity.standard,
+                        `${ptd.standard}`
+                    );
+                    [...ptd.special].forEach(([id, count]) => {
+                        localStorage.setItem(
+                            `${id}${StorageIDS.pity.countSuffix}`,
+                            `${count}`
+                        );
+                    });
+                }}
+                importHistory={(rhd) => {
+                    localStorage.setItem(
+                        StorageIDS.recruitment.history,
+                        RecHis.compress(rhd)
+                    );
+                    setRecHistory(rhd);
+                }}
+                importSettings={(std) => {
+                    setSettings(std);
+                    localStorage.setItem(
+                        StorageIDS.settings,
+                        JSON.stringify(std)
+                    );
+                }}
+            />
+            {page === "pity" ? (
+                <PityTracker
+                    settings={settings}
+                    pityData={pityData}
+                    setPityData={setPityData}
+                />
+            ) : page !== "stats" ? (
+                <RecruitmentPage
+                    history={recHistory}
+                    setHistory={setRecHistory}
+                    characters={characters}
+                    settings={settings}
+                    page={page}
+                    popped={popState}
+                />
+            ) : (
+                <StatsPage historyData={recHistory} pityData={pityData} />
+            )}
+        </div>
+    );
+};
 
 export default App;
