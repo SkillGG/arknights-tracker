@@ -1,16 +1,6 @@
 import { Handler } from "@netlify/functions";
 
-import { AkPity, PrismaClient, users } from "../../prisma/prismaClient";
-
-import { PastRecruitment, Settings } from "../../src/utils";
-
-export type CreateUserData = {
-    pass?: string;
-    username: string;
-    history?: PastRecruitment[];
-    pity?: AkPity;
-    settings?: Settings;
-};
+import { PrismaClient, users } from "../../prisma/prismaClient";
 
 export type showUserRequest = {
     username: users["username"];

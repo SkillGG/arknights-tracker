@@ -24,6 +24,6 @@ dist-ssr
 
 /.netlify
 
-.env
+prisma/prismaClient/
 
-src/prisma/prismaClient
+.env
