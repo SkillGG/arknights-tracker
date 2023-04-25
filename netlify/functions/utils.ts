@@ -16,3 +16,10 @@ export const PastRecruitmentsToAkHistory = (
           }
         : undefined;
 };
+
+export type ResultError = { message: string };
+
+export const isResultError = (r: unknown): r is ResultError => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (r as any).message;
+};

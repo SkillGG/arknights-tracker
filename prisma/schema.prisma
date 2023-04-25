@@ -16,6 +16,7 @@ type AkPity {
 type AkSettings {
   saveHistory          Boolean @default(true)
   sendHistoryToDB      Boolean @default(false)
+  databaseSettings     Json?
   characterDatabase    Boolean @default(false)
   clickToSelectOutcome Boolean @default(false)
   allowCombinations    Boolean @default(true)

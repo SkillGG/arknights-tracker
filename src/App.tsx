@@ -63,11 +63,11 @@ const App: FC<object> = () => {
      * @param setting Setting to change
      * @param value new value for a setting
      */
-    const changeSetting = (
-        setting: keyof Settings,
-        value: Settings[keyof Settings]
-    ) => {
-        settings[setting] = value;
+    const changeSetting: <T extends keyof Settings, R extends Settings[T]>(
+        s: T,
+        v: R
+    ) => void = (s, v) => {
+        settings[s] = v;
         localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
         setSettings(ShallowCopy<Settings>(settings));
     };
@@ -178,6 +178,9 @@ const App: FC<object> = () => {
                         undefined,
                         4
                     );
+                }}
+                logIn={(s, d) => {
+                    //
                 }}
                 getHistoryDataToSave={async () =>
                     JSON.stringify(recHistory, undefined, 4)

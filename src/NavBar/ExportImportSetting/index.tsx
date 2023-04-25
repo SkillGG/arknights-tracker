@@ -20,7 +20,7 @@ const ExportImportSetting: FC<EIProps> = ({
             {!exportData ? (
                 <>
                     <button
-                        className="export-btn"
+                        className="export-btn settingsbtn"
                         onClick={() => {
                             setData({
                                 data: {
@@ -34,125 +34,125 @@ const ExportImportSetting: FC<EIProps> = ({
                     >
                         Export
                     </button>
-                    <button className="import-btn" onClick={clickedImport}>
+                    <button
+                        className="import-btn settingsbtn"
+                        onClick={clickedImport}
+                    >
                         Import
                     </button>
                 </>
             ) : (
                 <>
-                    <fieldset>
-                        <legend>Export settings</legend>
-                        <div className="export-extension">
-                            <span>Extension:</span>
-                            <div>
-                                <label htmlFor="expext_adt">.adt</label>
-                                <input
-                                    type="radio"
-                                    id="expext_adt"
-                                    name="expext"
-                                    checked={exportData.extension === "atd"}
-                                    onChange={() => {
-                                        setData((p) =>
-                                            p ? { ...p, extension: "atd" } : p
-                                        );
-                                    }}
-                                />
-                                <br />
-                                <label htmlFor="expext_txt">.txt</label>
-                                <input
-                                    type="radio"
-                                    id="expext_txt"
-                                    name="expext"
-                                    checked={exportData.extension === "txt"}
-                                    onChange={() => {
-                                        setData((p) =>
-                                            p ? { ...p, extension: "txt" } : p
-                                        );
-                                    }}
-                                />
-                            </div>
+                    <div className="export-extension">
+                        <span>Extension:</span>
+                        <div>
+                            <label htmlFor="expext_adt">.adt</label>
+                            <input
+                                type="radio"
+                                id="expext_adt"
+                                name="expext"
+                                checked={exportData.extension === "atd"}
+                                onChange={() => {
+                                    setData((p) =>
+                                        p ? { ...p, extension: "atd" } : p
+                                    );
+                                }}
+                            />
+                            <br />
+                            <label htmlFor="expext_txt">.txt</label>
+                            <input
+                                type="radio"
+                                id="expext_txt"
+                                name="expext"
+                                checked={exportData.extension === "txt"}
+                                onChange={() => {
+                                    setData((p) =>
+                                        p ? { ...p, extension: "txt" } : p
+                                    );
+                                }}
+                            />
                         </div>
-                        <div className="export-extension">
-                            <span>Data to export:</span>
-                            <div>
-                                <SettingCheckbox
-                                    id="expext_data"
-                                    checked={exportData.data.history}
-                                    toggleSetting={() => {
-                                        setData((p) =>
-                                            p
-                                                ? {
-                                                      ...p,
-                                                      data: {
-                                                          ...p.data,
-                                                          history:
-                                                              !exportData.data
-                                                                  .history,
-                                                      },
-                                                  }
-                                                : p
-                                        );
-                                    }}
-                                    label={"History"}
-                                />
-                                <SettingCheckbox
-                                    divStyle={{ marginTop: "2px" }}
-                                    id="expext_pity"
-                                    label="Pity data"
-                                    checked={exportData.data.pity}
-                                    toggleSetting={() => {
-                                        setData((p) =>
-                                            p
-                                                ? {
-                                                      ...p,
-                                                      data: {
-                                                          ...p.data,
-                                                          pity: !exportData.data
-                                                              .pity,
-                                                      },
-                                                  }
-                                                : p
-                                        );
-                                    }}
-                                />
-                                <SettingCheckbox
-                                    divStyle={{ marginTop: "2px" }}
-                                    label="Settings"
-                                    id="expext_settings"
-                                    checked={exportData.data.settings}
-                                    toggleSetting={() => {
-                                        setData((p) =>
-                                            p
-                                                ? {
-                                                      ...p,
-                                                      data: {
-                                                          ...p.data,
-                                                          settings:
-                                                              !exportData.data
-                                                                  .settings,
-                                                      },
-                                                  }
-                                                : p
-                                        );
-                                    }}
-                                />
-                            </div>
+                    </div>
+                    <div className="export-extension">
+                        <span>Data to export:</span>
+                        <div>
+                            <SettingCheckbox
+                                id="expext_data"
+                                checked={exportData.data.history}
+                                toggleSetting={() => {
+                                    setData((p) =>
+                                        p
+                                            ? {
+                                                  ...p,
+                                                  data: {
+                                                      ...p.data,
+                                                      history:
+                                                          !exportData.data
+                                                              .history,
+                                                  },
+                                              }
+                                            : p
+                                    );
+                                }}
+                                label={"History"}
+                            />
+                            <SettingCheckbox
+                                divStyle={{ marginTop: "2px" }}
+                                id="expext_pity"
+                                label="Pity data"
+                                checked={exportData.data.pity}
+                                toggleSetting={() => {
+                                    setData((p) =>
+                                        p
+                                            ? {
+                                                  ...p,
+                                                  data: {
+                                                      ...p.data,
+                                                      pity: !exportData.data
+                                                          .pity,
+                                                  },
+                                              }
+                                            : p
+                                    );
+                                }}
+                            />
+                            <SettingCheckbox
+                                divStyle={{ marginTop: "2px" }}
+                                label="Settings"
+                                id="expext_settings"
+                                checked={exportData.data.settings}
+                                toggleSetting={() => {
+                                    setData((p) =>
+                                        p
+                                            ? {
+                                                  ...p,
+                                                  data: {
+                                                      ...p.data,
+                                                      settings:
+                                                          !exportData.data
+                                                              .settings,
+                                                  },
+                                              }
+                                            : p
+                                    );
+                                }}
+                            />
                         </div>
-                        <div className="export-btns export-final-btns">
-                            <button
-                                className="export-btn"
-                                onClick={clickedExport}
-                            >
-                                Export
-                            </button>
-                            <button
-                                className="cancel-btn"
-                                onClick={() => setData(null)}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </fieldset>
+                    </div>
+                    <div className="export-btns export-final-btns">
+                        <button
+                            className="export-btn settingsbtn"
+                            onClick={clickedExport}
+                        >
+                            Export
+                        </button>
+                        <button
+                            className="cancel-btn settingsbtn"
+                            onClick={() => setData(null)}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </>
             )}
         </>

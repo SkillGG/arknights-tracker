@@ -52,13 +52,13 @@
 }
 
 .export-btns {
+    width: fit-content;
+    margin-inline: auto;
     & > button {
         position: relative;
         right: 0;
-        background-color: lightgray;
-        border: black 1px solid;
-        margin: 5px;
-        padding: 5px;
+        display: inline-block;
+        margin-inline: 10px;
         &:hover,
         &:focus {
             background-color: lightblue;
@@ -97,5 +97,66 @@
     }
     & br {
         clear: both;
+    }
+}
+
+.dblogin {
+    width: fit-content;
+    margin: 0px auto;
+}
+.dbimport,
+.dbexport {
+    margin-inline: 10px;
+}
+
+.settingsbtn {
+    width: fit-content;
+    border: 1px solid blue;
+    box-shadow: 1px 1px 1px 1px inset lightblue;
+    background-color: #ddd;
+    border-radius: 90px;
+    padding: 2px 15px;
+    &:hover {
+        background-color: azure;
+    }
+    &:active {
+        background-color: lightcyan;
+    }
+}
+
+.loginbtns {
+    user-select: none;
+    width: fit-content;
+    margin-inline: auto;
+    .loginasguest,
+    .loginbtn {
+        margin-inline: 10px;
+        display: inline-block;
+    }
+}
+.loginfields {
+    display: flex;
+    flex-direction: column;
+    .loginfield {
+        margin-bottom: 15px;
+        border: none;
+        input[type="text"] {
+            border: none;
+            display: block;
+            width: 50%;
+            margin-inline: auto;
+            text-align: center;
+        }
+
+        &::after {
+            display: block;
+            position: relative;
+            bottom: -1px;
+            width: 50%;
+            left: 25%;
+            height: 1px;
+            background-color: blue;
+            content: "";
+        }
     }
 }

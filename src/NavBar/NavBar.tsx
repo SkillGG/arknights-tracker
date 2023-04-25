@@ -1,5 +1,17 @@
 import React, { FC, useState } from "react";
-import { PageType, PastRecruitment, Settings } from "../utils";
+import {
+    DatabaseSettings,
+    PageType,
+    PastRecruitment,
+    Settings,
+    UserData,
+} from "../utils";
+
+import "./NavBar.css";
+import ExportImportSetting from "./ExportImportSetting";
+import SettingCheckbox from "./SettingCheckbox";
+import { PityTrackerData } from "../Pity/utils";
+import DatabaseSetting from "./DatabaseSetting";
 
 interface NavBarProps {
     page: PageType;
@@ -14,12 +26,8 @@ interface NavBarProps {
     importSettings(is: Settings): void;
     getHistoryDataToSave(): Promise<string>;
     getPityDataToSave(): Promise<string>;
+    logIn(s: DatabaseSettings, d: UserData): void;
 }
-
-import "./NavBar.css";
-import ExportImportSetting from "./ExportImportSetting";
-import SettingCheckbox from "./SettingCheckbox";
-import { PityTrackerData } from "../Pity/utils";
 
 export type ExportData = {
     extension: "atd" | "txt";
@@ -33,6 +41,7 @@ const NavBar: FC<NavBarProps> = ({
     getHistoryDataToSave,
     getPityDataToSave,
     changeSetting,
+    logIn,
     importHistory,
     importPity,
     importSettings,
@@ -152,119 +161,133 @@ const NavBar: FC<NavBarProps> = ({
                     </fieldset>
                     <fieldset>
                         <legend>Data settings</legend>
-                        <SettingCheckbox
-                            title="Not yet implemented"
-                            label="Send Data to Database"
-                            disabled={true}
-                            id="save-db"
-                            checked={settings.sendHistoryToDB}
-                            toggleSetting={() => {
-                                changeSetting(
-                                    "sendHistoryToDB",
-                                    !settings.sendHistoryToDB
-                                );
-                            }}
-                            helpIcon={{ className: "setting-help" }}
-                        />
-                        <div className="export-btns">
-                            <ExportImportSetting
-                                exportData={eximport}
-                                setData={setEximport}
-                                clickedImport={() => {
-                                    const fileAgent =
-                                        document.createElement("input");
-                                    fileAgent.accept = ".atd,.txt";
-                                    fileAgent.type = "file";
-                                    fileAgent.click();
-                                    fileAgent.onchange = async (e) => {
-                                        const target =
-                                            e.target as HTMLInputElement;
-                                        if (target.files && target.files[0]) {
-                                            const [found, his, pity, sets] =
-                                                /(?:h:([.\S\s]*?))?(?:\n\n)?(?:p:([\s\S]*?))?(?:\n\n)?(?:s:([\s\S]*?))?\n\n/.exec(
-                                                    await target.files[0].text()
-                                                ) || [null, null, null];
-
-                                            if (!found) return;
-                                            if (his) {
-                                                // import his
-                                                try {
-                                                    const history = JSON.parse(
-                                                        his
-                                                    ) as PastRecruitment[];
-                                                    if (history) {
-                                                        importHistory(history);
-                                                    }
-                                                } catch (err) {
-                                                    // TODO: Handle import error
-                                                }
-                                            }
-                                            if (pity) {
-                                                // import pity
-                                                try {
-                                                    const pityD = JSON.parse(
-                                                        pity
-                                                    ) as PityTrackerData;
-                                                    if (pityD) {
-                                                        importPity(pityD);
-                                                    }
-                                                } catch (err) {
-                                                    // TODO: Handle import error
-                                                }
-                                            }
-
-                                            if (sets) {
-                                                // import settings
-                                                try {
-                                                    const settings = JSON.parse(
-                                                        sets
-                                                    ) as Settings;
-                                                    if (settings) {
-                                                        importSettings(
-                                                            settings
-                                                        );
-                                                    }
-                                                } catch (err) {
-                                                    // TODO: Handle import error
-                                                }
-                                            }
-                                        }
-                                    };
-                                    setEximport(null);
-                                }}
-                                clickedExport={async () => {
-                                    if (eximport) {
-                                        const { data, extension } = eximport;
-                                        const historyData = data.history
-                                            ? await getHistoryDataToSave()
-                                            : "";
-                                        const pityData = data.pity
-                                            ? await getPityDataToSave()
-                                            : "";
-                                        const settingsData = data.settings
-                                            ? JSON.stringify(
-                                                  settings,
-                                                  undefined,
-                                                  4
-                                              )
-                                            : "";
-                                        const saveData = new Blob([
-                                            `h:${historyData + "\n\n"}p:${
-                                                pityData + "\n\n"
-                                            }s:${settingsData}\n\n`,
-                                        ], {type: "application/arknights-tracker-data+xjson"});
-                                        const downloadAgent =
-                                            document.createElement("a");
-                                        downloadAgent.download =
-                                            "data." + extension;
-                                        downloadAgent.href =
-                                            URL.createObjectURL(saveData);
-                                        downloadAgent.click();
-                                        setEximport(null);
-                                    }
+                        <fieldset>
+                            <legend>Database</legend>
+                            <DatabaseSetting
+                                settings={settings}
+                                setDatabaseData={(s, d) => {
+                                    logIn(s, d);
                                 }}
                             />
-                        </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Local</legend>
+                            <div className="export-btns">
+                                <ExportImportSetting
+                                    exportData={eximport}
+                                    setData={setEximport}
+                                    clickedImport={() => {
+                                        const fileAgent =
+                                            document.createElement("input");
+                                        fileAgent.accept = ".atd,.txt";
+                                        fileAgent.type = "file";
+                                        fileAgent.click();
+                                        fileAgent.onchange = async (e) => {
+                                            const target =
+                                                e.target as HTMLInputElement;
+                                            if (
+                                                target.files &&
+                                                target.files[0]
+                                            ) {
+                                                const [found, his, pity, sets] =
+                                                    /(?:h:([.\S\s]*?))?(?:\n\n)?(?:p:([\s\S]*?))?(?:\n\n)?(?:s:([\s\S]*?))?\n\n/.exec(
+                                                        await target.files[0].text()
+                                                    ) || [null, null, null];
+
+                                                if (!found) return;
+                                                if (his) {
+                                                    // import his
+                                                    try {
+                                                        const history =
+                                                            JSON.parse(
+                                                                his
+                                                            ) as PastRecruitment[];
+                                                        if (history) {
+                                                            importHistory(
+                                                                history
+                                                            );
+                                                        }
+                                                    } catch (err) {
+                                                        // TODO: Handle import error
+                                                    }
+                                                }
+                                                if (pity) {
+                                                    // import pity
+                                                    try {
+                                                        const pityD =
+                                                            JSON.parse(
+                                                                pity
+                                                            ) as PityTrackerData;
+                                                        if (pityD) {
+                                                            importPity(pityD);
+                                                        }
+                                                    } catch (err) {
+                                                        // TODO: Handle import error
+                                                    }
+                                                }
+
+                                                if (sets) {
+                                                    // import settings
+                                                    try {
+                                                        const settings =
+                                                            JSON.parse(
+                                                                sets
+                                                            ) as Settings;
+                                                        if (settings) {
+                                                            importSettings(
+                                                                settings
+                                                            );
+                                                        }
+                                                    } catch (err) {
+                                                        // TODO: Handle import error
+                                                    }
+                                                }
+                                            }
+                                        };
+                                        setEximport(null);
+                                    }}
+                                    clickedExport={async () => {
+                                        if (eximport) {
+                                            const { data, extension } =
+                                                eximport;
+                                            const historyData = data.history
+                                                ? await getHistoryDataToSave()
+                                                : "";
+                                            const pityData = data.pity
+                                                ? await getPityDataToSave()
+                                                : "";
+                                            const settingsData = data.settings
+                                                ? JSON.stringify(
+                                                      settings,
+                                                      undefined,
+                                                      4
+                                                  )
+                                                : "";
+                                            const saveData = new Blob(
+                                                [
+                                                    `h:${
+                                                        historyData + "\n\n"
+                                                    }p:${
+                                                        pityData + "\n\n"
+                                                    }s:${settingsData}\n\n`,
+                                                ],
+                                                {
+                                                    type: "application/arknights-tracker-data+xjson",
+                                                }
+                                            );
+                                            const downloadAgent =
+                                                document.createElement("a");
+                                            downloadAgent.download =
+                                                "data." + extension;
+                                            downloadAgent.href =
+                                                URL.createObjectURL(saveData);
+                                            downloadAgent.click();
+                                            setEximport(null);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </fieldset>
                     </fieldset>
                 </div>
             </div>

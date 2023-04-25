@@ -34,7 +34,7 @@ const handler: Handler = async (ev) => {
                 akdata: {
                     create: {
                         history: data.history || [],
-                        pity: data.pity || { standard: 0, special: {} },
+                        pity: data.pity || { standard: 0, special: [] },
                         settings: data.settings || DEF_SETTINGS,
                     },
                 },

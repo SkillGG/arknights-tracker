@@ -1,3 +1,5 @@
+import { PityTrackerData } from "./Pity/utils";
+
 /**
  * Shalowly copy an object
  * @param p Object to copy
@@ -19,12 +21,17 @@ export type ArkData = {
 
 export type PageType = "recruit" | "pity" | "recHis" | "stats";
 
+export type DatabaseSettings = {
+    userId: string | null;
+};
+
 export type Settings = {
     saveHistory: boolean;
     sendHistoryToDB: boolean;
     characterDatabase: boolean;
     clickToSelectOutcome: boolean;
     allowCombinations: boolean;
+    databaseSettings: DatabaseSettings | null;
 };
 
 /**
@@ -36,6 +43,7 @@ export const DEF_SETTINGS: Settings = {
     characterDatabase: false,
     clickToSelectOutcome: false,
     allowCombinations: true,
+    databaseSettings: null,
 };
 export const DEFAULT_SETTINGS = JSON.stringify(DEF_SETTINGS);
 
@@ -260,4 +268,10 @@ export const calculateRecruitmentCharactersv2 = (
      * Change from Set<ArkData> to ArkData[]
      */
     return groups.map((g) => ({ ...g, chars: [...g.chars] }));
+};
+
+export type UserData = {
+    history: PastRecruitment[];
+    pity: PityTrackerData;
+    settings: Settings;
 };
