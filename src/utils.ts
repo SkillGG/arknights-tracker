@@ -30,7 +30,7 @@ export type Settings = {
 /**
  * Deafult User settings
  */
-const DEF_SETTINGS: Settings = {
+export const DEF_SETTINGS: Settings = {
     saveHistory: true,
     sendHistoryToDB: false,
     characterDatabase: false,
