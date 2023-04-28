@@ -1,10 +1,15 @@
 {
-    standard_86:
-    "Standard Pool 86 (Global)":
-    ./BannerImages/EN_Standard_Pool_86_banner.webp
+    standard_87:
+    "Standard Pool 87 (Global)":
+    ./BannerImages/EN_Standard_Pool_87_banner.webp
 },
 {
     the_front_that_was:
     "The Front That Was 1":
     ./BannerImages/EN_The_Front_That_Was_1_banner.webp
+},
+{
+    bearings_and_sparks:
+    "Bearings and Sparks":
+    EN_Bearings_and_Sparks_banner.webp
 }
