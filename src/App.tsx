@@ -25,12 +25,7 @@ import RecruitmentPage, {
     getHistoryDataFromStorage,
 } from "./Recruitment/Recruitment";
 import { RecHis } from "./Recruitment/History/rechis.util";
-import {
-    BannerData,
-    BannerDataFromString,
-    PityData,
-    getPityDataFromStorage,
-} from "./Pity/utils";
+import { BannerData, BannerDataFromString, PityData } from "./Pity/utils";
 import StatsPage from "./StatsPage";
 
 const App: FC<object> = () => {
@@ -68,8 +63,36 @@ const App: FC<object> = () => {
         v: R
     ) => void = (s, v) => {
         settings[s] = v;
-        localStorage.setItem(StorageIDS.settings, JSON.stringify(settings));
+        saveSettingsToLS(settings);
         setSettings(ShallowCopy<Settings>(settings));
+    };
+
+    /**
+     * Saves settings to LocalStorage
+     * @param sq Settings to save to LS
+     */
+    const saveSettingsToLS = (sq: Settings) => {
+        localStorage.setItem(StorageIDS.settings, JSON.stringify(sq));
+        setSettings(sq);
+    };
+
+    const saveRecHisToLS = (rh: PastRecruitment[]) => {
+        localStorage.setItem(
+            StorageIDS.recruitment.history,
+            RecHis.compress(rh)
+        );
+        setRecHistory(rh);
+    };
+
+    const savePityDataToLS = (pd: PityData) => {
+        [...pd.special].forEach((banner) => {
+            localStorage.setItem(
+                `${banner[0]}${StorageIDS.pity.countSuffix}`,
+                `${banner[1]}`
+            );
+        });
+        localStorage.setItem(StorageIDS.pity.standard, `${pd.standard}`);
+        setPityData(pd);
     };
 
     /**
@@ -172,15 +195,20 @@ const App: FC<object> = () => {
                 moveToPage={moveToPage}
                 changeSetting={changeSetting}
                 settings={settings}
-                getPityDataToSave={async () => {
-                    return JSON.stringify(
-                        await getPityDataFromStorage(),
-                        undefined,
-                        4
-                    );
-                }}
+                historyData={recHistory}
+                pityData={pityData}
+                getPityDataToSave={async () =>
+                    JSON.stringify({ ...pityData, banners: undefined })
+                }
                 logIn={(s, d) => {
-                    //
+                    const newSettings = {
+                        ...settings,
+                        ...(d?.settings || settings),
+                        databaseSettings: s,
+                    };
+                    saveSettingsToLS(newSettings);
+                    saveRecHisToLS([...(d?.history || recHistory)]);
+                    savePityDataToLS({ ...pityData, ...(d?.pity || pityData) });
                 }}
                 getHistoryDataToSave={async () =>
                     JSON.stringify(recHistory, undefined, 4)
@@ -217,12 +245,12 @@ const App: FC<object> = () => {
                 <PityTracker
                     settings={settings}
                     pityData={pityData}
-                    setPityData={setPityData}
+                    savePityDataToLS={savePityDataToLS}
                 />
             ) : page !== "stats" ? (
                 <RecruitmentPage
                     history={recHistory}
-                    setHistory={setRecHistory}
+                    saveRecHisToLS={saveRecHisToLS}
                     characters={characters}
                     settings={settings}
                     page={page}

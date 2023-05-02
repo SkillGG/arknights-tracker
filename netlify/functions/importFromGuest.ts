@@ -4,7 +4,7 @@ import { ResultError } from "./utils";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 
-export type showUserRequest = Pick<users, "pass" | "username">;
+export type showUserRequest = Pick<users, "username">;
 
 export type importFromResult =
     | (Pick<users, "id"> & {
@@ -23,10 +23,13 @@ const handler: Handler = async (ev) => {
         const data: showUserRequest = JSON.parse(ev.body);
         if (!data.username) throw "No username provided!";
 
+        const guestCode = /(\d+)/.exec(data.username);
+        if (!guestCode) throw "Incorrect guest username format! Use <guestID>";
+
         await prismaClient.$connect();
 
         const userData = await prismaClient.users.findFirst({
-            where: data,
+            where: { ...data, pass: "GuestPass" },
             select: {
                 akdata: {
                     select: {
@@ -49,7 +52,7 @@ const handler: Handler = async (ev) => {
                 body: JSON.stringify(userData),
             };
         } else {
-            return { statusCode: 400, body: "Wrong username or password!" };
+            return { statusCode: 400, body: "Could not find given guest!" };
         }
     } catch (err) {
         return {

@@ -1,10 +1,4 @@
-import React, {
-    Dispatch,
-    FunctionComponent,
-    SetStateAction,
-    useEffect,
-    useState,
-} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
     ArkData,
     Filter,
@@ -48,7 +42,7 @@ interface RecruitmentPageProps {
      * History data
      */
     history: PastRecruitment[];
-    setHistory: Dispatch<SetStateAction<PastRecruitment[]>>;
+    saveRecHisToLS(rh: PastRecruitment[]): void;
 }
 
 export const getHistoryDataFromStorage = () => {
@@ -63,7 +57,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     settings,
     popped,
     history: recHistory,
-    setHistory: setRecHistory,
+    saveRecHisToLS,
 }) => {
     const [tag, setTag] = useState(true);
 
@@ -150,10 +144,6 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
     }, [filters, time]);
 
     const saveHistoryChangeToLS = (o: HistoryUpdate) => {
-        const useCompression = (sh: PastRecruitment[]) => {
-            const RECHstr = RecHis.compress(sh);
-            return RECHstr;
-        };
         let srh = [...recHistory];
         if (!isFullHistoryUpdate(o)) {
             const index = recHistory.findIndex((rh) => rh.date === o.d);
@@ -163,11 +153,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
         } else if (isFullHistoryUpdate(o)) {
             srh = o.f(srh);
         }
-        localStorage.setItem(
-            StorageIDS.recruitment.history,
-            useCompression(srh)
-        );
-        setRecHistory(srh);
+        saveRecHisToLS(srh);
     };
 
     const addToRecHistory = (
@@ -196,7 +182,7 @@ const RecruitmentPage: FunctionComponent<RecruitmentPageProps> = ({
         );
         setFilters([]);
     };
-    
+
     return (
         <>
             {page === "recruit" && (

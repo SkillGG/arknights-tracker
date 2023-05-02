@@ -1,12 +1,13 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { DatabaseSettings, PastRecruitment, Settings } from "../../utils";
-import { Login_Export } from "./databaseRequests";
+import { Login_Export_Guest, Login_Import_Guest } from "./databaseRequests";
 import { PityTrackerData } from "../../Pity/utils";
 interface DatabaseSettingProps {
     settings: Settings;
+    dbdata: { pity: PityTrackerData; history: PastRecruitment[] };
     setDatabaseData(
         s: DatabaseSettings,
-        d: {
+        d?: {
             history: PastRecruitment[];
             pity: PityTrackerData;
             settings: Settings;
@@ -16,12 +17,28 @@ interface DatabaseSettingProps {
 
 const DatabaseSetting: FC<DatabaseSettingProps> = ({
     settings,
+    dbdata,
     setDatabaseData,
 }) => {
     const [loginData, setloginData] = useState<{
+        // Stage 1: Username/Password Filed
+        // Stage 2: Logged in as
         stage: 1 | 2;
-        data?: { username: string };
+        isImport: boolean;
+        data?: DatabaseSettings;
     } | null>(null);
+
+    const usernameFieldRef = useRef<HTMLInputElement>(null);
+    const passwordFieldRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (settings && settings.databaseSettings)
+            setloginData({
+                isImport: false,
+                stage: 2,
+                data: settings.databaseSettings,
+            });
+    }, []);
 
     return (
         <>
@@ -32,17 +49,22 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                     {loginData ? (
                         loginData.stage === 1 ? (
                             <>
+                                <div style={{ textAlign: "center" }}>
+                                    {loginData.isImport ? "Import" : "Export"}
+                                </div>
                                 <div className="dblogin">
                                     <div className="loginfields">
                                         <div className="loginfield">
                                             <input
+                                                ref={usernameFieldRef}
                                                 type="text"
                                                 placeholder="Username"
                                             />
                                         </div>
                                         <div className="loginfield">
                                             <input
-                                                type="text"
+                                                ref={passwordFieldRef}
+                                                type="password"
                                                 placeholder="Password"
                                             />
                                         </div>
@@ -50,24 +72,49 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     <div className="loginbtns">
                                         <input
                                             onClick={async () => {
-                                                const userdata =
-                                                    await Login_Export(
-                                                        "Guest",
-                                                        "",
-                                                        settings,
-                                                        [],
-                                                        {
-                                                            special: new Map(),
-                                                            standard: 0,
+                                                if (loginData.isImport) {
+                                                    const login =
+                                                        usernameFieldRef.current
+                                                            ?.value;
+                                                    if (login) {
+                                                        const userdata =
+                                                            await Login_Import_Guest(
+                                                                login
+                                                            );
+                                                        if (userdata) {
+                                                            setDatabaseData({
+                                                                userId: userdata.id,
+                                                                username:
+                                                                    userdata.username,
+                                                            });
                                                         }
-                                                    );
-                                                if (userdata) {
-                                                    setDatabaseData(
-                                                        {
-                                                            userId: userdata?.id,
-                                                        },
-                                                        { ...userdata }
-                                                    );
+                                                    }
+                                                } else {
+                                                    const userdata =
+                                                        await Login_Export_Guest(
+                                                            settings,
+                                                            dbdata.history,
+                                                            dbdata.pity
+                                                        );
+                                                    if (userdata) {
+                                                        setloginData(() => ({
+                                                            isImport: false,
+                                                            stage: 2,
+                                                            data: {
+                                                                userId: userdata.id,
+                                                                username:
+                                                                    userdata.username,
+                                                            },
+                                                        }));
+                                                        setDatabaseData(
+                                                            {
+                                                                userId: userdata.id,
+                                                                username:
+                                                                    userdata.username,
+                                                            },
+                                                            { ...userdata }
+                                                        );
+                                                    }
                                                 }
                                             }}
                                             className="settingsbtn loginasguest"
@@ -78,6 +125,13 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                             className="settingsbtn loginbtn"
                                             type="button"
                                             value="Login"
+                                            onClick={async () => {
+                                                if (loginData.isImport) {
+                                                    //
+                                                } else {
+                                                    //
+                                                }
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -92,7 +146,10 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     type="button"
                                     className="settingsbtn dbexport"
                                     onClick={() => {
-                                        setloginData({ stage: 1 });
+                                        setloginData({
+                                            stage: 1,
+                                            isImport: false,
+                                        });
                                     }}
                                     value="Export"
                                 />
@@ -100,7 +157,10 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     type="button"
                                     className="settingsbtn dbimport"
                                     onClick={() => {
-                                        setloginData({ stage: 1 });
+                                        setloginData({
+                                            stage: 1,
+                                            isImport: true,
+                                        });
                                     }}
                                     value="Import"
                                 />

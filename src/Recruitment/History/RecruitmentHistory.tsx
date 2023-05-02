@@ -176,11 +176,11 @@ const RecruitmentHistory: FC<RecruitmentHistoryProps> = ({
                                 <td>{i + 1}.</td>
                                 <td>
                                     {rec.tags.map((t) => (
-                                        <>
+                                        <React.Fragment key={rec.date + t}>
                                             <span>
                                                 {t},<br />
                                             </span>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </td>
                                 {rec.picked.length > 0 ? (

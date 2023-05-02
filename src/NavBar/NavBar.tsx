@@ -17,6 +17,8 @@ interface NavBarProps {
     page: PageType;
     moveToPage(page: PageType): void;
     settings: Settings;
+    historyData: PastRecruitment[];
+    pityData: PityTrackerData;
     changeSetting(
         setting: keyof Settings,
         value: Settings[keyof Settings]
@@ -26,7 +28,7 @@ interface NavBarProps {
     importSettings(is: Settings): void;
     getHistoryDataToSave(): Promise<string>;
     getPityDataToSave(): Promise<string>;
-    logIn(s: DatabaseSettings, d: UserData): void;
+    logIn(s: DatabaseSettings, d?: UserData): void;
 }
 
 export type ExportData = {
@@ -39,7 +41,9 @@ const NavBar: FC<NavBarProps> = ({
     moveToPage,
     settings,
     getHistoryDataToSave,
+    historyData,
     getPityDataToSave,
+    pityData,
     changeSetting,
     logIn,
     importHistory,
@@ -167,6 +171,10 @@ const NavBar: FC<NavBarProps> = ({
                                 settings={settings}
                                 setDatabaseData={(s, d) => {
                                     logIn(s, d);
+                                }}
+                                dbdata={{
+                                    history: historyData,
+                                    pity: pityData,
                                 }}
                             />
                         </fieldset>

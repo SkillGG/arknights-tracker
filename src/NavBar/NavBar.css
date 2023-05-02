@@ -139,7 +139,8 @@
   margin-bottom: 15px;
   border: none;
 }
-.loginfields .loginfield input[type="text"] {
+.loginfields .loginfield input[type="text"],
+.loginfields .loginfield input[type="password"] {
   border: none;
   display: block;
   width: 50%;

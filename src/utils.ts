@@ -22,7 +22,8 @@ export type ArkData = {
 export type PageType = "recruit" | "pity" | "recHis" | "stats";
 
 export type DatabaseSettings = {
-    userId: string | null;
+    userId: string;
+    username: string;
 };
 
 export type Settings = {
