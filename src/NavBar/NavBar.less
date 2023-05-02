@@ -128,17 +128,25 @@
     user-select: none;
     width: fit-content;
     margin-inline: auto;
+    margin-top: 5px;
     .loginasguest,
     .loginbtn {
         margin-inline: 10px;
         display: inline-block;
     }
 }
+.login-error {
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+}
 .loginfields {
     display: flex;
     flex-direction: column;
     .loginfield {
-        margin-bottom: 15px;
+        &:nth-child(1) {
+            margin-bottom: 15px;
+        }
         border: none;
         input[type="text"],
         input[type="password"] {

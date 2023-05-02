@@ -210,6 +210,13 @@ const App: FC<object> = () => {
                     saveRecHisToLS([...(d?.history || recHistory)]);
                     savePityDataToLS({ ...pityData, ...(d?.pity || pityData) });
                 }}
+                logOut={() => {
+                    const newSettings = {
+                        ...settings,
+                        databaseSettings: null,
+                    } as Settings;
+                    saveSettingsToLS(newSettings);
+                }}
                 getHistoryDataToSave={async () =>
                     JSON.stringify(recHistory, undefined, 4)
                 }

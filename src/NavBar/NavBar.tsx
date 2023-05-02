@@ -29,6 +29,7 @@ interface NavBarProps {
     getHistoryDataToSave(): Promise<string>;
     getPityDataToSave(): Promise<string>;
     logIn(s: DatabaseSettings, d?: UserData): void;
+    logOut(): void;
 }
 
 export type ExportData = {
@@ -46,6 +47,7 @@ const NavBar: FC<NavBarProps> = ({
     pityData,
     changeSetting,
     logIn,
+    logOut,
     importHistory,
     importPity,
     importSettings,
@@ -172,6 +174,7 @@ const NavBar: FC<NavBarProps> = ({
                                 setDatabaseData={(s, d) => {
                                     logIn(s, d);
                                 }}
+                                logOut={logOut}
                                 dbdata={{
                                     history: historyData,
                                     pity: pityData,
