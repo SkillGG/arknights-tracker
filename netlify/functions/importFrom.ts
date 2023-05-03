@@ -4,11 +4,11 @@ import { ResultError } from "./utils";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 
-export type showUserRequest = Pick<users, "pass" | "username">;
+export type importFromRequest = Pick<users, "pass" | "username">;
 
 export type importFromResult =
     | (Pick<users, "id"> & {
-          akdata: Pick<akdata, "history" | "pity" | "settings">;
+          akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
       })
     | ResultError;
 
@@ -20,26 +20,27 @@ const handler: Handler = async (ev) => {
             body: JSON.stringify({ message: "Invalid request!" }),
         };
     try {
-        const data: showUserRequest = JSON.parse(ev.body);
+        const data: importFromRequest = JSON.parse(ev.body);
         if (!data.username) throw "No username provided!";
 
         await prismaClient.$connect();
 
-        const userData = await prismaClient.users.findFirst({
-            where: data,
-            select: {
-                akdata: {
-                    select: {
-                        history: true,
-                        pity: true,
-                        settings: true,
+        const userData: importFromResult | null =
+            await prismaClient.users.findFirst({
+                where: data,
+                select: {
+                    akdata: {
+                        select: {
+                            history: true,
+                            pity: true,
+                            settings: true,
+                        },
                     },
+                    id: true,
+                    username: false,
+                    pass: false,
                 },
-                id: true,
-                username: false,
-                pass: false,
-            },
-        });
+            });
 
         await prismaClient.$disconnect();
 

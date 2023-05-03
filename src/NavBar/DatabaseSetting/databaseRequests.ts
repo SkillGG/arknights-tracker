@@ -1,4 +1,4 @@
-import { isResultError } from "../../../netlify/functions/utils";
+import { ResultError, isResultError } from "../../../netlify/functions/utils";
 import { AkPity, AkSettings } from "../../../prisma/prismaClient";
 import { PityTrackerData } from "../../Pity/utils";
 import { DEF_SETTINGS, PastRecruitment, Settings, UserData } from "../../utils";
@@ -10,16 +10,51 @@ import {
     exportToGuestRequest,
     exportToGuestResult,
 } from "./../../../netlify/functions/exportToGuest";
-import { importFromResult } from "./../../../netlify/functions/importFrom";
+import {
+    importFromRequest,
+    importFromResult,
+} from "./../../../netlify/functions/importFrom";
+import {
+    importFromGuestRequest,
+    importFromGuestResult,
+} from "./../../../netlify/functions/importFromGuest";
 
 const sendDataToServer = (path: string, data: object) => {
     return fetch(path, { method: "POST", body: JSON.stringify(data) });
 };
 
-export type LoggedInData = {
-    id: string;
-    username: string;
-} & UserData;
+export type LoginError = { err: string };
+
+export const isLoginError = (d: LoggedInData): d is LoginError => {
+    return !!(d as unknown as LoginError).err;
+};
+
+export type LoggedInData =
+    | ({
+          id: string;
+          username: string;
+      } & UserData)
+    | LoginError;
+
+const getDataFromServer = async <REQT extends object, REST extends object>(
+    path: string,
+    data: REQT
+): Promise<REST | null | ResultError> => {
+    const response: REST | string | null = await sendDataToServer(
+        path,
+        data
+    ).then((res) => {
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            return res.text();
+        }
+    });
+
+    if (typeof response === "string")
+        return JSON.parse(response) as { message: string };
+    else return response;
+};
 
 export const Login_Export_Guest = async (
     settings: Settings,
@@ -31,13 +66,14 @@ export const Login_Export_Guest = async (
         history,
         pity: { special: [...pity.special], standard: pity.standard },
     };
-    const userData: exportToGuestResult | string | null =
-        await sendDataToServer(
-            "/.netlify/functions/exportToGuest",
-            sendData
-        ).then((r) => (r.status === 200 ? r.json() : r.text() || null));
 
-    if (userData && typeof userData === "object")
+    const userData = await getDataFromServer<
+        exportToGuestRequest,
+        exportToGuestResult
+    >("/.netlify/functions/exportToGuest", sendData);
+    if (isResultError(userData)) {
+        return { err: userData.message };
+    } else if (userData) {
         return {
             history,
             id: userData.id,
@@ -45,10 +81,8 @@ export const Login_Export_Guest = async (
             pity,
             settings,
         };
-    else {
-        if (userData) console.warn(JSON.parse(userData).message);
-        return null;
     }
+    return null;
 };
 
 export const Login_Export = async (
@@ -65,17 +99,29 @@ export const Login_Export = async (
         history,
         pity: { special: [...pity.special], standard: pity.standard },
     };
-    const userData: exportToResult | string | null = await sendDataToServer(
+
+    const userData = await getDataFromServer<exportToRequest, exportToResult>(
         "/.netlify/functions/exportTo",
         sendData
-    ).then((r) => (r.status ? r.json() : null));
+    );
 
-    if (userData && typeof userData === "object")
+    if (isResultError(userData)) {
+        return { err: userData.message };
+    } else if (userData) {
         return { history, id: userData.id, username, pity, settings };
-    else {
-        if (userData) console.warn(userData);
-        return null;
     }
+    return null;
+};
+
+const StandardizePity = (ap: AkPity): PityTrackerData => {
+    return {
+        ...ap,
+        special: new Map<string, number>(ap.special as [string, number][]),
+    };
+};
+
+const StandardizeSettings = (jv: AkSettings | null): Settings => {
+    return jv ? { ...jv, databaseSettings: null } : DEF_SETTINGS;
 };
 
 export const Login_Import = async (
@@ -83,37 +129,32 @@ export const Login_Import = async (
     password: string
 ): Promise<LoggedInData | null> => {
     const sendData = { username, pass: password };
-
-    const userData: importFromResult | null = await sendDataToServer(
-        "/.netlify/functions/importFrom",
-        sendData
-    ).then((r) => {
-        if (r.status === 200) return r.json();
-        else return null;
-    });
-
-    const StandardizePity = (ap: AkPity): PityTrackerData => {
-        return {
-            ...ap,
-            special: new Map<string, number>(ap.special as [string, number][]),
-        };
-    };
-
-    const StandardizeSettings = (jv: AkSettings | null): Settings => {
-        return jv ? { ...jv, databaseSettings: null } : DEF_SETTINGS;
-    };
-
-    if (userData && typeof userData === "object" && !isResultError(userData))
-        return {
-            history: userData.akdata.history as PastRecruitment[],
-            id: userData.id,
-            pity: StandardizePity(userData.akdata.pity),
-            username,
-            settings: StandardizeSettings(userData.akdata.settings),
-        };
-    else {
-        if (userData) console.warn(userData.message);
+    try {
+        const userData = await getDataFromServer<
+            importFromRequest,
+            importFromResult
+        >("/.netlify/functions/importFrom", sendData);
+        if (isResultError(userData)) {
+            throw userData.message;
+        } else if (userData) {
+            if (!userData.akdata) {
+                throw "We recieved invalid data from server! Try again!";
+            }
+            return {
+                history: userData.akdata.history as PastRecruitment[],
+                id: userData.id,
+                pity: StandardizePity(userData.akdata.pity),
+                username,
+                settings: StandardizeSettings(userData.akdata.settings),
+            };
+        }
         return null;
+    } catch (err) {
+        if (typeof err === "string") return { err };
+        else {
+            console.error(err);
+            return { err: "Unknown server error!" };
+        }
     }
 };
 
@@ -122,26 +163,16 @@ export const Login_Import_Guest = async (
 ): Promise<LoggedInData | null> => {
     const sendData = { username: id, pass: "" };
 
-    const userData: importFromResult | null = await sendDataToServer(
-        "/.netlify/functions/importFromGuest",
-        sendData
-    ).then((r) => {
-        if (r.status === 200) return r.json();
-        else return null;
-    });
+    const userData = await getDataFromServer<
+        importFromGuestRequest,
+        importFromGuestResult
+    >("/.netlify/functions/importFromGuest", sendData);
 
-    const StandardizePity = (ap: AkPity): PityTrackerData => {
-        return {
-            ...ap,
-            special: new Map<string, number>(ap.special as [string, number][]),
-        };
-    };
-
-    const StandardizeSettings = (jv: AkSettings | null): Settings => {
-        return jv ? { ...jv, databaseSettings: null } : DEF_SETTINGS;
-    };
-
-    if (userData && typeof userData === "object" && !isResultError(userData))
+    if (isResultError(userData)) {
+        return { err: userData.message };
+    } else if (userData) {
+        if (!userData.akdata)
+            throw "We recieved invalid data from server! Try again!";
         return {
             history: userData.akdata.history as PastRecruitment[],
             id: userData.id,
@@ -149,8 +180,6 @@ export const Login_Import_Guest = async (
             settings: StandardizeSettings(userData.akdata.settings),
             username: sendData.username,
         };
-    else {
-        if (userData) console.warn(userData.message);
-        return null;
     }
+    return null;
 };

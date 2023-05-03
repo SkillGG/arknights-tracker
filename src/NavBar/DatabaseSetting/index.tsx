@@ -1,6 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { DatabaseSettings, PastRecruitment, Settings } from "../../utils";
-import { Login_Export_Guest, Login_Import_Guest } from "./databaseRequests";
+import {
+    Login_Export_Guest,
+    Login_Import_Guest,
+    isLoginError,
+} from "./databaseRequests";
 import { PityTrackerData } from "../../Pity/utils";
 interface DatabaseSettingProps {
     settings: Settings;
@@ -31,6 +35,8 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
     } | null>(null);
 
     const [error, setError] = useState<string | null>(null);
+
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const usernameFieldRef = useRef<HTMLInputElement>(null);
     const passwordFieldRef = useRef<HTMLInputElement>(null);
@@ -84,6 +90,7 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                             <div className="loginbtns">
                                 <input
                                     onClick={async () => {
+                                        setButtonsDisabled(true);
                                         if (loginData.isImport) {
                                             const login =
                                                 usernameFieldRef.current?.value;
@@ -92,13 +99,16 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                                     await Login_Import_Guest(
                                                         login
                                                     );
-                                                console.log(userdata);
+
                                                 if (userdata) {
-                                                    setDatabaseData({
-                                                        userId: userdata.id,
-                                                        username:
-                                                            userdata.username,
-                                                    });
+                                                    if (isLoginError(userdata))
+                                                        setError(userdata.err);
+                                                    else
+                                                        setDatabaseData({
+                                                            userId: userdata.id,
+                                                            username:
+                                                                userdata.username,
+                                                        });
                                                 }
                                             } else {
                                                 setError(
@@ -113,34 +123,41 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                                     dbdata.pity
                                                 );
                                             if (userdata) {
-                                                setloginData(() => ({
-                                                    isImport: false,
-                                                    stage: 2,
-                                                    data: {
-                                                        userId: userdata.id,
-                                                        username:
-                                                            userdata.username,
-                                                    },
-                                                }));
-                                                setDatabaseData(
-                                                    {
-                                                        userId: userdata.id,
-                                                        username:
-                                                            userdata.username,
-                                                    },
-                                                    { ...userdata }
-                                                );
+                                                if (isLoginError(userdata)) {
+                                                    setError(userdata.err);
+                                                } else {
+                                                    setloginData(() => ({
+                                                        isImport: false,
+                                                        stage: 2,
+                                                        data: {
+                                                            userId: userdata.id,
+                                                            username:
+                                                                userdata.username,
+                                                        },
+                                                    }));
+                                                    setDatabaseData(
+                                                        {
+                                                            userId: userdata.id,
+                                                            username:
+                                                                userdata.username,
+                                                        },
+                                                        { ...userdata }
+                                                    );
+                                                }
                                             }
                                         }
+                                        setButtonsDisabled(false);
                                     }}
                                     className="settingsbtn loginasguest"
                                     type="button"
+                                    disabled={buttonsDisabled}
                                     value="Guest"
                                 />
                                 <input
                                     className="settingsbtn loginbtn"
                                     type="button"
                                     value="Login"
+                                    disabled={buttonsDisabled}
                                     onClick={async () => {
                                         if (loginData.isImport) {
                                             //
@@ -153,9 +170,11 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     className="settingsbtn loginbtn"
                                     type="button"
                                     value="Back"
+                                    disabled={buttonsDisabled}
                                     onClick={async () => {
                                         setError(null);
                                         setloginData(null);
+                                        setButtonsDisabled(false);
                                     }}
                                 />
                             </div>
@@ -169,6 +188,7 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                             onClick={() => {
                                 setloginData(null);
                                 logOut();
+                                setButtonsDisabled(false);
                             }}
                         >
                             Logout
@@ -186,6 +206,7 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     stage: 1,
                                     isImport: false,
                                 });
+                                setButtonsDisabled(false);
                             }}
                             value="Export"
                         />
@@ -197,6 +218,7 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     stage: 1,
                                     isImport: true,
                                 });
+                                setButtonsDisabled(false);
                             }}
                             value="Import"
                         />

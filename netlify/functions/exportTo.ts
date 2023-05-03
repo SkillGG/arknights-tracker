@@ -7,7 +7,7 @@ export type exportToRequest = Pick<users, "pass" | "username"> &
     Pick<akdata, "pity" | "settings"> & { history?: PastRecruitment[] };
 
 export type exportToResult = Pick<users, "id"> & {
-    akdata: Pick<akdata, "history" | "pity" | "settings">;
+    akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
 };
 
 const handler: Handler = async (ev) => {
@@ -27,7 +27,7 @@ const handler: Handler = async (ev) => {
             await prismaClient.$disconnect();
             return { statusCode: 400, body: "User already exists!" };
         } else {
-            const userData = await prismaClient.users.create({
+            const userData: exportToResult = await prismaClient.users.create({
                 data: {
                     id: undefined,
                     username: data.username,
@@ -57,7 +57,7 @@ const handler: Handler = async (ev) => {
             await prismaClient.$disconnect();
             return {
                 statusCode: 400,
-                body: JSON.stringify(userData as exportToResult),
+                body: JSON.stringify(userData),
             };
         }
     } catch (err) {

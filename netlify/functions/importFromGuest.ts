@@ -4,11 +4,11 @@ import { ResultError } from "./utils";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 
-export type showUserRequest = Pick<users, "username">;
+export type importFromGuestRequest = Pick<users, "username">;
 
-export type importFromResult =
+export type importFromGuestResult =
     | (Pick<users, "id"> & {
-          akdata: Pick<akdata, "history" | "pity" | "settings">;
+          akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
       })
     | ResultError;
 
@@ -20,29 +20,35 @@ const handler: Handler = async (ev) => {
             body: JSON.stringify({ message: "Invalid request!" }),
         };
     try {
-        const data: showUserRequest = JSON.parse(ev.body);
+        const data: importFromGuestRequest = JSON.parse(ev.body);
         if (!data.username) throw "No username provided!";
 
-        const guestCode = /(\d+)/.exec(data.username);
-        if (!guestCode) throw "Incorrect guest username format! Use <guestID>";
+        const guestCode = /^(\d+)$/.exec(data.username);
+        if (!guestCode) throw "Incorrect guest ID format!";
+
+        data.username = "guest" + guestCode[1];
 
         await prismaClient.$connect();
 
-        const userData = await prismaClient.users.findFirst({
-            where: { ...data, pass: "GuestPass" },
-            select: {
-                akdata: {
-                    select: {
-                        history: true,
-                        pity: true,
-                        settings: true,
-                    },
+        const userData: importFromGuestResult | null =
+            await prismaClient.users.findFirst({
+                where: {
+                    username: "guest" + guestCode[1],
+                    pass: "GuestPass",
                 },
-                id: true,
-                username: false,
-                pass: false,
-            },
-        });
+                select: {
+                    akdata: {
+                        select: {
+                            history: true,
+                            pity: true,
+                            settings: true,
+                        },
+                    },
+                    id: true,
+                    username: false,
+                    pass: false,
+                },
+            });
 
         await prismaClient.$disconnect();
 
@@ -52,13 +58,21 @@ const handler: Handler = async (ev) => {
                 body: JSON.stringify(userData),
             };
         } else {
-            return { statusCode: 400, body: "Could not find given guest!" };
+            throw "Could not find given guest!";
         }
     } catch (err) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: "Error parsing body!" + err }),
-        };
+        if (typeof err === "string")
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: err }),
+            };
+        else {
+            console.error(err);
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: "Unexpected server error!" }),
+            };
+        }
     }
 };
 

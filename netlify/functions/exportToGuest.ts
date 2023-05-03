@@ -9,7 +9,7 @@ export type exportToGuestRequest = Pick<akdata, "pity" | "settings"> & {
 };
 
 export type exportToGuestResult = Pick<users, "id" | "username"> & {
-    akdata: Pick<akdata, "history" | "pity" | "settings">;
+    akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
 };
 
 const handler: Handler = async (ev) => {
@@ -34,38 +34,36 @@ const handler: Handler = async (ev) => {
             await prismaClient.$disconnect();
             throw "Too many guests!";
         } else {
-            console.log("Crating guest", guestUsername);
-
-            const userData = await prismaClient.users.create({
-                data: {
-                    username: guestUsername,
-                    pass: guestpass,
-                    akdata: {
-                        create: {
-                            history: data.history || [],
-                            pity: data.pity || { standard: 0, special: {} },
-                            settings: data.settings || DEF_SETTINGS,
+            const userData: exportToGuestResult =
+                await prismaClient.users.create({
+                    data: {
+                        username: guestUsername,
+                        pass: guestpass,
+                        akdata: {
+                            create: {
+                                history: data.history || [],
+                                pity: data.pity || { standard: 0, special: {} },
+                                settings: data.settings || DEF_SETTINGS,
+                            },
                         },
                     },
-                },
-                select: {
-                    akdata: {
-                        select: {
-                            history: true,
-                            pity: true,
-                            settings: true,
+                    select: {
+                        akdata: {
+                            select: {
+                                history: true,
+                                pity: true,
+                                settings: true,
+                            },
                         },
+                        id: true,
+                        username: true,
+                        pass: false,
                     },
-                    id: true,
-                    username: true,
-                    pass: false,
-                },
-            });
-            console.log(data, userData);
+                });
             await prismaClient.$disconnect();
             return {
                 statusCode: 200,
-                body: JSON.stringify(userData as exportToGuestResult),
+                body: JSON.stringify(userData),
             };
         }
     } catch (err) {
