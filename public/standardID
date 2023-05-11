@@ -2,9 +2,4 @@
     standard_87:
     "Standard Pool 87 (Global)":
     ./BannerImages/EN_Standard_Pool_87_banner.webp
-},
-{
-    bearings_and_sparks:
-    "Bearings and Sparks":
-    ./BannerImages/EN_Bearings_and_Sparks_banner.webp
 }
