@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 
-import { ResultError } from "./utils";
+import { ResultError, resultErrorWithMessage } from "./utils";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 
@@ -14,17 +14,15 @@ export type importFromGuestResult =
 
 const handler: Handler = async (ev) => {
     const prismaClient = new PrismaClient();
-    if (!ev.body)
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: "Invalid request!" }),
-        };
+    if (!ev.body) return resultErrorWithMessage("Invalid request");
     try {
         const data: importFromGuestRequest = JSON.parse(ev.body);
-        if (!data.username) throw "No username provided!";
+        if (!data.username)
+            return resultErrorWithMessage("No username provided!");
 
         const guestCode = /^(\d+)$/.exec(data.username);
-        if (!guestCode) throw "Incorrect guest ID format!";
+        if (!guestCode)
+            return resultErrorWithMessage("Incorrect guest ID format!");
 
         data.username = "guest" + guestCode[1];
 
@@ -50,9 +48,8 @@ const handler: Handler = async (ev) => {
                 },
             });
 
-        await prismaClient.$disconnect();
-
         if (userData && userData.id) {
+            await prismaClient.$disconnect();
             return {
                 statusCode: 200,
                 body: JSON.stringify(userData),
@@ -61,17 +58,10 @@ const handler: Handler = async (ev) => {
             throw "Could not find given guest!";
         }
     } catch (err) {
-        if (typeof err === "string")
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ message: err }),
-            };
+        await prismaClient.$disconnect();
+        if (typeof err === "string") return resultErrorWithMessage(err);
         else {
-            console.error(err);
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ message: "Unexpected server error!" }),
-            };
+            return resultErrorWithMessage("Unexpected server error");
         }
     }
 };

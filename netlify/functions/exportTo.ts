@@ -2,17 +2,22 @@ import { Handler } from "@netlify/functions";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 import { DEF_SETTINGS, PastRecruitment } from "../../src/utils";
+import { ResultError, resultErrorWithMessage } from "./utils";
 
 export type exportToRequest = Pick<users, "pass" | "username"> &
-    Pick<akdata, "pity" | "settings"> & { history?: PastRecruitment[] };
+    Pick<akdata, "pity" | "settings"> & { history?: PastRecruitment[] } & {
+        mergeType: "merge" | "overwrite";
+    };
 
-export type exportToResult = Pick<users, "id"> & {
-    akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
-};
+export type exportToResult =
+    | (Pick<users, "id"> & {
+          akdata: Pick<akdata, "history" | "pity" | "settings"> | null;
+      })
+    | ResultError;
 
 const handler: Handler = async (ev) => {
     const prismaClient = new PrismaClient();
-    if (!ev.body) return { statusCode: 400, body: "Invalid request!" };
+    if (!ev.body) return resultErrorWithMessage("Invalid request");
     try {
         const data: exportToRequest = JSON.parse(ev.body);
         if (!data.username) throw "No username provided!";
@@ -20,13 +25,18 @@ const handler: Handler = async (ev) => {
         await prismaClient.$connect();
 
         const userExists = await prismaClient.users.findFirst({
-            where: { username: data.username, pass: data.pass },
+            where: { username: data.username },
         });
 
         if (userExists) {
+            if (userExists.pass !== data.pass)
+                throw "Wrong username or password!";
+            // overwrite / merge depending on the mergeType
+
             await prismaClient.$disconnect();
-            return { statusCode: 400, body: "User already exists!" };
+            throw "User already exists!";
         } else {
+            // create new account
             const userData: exportToResult = await prismaClient.users.create({
                 data: {
                     id: undefined,
@@ -56,16 +66,16 @@ const handler: Handler = async (ev) => {
 
             await prismaClient.$disconnect();
             return {
-                statusCode: 400,
+                statusCode: 200,
                 body: JSON.stringify(userData),
             };
         }
     } catch (err) {
         await prismaClient.$disconnect();
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: "Unexpected error!" + err }),
-        };
+        if (typeof err === "string") return resultErrorWithMessage(err);
+        else {
+            return resultErrorWithMessage("Unexpected server error");
+        }
     }
 };
 

@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 
-import { ResultError } from "./utils";
+import { ResultError, resultErrorWithMessage } from "./utils";
 
 import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
 
@@ -14,14 +14,11 @@ export type importFromResult =
 
 const handler: Handler = async (ev) => {
     const prismaClient = new PrismaClient();
-    if (!ev.body)
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: "Invalid request!" }),
-        };
+    if (!ev.body) return resultErrorWithMessage("Invalid request!");
     try {
         const data: importFromRequest = JSON.parse(ev.body);
-        if (!data.username) throw "No username provided!";
+        if (!data.username)
+            return resultErrorWithMessage("No username provided!");
 
         await prismaClient.$connect();
 
@@ -50,13 +47,14 @@ const handler: Handler = async (ev) => {
                 body: JSON.stringify(userData),
             };
         } else {
-            return { statusCode: 400, body: "Wrong username or password!" };
+            throw "Wrong username or password!";
         }
     } catch (err) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: "Error parsing body!" + err }),
-        };
+        await prismaClient.$disconnect();
+        if (typeof err === "string") return resultErrorWithMessage(err);
+        else {
+            return resultErrorWithMessage("Unexpected server error");
+        }
     }
 };
 

@@ -90,16 +90,17 @@ export const Login_Export = async (
     password: string,
     settings: Settings,
     history: PastRecruitment[],
-    pity: PityTrackerData
+    pity: PityTrackerData,
+    mergeType: exportToRequest["mergeType"]
 ): Promise<LoggedInData | null> => {
     const sendData: exportToRequest = {
+        mergeType,
         username,
         pass: password,
         settings,
         history,
         pity: { special: [...pity.special], standard: pity.standard },
     };
-
     const userData = await getDataFromServer<exportToRequest, exportToResult>(
         "/.netlify/functions/exportTo",
         sendData
@@ -152,7 +153,6 @@ export const Login_Import = async (
     } catch (err) {
         if (typeof err === "string") return { err };
         else {
-            console.error(err);
             return { err: "Unknown server error!" };
         }
     }
