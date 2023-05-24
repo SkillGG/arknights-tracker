@@ -1,1 +1,5 @@
-{}
+{
+    special_tapob:
+    "Through a Path of Briars":
+    ./BannerImages/EN_Through_a_Path_of_Briars_banner.webp
+}
