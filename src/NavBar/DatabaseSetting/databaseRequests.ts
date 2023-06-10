@@ -29,12 +29,12 @@ export const isLoginError = (d: LoggedInData): d is LoginError => {
     return !!(d as unknown as LoginError).err;
 };
 
-export type LoggedInData =
-    | ({
-          id: string;
-          username: string;
-      } & UserData)
-    | LoginError;
+export type LoggedData = {
+    id: string;
+    username: string;
+} & UserData;
+
+export type LoggedInData = LoggedData | LoginError;
 
 const getDataFromServer = async <REQT extends object, REST extends object>(
     path: string,

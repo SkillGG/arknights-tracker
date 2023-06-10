@@ -2,7 +2,7 @@ import { Handler } from "@netlify/functions";
 
 import { ResultError, resultErrorWithMessage } from "./utils";
 
-import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
+import { PrismaClient, akdata, users } from "./../../prisma/prismaClient";
 
 export type importFromGuestRequest = Pick<users, "username">;
 
@@ -20,7 +20,7 @@ const handler: Handler = async (ev) => {
         if (!data.username)
             return resultErrorWithMessage("No username provided!");
 
-        const guestCode = /^(\d+)$/.exec(data.username);
+        const guestCode = /^(?:guest)?(\d+)$/.exec(data.username);
         if (!guestCode)
             return resultErrorWithMessage("Incorrect guest ID format!");
 

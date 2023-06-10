@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { DatabaseSettings, PastRecruitment, Settings } from "../../utils";
 import {
+    LoggedData,
     Login_Export_Guest,
     Login_Import_Guest,
     isLoginError,
@@ -50,8 +51,45 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
             });
     }, []);
 
-    const guestRx = /guest(\d{4})/.exec(loginData?.data?.username || "");
+    const [isGuestLogin, setIsGuestLogin] = useState(false);
+
+    const guestRx = /(?:guest)?(\d{4})/.exec(loginData?.data?.username || "");
     const guest = guestRx ? { id: guestRx[1] } : null;
+
+    const importToGuest = async (
+        guestID: string
+    ): Promise<DatabaseSettings | null> => {
+        const login = guestID;
+        if (login) {
+            const userdata = await Login_Import_Guest(login);
+
+            if (userdata) {
+                if (isLoginError(userdata)) setError(userdata.err);
+                else
+                    return {
+                        userId: userdata.id,
+                        username: userdata.username,
+                    };
+            }
+        } else {
+            setError("Please provide guest ID!");
+        }
+        return null;
+    };
+
+    const exportToGuest = async (): Promise<LoggedData | null> => {
+        const userdata = await Login_Export_Guest(
+            settings,
+            dbdata.history,
+            dbdata.pity
+        );
+        if (userdata) {
+            if (!isLoginError(userdata)) {
+                return userdata;
+            } else setError(userdata.err);
+        }
+        return null;
+    };
 
     return (
         <>
@@ -59,22 +97,35 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                 loginData.stage === 1 ? (
                     <>
                         <div style={{ textAlign: "center" }}>
-                            {loginData.isImport ? "Import" : "Export"}
+                            {loginData.isImport ? "Import from" : "Export to"}
                         </div>
                         <div className="dblogin">
                             <div className="loginfields">
                                 <div className="loginfield">
-                                    <input
-                                        ref={usernameFieldRef}
-                                        type="text"
-                                        onInput={() => {
-                                            setError(null);
-                                        }}
-                                        placeholder="Username"
-                                    />
+                                    {isGuestLogin ? (
+                                        <input
+                                            ref={usernameFieldRef}
+                                            type="text"
+                                            onInput={() => {
+                                                setError(null);
+                                            }}
+                                            placeholder="GuestID"
+                                            pattern="\d{4}"
+                                        />
+                                    ) : (
+                                        <input
+                                            ref={usernameFieldRef}
+                                            type="text"
+                                            onInput={() => {
+                                                setError(null);
+                                            }}
+                                            placeholder="Username"
+                                        />
+                                    )}
                                 </div>
                                 <div className="loginfield">
                                     <input
+                                        disabled={isGuestLogin}
                                         ref={passwordFieldRef}
                                         type="password"
                                         onInput={() => {
@@ -83,76 +134,22 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                         placeholder="Password"
                                     />
                                 </div>
+                                <div className="loginfield">
+                                    <button
+                                        data-guest={isGuestLogin ? "guest" : ""}
+                                        type="button"
+                                        onClick={() => {
+                                            setIsGuestLogin(!isGuestLogin);
+                                        }}
+                                    >
+                                        Guest {isGuestLogin ? "✔️" : "❌"}
+                                    </button>
+                                </div>
                             </div>
                             {error ? (
                                 <div className="login-error">{error}</div>
                             ) : null}
                             <div className="loginbtns">
-                                <input
-                                    onClick={async () => {
-                                        setButtonsDisabled(true);
-                                        if (loginData.isImport) {
-                                            const login =
-                                                usernameFieldRef.current?.value;
-                                            if (login) {
-                                                const userdata =
-                                                    await Login_Import_Guest(
-                                                        login
-                                                    );
-
-                                                if (userdata) {
-                                                    if (isLoginError(userdata))
-                                                        setError(userdata.err);
-                                                    else
-                                                        setDatabaseData({
-                                                            userId: userdata.id,
-                                                            username:
-                                                                userdata.username,
-                                                        });
-                                                }
-                                            } else {
-                                                setError(
-                                                    "Please provide guest ID!"
-                                                );
-                                            }
-                                        } else {
-                                            const userdata =
-                                                await Login_Export_Guest(
-                                                    settings,
-                                                    dbdata.history,
-                                                    dbdata.pity
-                                                );
-                                            if (userdata) {
-                                                if (isLoginError(userdata)) {
-                                                    setError(userdata.err);
-                                                } else {
-                                                    setloginData(() => ({
-                                                        isImport: false,
-                                                        stage: 2,
-                                                        data: {
-                                                            userId: userdata.id,
-                                                            username:
-                                                                userdata.username,
-                                                        },
-                                                    }));
-                                                    setDatabaseData(
-                                                        {
-                                                            userId: userdata.id,
-                                                            username:
-                                                                userdata.username,
-                                                        },
-                                                        { ...userdata }
-                                                    );
-                                                }
-                                            }
-                                        }
-                                        setButtonsDisabled(false);
-                                    }}
-                                    className="settingsbtn loginasguest"
-                                    type="button"
-                                    disabled={buttonsDisabled}
-                                    value="Guest"
-                                />
                                 <input
                                     className="settingsbtn loginbtn"
                                     type="button"
@@ -160,9 +157,53 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                     disabled={buttonsDisabled}
                                     onClick={async () => {
                                         if (loginData.isImport) {
-                                            //
+                                            if (isGuestLogin) {
+                                                if (guest?.id) {
+                                                    const guestData =
+                                                        await importToGuest(
+                                                            guest?.id
+                                                        );
+                                                    if (guestData)
+                                                        setDatabaseData(
+                                                            guestData
+                                                        );
+                                                    else
+                                                        setError(
+                                                            "Unknown server error!"
+                                                        );
+                                                } else {
+                                                    setError("No ID provided!");
+                                                }
+                                            } else {
+                                                // user import
+                                            }
                                         } else {
                                             //
+                                            if (isGuestLogin) {
+                                                const guestData =
+                                                    await exportToGuest();
+                                                if (guestData) {
+                                                    const guestSettings: DatabaseSettings =
+                                                        {
+                                                            userId: guestData.id,
+                                                            username:
+                                                                guestData.username,
+                                                        };
+                                                    setloginData(() => ({
+                                                        isImport: false,
+                                                        stage: 2,
+                                                        data: guestSettings,
+                                                    }));
+                                                    setDatabaseData(
+                                                        guestSettings,
+                                                        {
+                                                            ...guestData,
+                                                        }
+                                                    );
+                                                }
+                                            } else {
+                                                // user export
+                                            }
                                         }
                                     }}
                                 />
@@ -175,6 +216,7 @@ const DatabaseSetting: FC<DatabaseSettingProps> = ({
                                         setError(null);
                                         setloginData(null);
                                         setButtonsDisabled(false);
+                                        setIsGuestLogin(false);
                                     }}
                                 />
                             </div>

@@ -140,13 +140,28 @@
     text-align: center;
     margin-top: 5px;
 }
+@input-space: 5px;
 .loginfields {
-    display: flex;
-    flex-direction: column;
+    display: block;
     .loginfield {
-        &:nth-child(1) {
-            margin-bottom: 15px;
+        button {
+            cursor: pointer;
+            border: none;
+            display: block;
+            width: 50%;
+            margin-inline: auto;
+            padding: 3px 5px;
+            margin: 0;
+            margin-inline: auto;
+            border: none;
+            color: white;
+            background-color: darkblue;
+            &[data-guest="guest"] {
+                background-color: lightblue;
+                color: black;
+            }
         }
+        margin-bottom: @input-space;
         border: none;
         input[type="text"],
         input[type="password"] {
@@ -160,7 +175,6 @@
         &::after {
             display: block;
             position: relative;
-            bottom: -1px;
             width: 50%;
             left: 25%;
             height: 1px;

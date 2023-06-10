@@ -4,6 +4,7 @@
 }
 * {
   font-family: Helvetica, sans-serif, Arial;
+  box-sizing: border-box;
 }
 .navSwitches {
   display: flex;

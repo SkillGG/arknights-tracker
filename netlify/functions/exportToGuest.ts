@@ -82,7 +82,9 @@ const handler: Handler = async (ev) => {
         await prismaClient.$disconnect();
         if (typeof err === "string") return resultErrorWithMessage(err);
         else {
-            return resultErrorWithMessage("Unexpected server error");
+            return resultErrorWithMessage(
+                "Unexpected server error" + (err as Error).message
+            );
         }
     }
 };
