@@ -1,847 +1,870 @@
 [
-  {
-    "name": "12F",
-    "stars": 2,
-    "tags": ["Starter", "Caster", "Ranged", "Starter"],
-    "image": "./operators/12F.png"
-  },
-  {
-    "name": "Aak",
-    "stars": 6,
-    "tags": [
-      "Support",
-      "DPS",
-      "Specialist",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Aak.png"
-  },
-  {
-    "name": "Ansel",
-    "stars": 3,
-    "tags": ["Healing", "Medic", "Ranged"],
-    "image": "./operators/Ansel.png"
-  },
-  {
-    "name": "Astesia",
-    "stars": 5,
-    "tags": ["DPS", "Defense", "Guard", "Melee", "Senior Operator"],
-    "image": "./operators/Astesia.png"
-  },
-  {
-    "name": "Ambriel",
-    "stars": 4,
-    "tags": ["DPS", "Slow", "Sniper", "Ranged"],
-    "image": "./operators/Ambriel.png"
-  },
-  {
-    "name": "Adnachiel",
-    "stars": 3,
-    "tags": ["DPS", "Sniper", "Ranged"],
-    "image": "./operators/Adnachiel.png"
-  },
-  {
-    "name": "Blaze",
-    "stars": 6,
-    "tags": [
-      "DPS",
-      "Survival",
-      "Guard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Blaze.png"
-  },
-  {
-    "name": "Broca",
-    "stars": 5,
-    "tags": ["AoE", "Survival", "Guard", "Melee", "Senior Operator"],
-    "image": "./operators/Broca.png"
-  },
-  {
-    "name": "Beehunter",
-    "stars": 4,
-    "tags": ["DPS", "Guard", "Melee"],
-    "image": "./operators/Beehunter.png"
-  },
-  {
-    "name": "Beagle",
-    "stars": 3,
-    "tags": ["Defense", "Defender", "Melee"],
-    "image": "./operators/Beagle.png"
-  },
-  {
-    "name": "Blue Poison",
-    "stars": 5,
-    "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Blue_Poison.png"
-  },
-  {
-    "name": "Ch'en",
-    "stars": 6,
-    "tags": [
-      "Nuker",
-      "DPS",
-      "Guard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Ch'en.png"
-  },
-  {
-    "name": "Castle-3",
-    "stars": 1,
-    "tags": ["Support", "Robot", "Guard", "Melee"],
-    "image": "./operators/Castle-3.png"
-  },
-  {
-    "name": "Croissant",
-    "stars": 5,
-    "tags": ["Defense", "Shift", "Defender", "Melee", "Senior Operator"],
-    "image": "./operators/Croissant.png"
-  },
-  {
-    "name": "Cuora",
-    "stars": 4,
-    "tags": ["Defense", "Defender", "Melee"],
-    "image": "./operators/Cuora.png"
-  },
-  {
-    "name": "Catapult",
-    "stars": 3,
-    "tags": ["AoE", "Sniper", "Ranged"],
-    "image": "./operators/Catapult.png"
-  },
-  {
-    "name": "Cliffheart",
-    "stars": 5,
-    "tags": ["Shift", "DPS", "Specialist", "Melee", "Senior Operator"],
-    "image": "./operators/Cliffheart.png"
-  },
-  {
-    "name": "Dobermann",
-    "stars": 4,
-    "tags": ["DPS", "Support", "Guard", "Melee"],
-    "image": "./operators/Dobermann.png"
-  },
-  {
-    "name": "Durin",
-    "stars": 2,
-    "tags": ["Starter", "Caster", "Ranged", "Starter"],
-    "image": "./operators/Durin.png"
-  },
-  {
-    "name": "Exusiai",
-    "stars": 6,
-    "tags": ["DPS", "Sniper", "Ranged", "Top Operator", "Senior Operator"],
-    "image": "./operators/Exusiai.png"
-  },
-  {
-    "name": "Estelle",
-    "stars": 4,
-    "tags": ["AoE", "Survival", "Guard", "Melee"],
-    "image": "./operators/Estelle.png"
-  },
-  {
-    "name": "Executor",
-    "stars": 5,
-    "tags": ["AoE", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Executor.png"
-  },
-  {
-    "name": "Earthspirit",
-    "stars": 4,
-    "tags": ["Slow", "Supporter", "Ranged"],
-    "image": "./operators/Earthspirit.png"
-  },
-  {
-    "name": "Frostleaf",
-    "stars": 4,
-    "tags": ["Slow", "DPS", "Guard", "Melee"],
-    "image": "./operators/Frostleaf.png"
-  },
-  {
-    "name": "Firewatch",
-    "stars": 5,
-    "tags": ["DPS", "Nuker", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Firewatch.png"
-  },
-  {
-    "name": "FEater",
-    "stars": 5,
-    "tags": ["Shift", "Slow", "Specialist", "Melee", "Senior Operator"],
-    "image": "./operators/FEater.png"
-  },
-  {
-    "name": "Fang",
-    "stars": 3,
-    "tags": ["DP-Recovery", "Vanguard", "Melee"],
-    "image": "./operators/Fang.png"
-  },
-  {
-    "name": "Gummy",
-    "stars": 4,
-    "tags": ["Defense", "Healing", "Defender", "Melee"],
-    "image": "./operators/Gummy.png"
-  },
-  {
-    "name": "GreyThroat",
-    "stars": 5,
-    "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/GreyThroat.png"
-  },
-  {
-    "name": "Greyy",
-    "stars": 4,
-    "tags": ["AoE", "Slow", "Caster", "Ranged"],
-    "image": "./operators/Greyy.png"
-  },
-  {
-    "name": "Gitano",
-    "stars": 4,
-    "tags": ["AoE", "Caster", "Ranged"],
-    "image": "./operators/Gitano.png"
-  },
-  {
-    "name": "Gravel",
-    "stars": 4,
-    "tags": ["Fast-Redeploy", "Defense", "Specialist", "Melee"],
-    "image": "./operators/Gravel.png"
-  },
-  {
-    "name": "Glaucus",
-    "stars": 5,
-    "tags": ["Slow", "Crowd-Control", "Supporter", "Ranged", "Senior Operator"],
-    "image": "./operators/Glaucus.png"
-  },
-  {
-    "name": "Hellagur",
-    "stars": 6,
-    "tags": [
-      "DPS",
-      "Survival",
-      "Guard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Hellagur.png"
-  },
-  {
-    "name": "Hoshiguma",
-    "stars": 6,
-    "tags": [
-      "Defense",
-      "DPS",
-      "Defender",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Hoshiguma.png"
-  },
-  {
-    "name": "Hibiscus",
-    "stars": 3,
-    "tags": ["Healing", "Medic", "Ranged"],
-    "image": "./operators/Hibiscus.png"
-  },
-  {
-    "name": "Hung",
-    "stars": 5,
-    "tags": ["Defense", "Healing", "Defender", "Melee", "Senior Operator"],
-    "image": "./operators/Hung.png"
-  },
-  {
-    "name": "Haze",
-    "stars": 4,
-    "tags": ["DPS", "Debuff", "Caster", "Ranged"],
-    "image": "./operators/Haze.png"
-  },
-  {
-    "name": "Ifrit",
-    "stars": 6,
-    "tags": [
-      "AoE",
-      "Debuff",
-      "Caster",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Ifrit.png"
-  },
-  {
-    "name": "Indra",
-    "stars": 5,
-    "tags": ["DPS", "Survival", "Guard", "Melee", "Senior Operator"],
-    "image": "./operators/Indra.png"
-  },
-  {
-    "name": "Istina",
-    "stars": 5,
-    "tags": ["Slow", "DPS", "Supporter", "Ranged", "Senior Operator"],
-    "image": "./operators/Istina.png"
-  },
-  {
-    "name": "Justice Knight",
-    "stars": 1,
-    "tags": ["Support", "Robot", "Sniper", "Ranged"],
-    "image": "./operators/Justice_Knight.png"
-  },
-  {
-    "name": "Jessica",
-    "stars": 4,
-    "tags": ["DPS", "Survival", "Sniper", "Ranged"],
-    "image": "./operators/Jessica.png"
-  },
-  {
-    "name": "Kroos",
-    "stars": 3,
-    "tags": ["DPS", "Sniper", "Ranged"],
-    "image": "./operators/Kroos.png"
-  },
-  {
-    "name": "Lancet-2",
-    "stars": 1,
-    "tags": ["Healing", "Robot", "Medic", "Ranged"],
-    "image": "./operators/Lancet-2.png"
-  },
-  {
-    "name": "Liskarm",
-    "stars": 5,
-    "tags": ["Defense", "DPS", "Defender", "Melee", "Senior Operator"],
-    "image": "./operators/Liskarm.png"
-  },
-  {
-    "name": "Lava",
-    "stars": 3,
-    "tags": ["AoE", "Caster", "Ranged"],
-    "image": "./operators/Lava.png"
-  },
-  {
-    "name": "Mostima",
-    "stars": 6,
-    "tags": [
-      "AoE",
-      "Support",
-      "Crowd-Control",
-      "Caster",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Mostima.png"
-  },
-  {
-    "name": "Magallan",
-    "stars": 6,
-    "tags": [
-      "Support",
-      "Slow",
-      "DPS",
-      "Supporter",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Magallan.png"
-  },
-  {
-    "name": "Myrrh",
-    "stars": 4,
-    "tags": ["Healing", "Medic", "Ranged"],
-    "image": "./operators/Myrrh.png"
-  },
-  {
-    "name": "Mousse",
-    "stars": 4,
-    "tags": ["DPS", "Guard", "Melee"],
-    "image": "./operators/Mousse.png"
-  },
-  {
-    "name": "Matoimaru",
-    "stars": 4,
-    "tags": ["Survival", "DPS", "Guard", "Melee"],
-    "image": "./operators/Matoimaru.png"
-  },
-  {
-    "name": "Midnight",
-    "stars": 3,
-    "tags": ["DPS", "Guard", "Melee"],
-    "image": "./operators/Midnight.png"
-  },
-  {
-    "name": "Melantha",
-    "stars": 3,
-    "tags": ["DPS", "Survival", "Guard", "Melee"],
-    "image": "./operators/Melantha.png"
-  },
-  {
-    "name": "Matterhorn",
-    "stars": 4,
-    "tags": ["Defense", "Defender", "Melee"],
-    "image": "./operators/Matterhorn.png"
-  },
-  {
-    "name": "Meteorite",
-    "stars": 5,
-    "tags": ["AoE", "Debuff", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Meteorite.png"
-  },
-  {
-    "name": "May",
-    "stars": 4,
-    "tags": ["DPS", "Slow", "Sniper", "Ranged"],
-    "image": "./operators/May.png"
-  },
-  {
-    "name": "Meteor",
-    "stars": 4,
-    "tags": ["DPS", "Debuff", "Sniper", "Ranged"],
-    "image": "./operators/Meteor.png"
-  },
-  {
-    "name": "Manticore",
-    "stars": 5,
-    "tags": ["DPS", "Survival", "Specialist", "Melee", "Senior Operator"],
-    "image": "./operators/Manticore.png"
-  },
-  {
-    "name": "Mayer",
-    "stars": 5,
-    "tags": [
-      "Summon",
-      "Crowd-Control",
-      "Supporter",
-      "Ranged",
-      "Senior Operator"
-    ],
-    "image": "./operators/Mayer.png"
-  },
-  {
-    "name": "Myrtle",
-    "stars": 4,
-    "tags": ["DP-Recovery", "Healing", "Vanguard", "Melee"],
-    "image": "./operators/Myrtle.png"
-  },
-  {
-    "name": "Nightingale",
-    "stars": 6,
-    "tags": [
-      "Healing",
-      "Support",
-      "Medic",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Nightingale.png"
-  },
-  {
-    "name": "Nearl",
-    "stars": 5,
-    "tags": ["Defense", "Healing", "Defender", "Melee", "Senior Operator"],
-    "image": "./operators/Nearl.png"
-  },
-  {
-    "name": "Noir Corne",
-    "stars": 2,
-    "tags": ["Starter", "Defender", "Melee", "Starter"],
-    "image": "./operators/Noir_Corne.png"
-  },
-  {
-    "name": "Nightmare",
-    "stars": 5,
-    "tags": ["DPS", "Healing", "Slow", "Caster", "Ranged", "Senior Operator"],
-    "image": "./operators/Nightmare.png"
-  },
-  {
-    "name": "Orchid",
-    "stars": 3,
-    "tags": ["Slow", "Supporter", "Ranged"],
-    "image": "./operators/Orchid.png"
-  },
-  {
-    "name": "Ptilopsis",
-    "stars": 5,
-    "tags": ["Healing", "Support", "Medic", "Ranged", "Senior Operator"],
-    "image": "./operators/Ptilopsis.png"
-  },
-  {
-    "name": "Perfumer",
-    "stars": 4,
-    "tags": ["Healing", "Medic", "Ranged"],
-    "image": "./operators/Perfumer.png"
-  },
-  {
-    "name": "Popukar",
-    "stars": 3,
-    "tags": ["AoE", "Survival", "Guard", "Melee"],
-    "image": "./operators/Popukar.png"
-  },
-  {
-    "name": "Provence",
-    "stars": 5,
-    "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Provence.png"
-  },
-  {
-    "name": "Platinum",
-    "stars": 5,
-    "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
-    "image": "./operators/Platinum.png"
-  },
-  {
-    "name": "Projekt Red",
-    "stars": 5,
-    "tags": [
-      "Fast-Redeploy",
-      "Crowd-Control",
-      "Specialist",
-      "Melee",
-      "Senior Operator"
-    ],
-    "image": "./operators/Projekt_Red.png"
-  },
-  {
-    "name": "Pramanix",
-    "stars": 5,
-    "tags": ["Debuff", "Supporter", "Ranged", "Senior Operator"],
-    "image": "./operators/Pramanix.png"
-  },
-  {
-    "name": "Plume",
-    "stars": 3,
-    "tags": ["DPS", "DP-Recovery", "Vanguard", "Melee"],
-    "image": "./operators/Plume.png"
-  },
-  {
-    "name": "Rangers",
-    "stars": 2,
-    "tags": ["Starter", "Sniper", "Ranged", "Starter"],
-    "image": "./operators/Rangers.png"
-  },
-  {
-    "name": "Rope",
-    "stars": 4,
-    "tags": ["Shift", "Specialist", "Melee"],
-    "image": "./operators/Rope.png"
-  },
-  {
-    "name": "Reed",
-    "stars": 5,
-    "tags": ["DP-Recovery", "DPS", "Vanguard", "Melee", "Senior Operator"],
-    "image": "./operators/Reed.png"
-  },
-  {
-    "name": "Schwarz",
-    "stars": 6,
-    "tags": ["DPS", "Sniper", "Ranged", "Top Operator", "Senior Operator"],
-    "image": "./operators/Schwarz.png"
-  },
-  {
-    "name": "Skadi",
-    "stars": 6,
-    "tags": [
-      "DPS",
-      "Survival",
-      "Guard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Skadi.png"
-  },
-  {
-    "name": "SilverAsh",
-    "stars": 6,
-    "tags": [
-      "DPS",
-      "Support",
-      "Guard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/SilverAsh.png"
-  },
-  {
-    "name": "Saria",
-    "stars": 6,
-    "tags": [
-      "Defense",
-      "Healing",
-      "Support",
-      "Defender",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Saria.png"
-  },
-  {
-    "name": "Shining",
-    "stars": 6,
-    "tags": [
-      "Healing",
-      "Support",
-      "Medic",
-      "Ranged",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Shining.png"
-  },
-  {
-    "name": "Siege",
-    "stars": 6,
-    "tags": [
-      "DP-Recovery",
-      "DPS",
-      "Vanguard",
-      "Melee",
-      "Top Operator",
-      "Senior Operator"
-    ],
-    "image": "./operators/Siege.png"
-  },
-  {
-    "name": "Silence",
-    "stars": 5,
-    "tags": ["Healing", "Medic", "Ranged", "Senior Operator"],
-    "image": "./operators/Silence.png"
-  },
-  {
-    "name": "Sussurro",
-    "stars": 4,
-    "tags": ["Healing", "Medic", "Ranged"],
-    "image": "./operators/Sussurro.png"
-  },
-  {
-    "name": "Swire",
-    "stars": 5,
-    "tags": ["DPS", "Support", "Guard", "Melee", "Senior Operator"],
-    "image": "./operators/Swire.png"
-  },
-  {
-    "name": "Specter",
-    "stars": 5,
-    "tags": ["AoE", "Survival", "Guard", "Melee", "Senior Operator"],
-    "image": "./operators/Specter.png"
-  },
-  {
-    "name": "Spot",
-    "stars": 3,
-    "tags": ["Defense", "Healing", "Defender", "Melee"],
-    "image": "./operators/Spot.png"
-  },
-  {
-    "name": "Shirayuki",
-    "stars": 4,
-    "tags": ["AoE", "Slow", "Sniper", "Ranged"],
-    "image": "./operators/Shirayuki.png"
-  },
-  {
-    "name": "Steward",
-    "stars": 3,
-    "tags": ["DPS", "Caster", "Ranged"],
-    "image": "./operators/Steward.png"
-  },
-  {
-    "name": "Shaw",
-    "stars": 4,
-    "tags": ["Shift", "Specialist", "Melee"],
-    "image": "./operators/Shaw.png"
-  },
-  {
-    "name": "Scavenger",
-    "stars": 4,
-    "tags": ["DP-Recovery", "DPS", "Vanguard", "Melee"],
-    "image": "./operators/Scavenger.png"
-  },
-  {
-    "name": "THRM-EX",
-    "stars": 1,
-    "tags": ["Nuker", "Robot", "Specialist", "Melee"],
-    "image": "./operators/THRM-EX.png"
-  },
-  {
-    "name": "Texas",
-    "stars": 5,
-    "tags": [
-      "DP-Recovery",
-      "Crowd-Control",
-      "Vanguard",
-      "Melee",
-      "Senior Operator"
-    ],
-    "image": "./operators/Texas.png"
-  },
-  {
-    "name": "Vulcan",
-    "stars": 5,
-    "tags": [
-      "Survival",
-      "Defense",
-      "DPS",
-      "Defender",
-      "Melee",
-      "Senior Operator"
-    ],
-    "image": "./operators/Vulcan.png"
-  },
-  {
-    "name": "Vermeil",
-    "stars": 4,
-    "tags": ["DPS", "Sniper", "Ranged"],
-    "image": "./operators/Vermeil.png"
-  },
-  {
-    "name": "Vigna",
-    "stars": 4,
-    "tags": ["DPS", "DP-Recovery", "Vanguard", "Melee"],
-    "image": "./operators/Vigna.png"
-  },
-  {
-    "name": "Vanilla",
-    "stars": 3,
-    "tags": ["DP-Recovery", "Vanguard", "Melee"],
-    "image": "./operators/Vanilla.png"
-  },
-  {
-    "name": "Warfarin",
-    "stars": 5,
-    "tags": ["Healing", "Support", "Medic", "Ranged", "Senior Operator"],
-    "image": "./operators/Warfarin.png"
-  },
-  {
-    "name": "Waai Fu",
-    "stars": 5,
-    "tags": [
-      "Fast-Redeploy",
-      "Debuff",
-      "Specialist",
-      "Melee",
-      "Senior Operator"
-    ],
-    "image": "./operators/Waai_Fu.png"
-  },
-  {
-    "name": "Yato",
-    "stars": 2,
-    "tags": ["Starter", "Vanguard", "Melee", "Starter"],
-    "image": "./operators/Yato.png"
-  },
-  {
-    "name": "Zima",
-    "stars": 5,
-    "tags": ["DP-Recovery", "Support", "Vanguard", "Melee", "Senior Operator"],
-    "image": "./operators/Zima.png"
-  },
-  {
-    "name":"Purestream",
-    "stars": 4,
-    "tags": [
-      "Healing",
-      "Support",
-      "Ranged",
-      "Medic"
-    ],
-    "image": "./operators/Purestream.png"
-  },
-  {
-    "name":"Leizi",
-    "stars": 5,
-    "tags": [
-      "Senior Operator",
-      "Caster",
-      "Ranged",
-      "DPS"
-    ],
-    "image":"./operators/Leizi.png"
-  },
-  {
-    "name":"Ceobe",
-    "stars": 6,
-    "tags": [
-      "Top Operator",
-      "Ranged",
-      "DPS",
-      "Crowd-Control",
-      "Caster"
-    ],
-    "image": "./operators/Ceobe.png"
-  },
-  {
-    "name":"Bagpipe",
-    "stars":6,
-    "tags":[
-      "Top Operator",
-      "DP-Recovery",
-      "DPS",
-      "Vanguard",
-      "Melee"
-    ],
-    "image":"./operators/Bagpipe.png"
-  },
-  {
-    "name":"Sesa",
-    "stars":5,
-    "tags":[
-      "Senior Operator",
-      "AoE",
-      "Debuff",
-      "Sniper",
-      "Ranged"
-    ],
-    "image":"./operators/Sesa.png"
-  },
-  {
-    "name":"Utage",
-    "stars":4,
-    "tags":[
-      "DPS",
-      "Survival",
-      "Guard",
-      "Melee"
-    ],
-    "image":"./operators/Utage.png"
-  },{
-    "name":"Phantom",
-    "stars":6,
-    "tags":[
-      "Top Operator",
-      "Melee",
-      "Fast-Redeploy",
-      "Crowd-Control",
-      "DPS",
-      "Specialist"
-    ],
-    "image":"./operators/Phantom.png"
-  },{
-    "name":"Shamare",
-    "stars":5,
-    "tags":[
-      "Senior Operator",
-      "Ranged",
-      "Debuff",
-      "Supporter"
-    ],
-    "image":"./operators/Shamare.png"
-  },{
-    "name":"Cutter",
-    "stars":4,
-    "tags":[
-      "Nuker",
-      "Melee",
-      "DPS",
-      "Guard"
-    ],
-    "image":"./operators/Cutter.png"
-  }
+    {
+        "name": "12F",
+        "stars": 2,
+        "tags": ["Starter", "Caster", "Ranged", "Starter"],
+        "image": "./operators/12F.png"
+    },
+    {
+        "name": "Aak",
+        "stars": 6,
+        "tags": [
+            "Support",
+            "DPS",
+            "Specialist",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Aak.png"
+    },
+    {
+        "name": "Ansel",
+        "stars": 3,
+        "tags": ["Healing", "Medic", "Ranged"],
+        "image": "./operators/Ansel.png"
+    },
+    {
+        "name": "Astesia",
+        "stars": 5,
+        "tags": ["DPS", "Defense", "Guard", "Melee", "Senior Operator"],
+        "image": "./operators/Astesia.png"
+    },
+    {
+        "name": "Ambriel",
+        "stars": 4,
+        "tags": ["DPS", "Slow", "Sniper", "Ranged"],
+        "image": "./operators/Ambriel.png"
+    },
+    {
+        "name": "Adnachiel",
+        "stars": 3,
+        "tags": ["DPS", "Sniper", "Ranged"],
+        "image": "./operators/Adnachiel.png"
+    },
+    {
+        "name": "Blaze",
+        "stars": 6,
+        "tags": [
+            "DPS",
+            "Survival",
+            "Guard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Blaze.png"
+    },
+    {
+        "name": "Broca",
+        "stars": 5,
+        "tags": ["AoE", "Survival", "Guard", "Melee", "Senior Operator"],
+        "image": "./operators/Broca.png"
+    },
+    {
+        "name": "Beehunter",
+        "stars": 4,
+        "tags": ["DPS", "Guard", "Melee"],
+        "image": "./operators/Beehunter.png"
+    },
+    {
+        "name": "Beagle",
+        "stars": 3,
+        "tags": ["Defense", "Defender", "Melee"],
+        "image": "./operators/Beagle.png"
+    },
+    {
+        "name": "Blue Poison",
+        "stars": 5,
+        "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Blue_Poison.png"
+    },
+    {
+        "name": "Ch'en",
+        "stars": 6,
+        "tags": [
+            "Nuker",
+            "DPS",
+            "Guard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Ch'en.png"
+    },
+    {
+        "name": "Castle-3",
+        "stars": 1,
+        "tags": ["Support", "Robot", "Guard", "Melee"],
+        "image": "./operators/Castle-3.png"
+    },
+    {
+        "name": "Croissant",
+        "stars": 5,
+        "tags": ["Defense", "Shift", "Defender", "Melee", "Senior Operator"],
+        "image": "./operators/Croissant.png"
+    },
+    {
+        "name": "Cuora",
+        "stars": 4,
+        "tags": ["Defense", "Defender", "Melee"],
+        "image": "./operators/Cuora.png"
+    },
+    {
+        "name": "Catapult",
+        "stars": 3,
+        "tags": ["AoE", "Sniper", "Ranged"],
+        "image": "./operators/Catapult.png"
+    },
+    {
+        "name": "Cliffheart",
+        "stars": 5,
+        "tags": ["Shift", "DPS", "Specialist", "Melee", "Senior Operator"],
+        "image": "./operators/Cliffheart.png"
+    },
+    {
+        "name": "Dobermann",
+        "stars": 4,
+        "tags": ["DPS", "Support", "Guard", "Melee"],
+        "image": "./operators/Dobermann.png"
+    },
+    {
+        "name": "Durin",
+        "stars": 2,
+        "tags": ["Starter", "Caster", "Ranged", "Starter"],
+        "image": "./operators/Durin.png"
+    },
+    {
+        "name": "Exusiai",
+        "stars": 6,
+        "tags": ["DPS", "Sniper", "Ranged", "Top Operator", "Senior Operator"],
+        "image": "./operators/Exusiai.png"
+    },
+    {
+        "name": "Estelle",
+        "stars": 4,
+        "tags": ["AoE", "Survival", "Guard", "Melee"],
+        "image": "./operators/Estelle.png"
+    },
+    {
+        "name": "Executor",
+        "stars": 5,
+        "tags": ["AoE", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Executor.png"
+    },
+    {
+        "name": "Earthspirit",
+        "stars": 4,
+        "tags": ["Slow", "Supporter", "Ranged"],
+        "image": "./operators/Earthspirit.png"
+    },
+    {
+        "name": "Frostleaf",
+        "stars": 4,
+        "tags": ["Slow", "DPS", "Guard", "Melee"],
+        "image": "./operators/Frostleaf.png"
+    },
+    {
+        "name": "Firewatch",
+        "stars": 5,
+        "tags": ["DPS", "Nuker", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Firewatch.png"
+    },
+    {
+        "name": "FEater",
+        "stars": 5,
+        "tags": ["Shift", "Slow", "Specialist", "Melee", "Senior Operator"],
+        "image": "./operators/FEater.png"
+    },
+    {
+        "name": "Fang",
+        "stars": 3,
+        "tags": ["DP-Recovery", "Vanguard", "Melee"],
+        "image": "./operators/Fang.png"
+    },
+    {
+        "name": "Gummy",
+        "stars": 4,
+        "tags": ["Defense", "Healing", "Defender", "Melee"],
+        "image": "./operators/Gummy.png"
+    },
+    {
+        "name": "GreyThroat",
+        "stars": 5,
+        "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/GreyThroat.png"
+    },
+    {
+        "name": "Greyy",
+        "stars": 4,
+        "tags": ["AoE", "Slow", "Caster", "Ranged"],
+        "image": "./operators/Greyy.png"
+    },
+    {
+        "name": "Gitano",
+        "stars": 4,
+        "tags": ["AoE", "Caster", "Ranged"],
+        "image": "./operators/Gitano.png"
+    },
+    {
+        "name": "Gravel",
+        "stars": 4,
+        "tags": ["Fast-Redeploy", "Defense", "Specialist", "Melee"],
+        "image": "./operators/Gravel.png"
+    },
+    {
+        "name": "Glaucus",
+        "stars": 5,
+        "tags": [
+            "Slow",
+            "Crowd-Control",
+            "Supporter",
+            "Ranged",
+            "Senior Operator"
+        ],
+        "image": "./operators/Glaucus.png"
+    },
+    {
+        "name": "Hellagur",
+        "stars": 6,
+        "tags": [
+            "DPS",
+            "Survival",
+            "Guard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Hellagur.png"
+    },
+    {
+        "name": "Hoshiguma",
+        "stars": 6,
+        "tags": [
+            "Defense",
+            "DPS",
+            "Defender",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Hoshiguma.png"
+    },
+    {
+        "name": "Hibiscus",
+        "stars": 3,
+        "tags": ["Healing", "Medic", "Ranged"],
+        "image": "./operators/Hibiscus.png"
+    },
+    {
+        "name": "Hung",
+        "stars": 5,
+        "tags": ["Defense", "Healing", "Defender", "Melee", "Senior Operator"],
+        "image": "./operators/Hung.png"
+    },
+    {
+        "name": "Haze",
+        "stars": 4,
+        "tags": ["DPS", "Debuff", "Caster", "Ranged"],
+        "image": "./operators/Haze.png"
+    },
+    {
+        "name": "Ifrit",
+        "stars": 6,
+        "tags": [
+            "AoE",
+            "Debuff",
+            "Caster",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Ifrit.png"
+    },
+    {
+        "name": "Indra",
+        "stars": 5,
+        "tags": ["DPS", "Survival", "Guard", "Melee", "Senior Operator"],
+        "image": "./operators/Indra.png"
+    },
+    {
+        "name": "Istina",
+        "stars": 5,
+        "tags": ["Slow", "DPS", "Supporter", "Ranged", "Senior Operator"],
+        "image": "./operators/Istina.png"
+    },
+    {
+        "name": "Justice Knight",
+        "stars": 1,
+        "tags": ["Support", "Robot", "Sniper", "Ranged"],
+        "image": "./operators/Justice_Knight.png"
+    },
+    {
+        "name": "Jessica",
+        "stars": 4,
+        "tags": ["DPS", "Survival", "Sniper", "Ranged"],
+        "image": "./operators/Jessica.png"
+    },
+    {
+        "name": "Kroos",
+        "stars": 3,
+        "tags": ["DPS", "Sniper", "Ranged"],
+        "image": "./operators/Kroos.png"
+    },
+    {
+        "name": "Lancet-2",
+        "stars": 1,
+        "tags": ["Healing", "Robot", "Medic", "Ranged"],
+        "image": "./operators/Lancet-2.png"
+    },
+    {
+        "name": "Liskarm",
+        "stars": 5,
+        "tags": ["Defense", "DPS", "Defender", "Melee", "Senior Operator"],
+        "image": "./operators/Liskarm.png"
+    },
+    {
+        "name": "Lava",
+        "stars": 3,
+        "tags": ["AoE", "Caster", "Ranged"],
+        "image": "./operators/Lava.png"
+    },
+    {
+        "name": "Mostima",
+        "stars": 6,
+        "tags": [
+            "AoE",
+            "Support",
+            "Crowd-Control",
+            "Caster",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Mostima.png"
+    },
+    {
+        "name": "Magallan",
+        "stars": 6,
+        "tags": [
+            "Support",
+            "Slow",
+            "DPS",
+            "Supporter",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Magallan.png"
+    },
+    {
+        "name": "Myrrh",
+        "stars": 4,
+        "tags": ["Healing", "Medic", "Ranged"],
+        "image": "./operators/Myrrh.png"
+    },
+    {
+        "name": "Mousse",
+        "stars": 4,
+        "tags": ["DPS", "Guard", "Melee"],
+        "image": "./operators/Mousse.png"
+    },
+    {
+        "name": "Matoimaru",
+        "stars": 4,
+        "tags": ["Survival", "DPS", "Guard", "Melee"],
+        "image": "./operators/Matoimaru.png"
+    },
+    {
+        "name": "Midnight",
+        "stars": 3,
+        "tags": ["DPS", "Guard", "Melee"],
+        "image": "./operators/Midnight.png"
+    },
+    {
+        "name": "Melantha",
+        "stars": 3,
+        "tags": ["DPS", "Survival", "Guard", "Melee"],
+        "image": "./operators/Melantha.png"
+    },
+    {
+        "name": "Matterhorn",
+        "stars": 4,
+        "tags": ["Defense", "Defender", "Melee"],
+        "image": "./operators/Matterhorn.png"
+    },
+    {
+        "name": "Meteorite",
+        "stars": 5,
+        "tags": ["AoE", "Debuff", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Meteorite.png"
+    },
+    {
+        "name": "May",
+        "stars": 4,
+        "tags": ["DPS", "Slow", "Sniper", "Ranged"],
+        "image": "./operators/May.png"
+    },
+    {
+        "name": "Meteor",
+        "stars": 4,
+        "tags": ["DPS", "Debuff", "Sniper", "Ranged"],
+        "image": "./operators/Meteor.png"
+    },
+    {
+        "name": "Manticore",
+        "stars": 5,
+        "tags": ["DPS", "Survival", "Specialist", "Melee", "Senior Operator"],
+        "image": "./operators/Manticore.png"
+    },
+    {
+        "name": "Mayer",
+        "stars": 5,
+        "tags": [
+            "Summon",
+            "Crowd-Control",
+            "Supporter",
+            "Ranged",
+            "Senior Operator"
+        ],
+        "image": "./operators/Mayer.png"
+    },
+    {
+        "name": "Myrtle",
+        "stars": 4,
+        "tags": ["DP-Recovery", "Healing", "Vanguard", "Melee"],
+        "image": "./operators/Myrtle.png"
+    },
+    {
+        "name": "Nightingale",
+        "stars": 6,
+        "tags": [
+            "Healing",
+            "Support",
+            "Medic",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Nightingale.png"
+    },
+    {
+        "name": "Nearl",
+        "stars": 5,
+        "tags": ["Defense", "Healing", "Defender", "Melee", "Senior Operator"],
+        "image": "./operators/Nearl.png"
+    },
+    {
+        "name": "Noir Corne",
+        "stars": 2,
+        "tags": ["Starter", "Defender", "Melee", "Starter"],
+        "image": "./operators/Noir_Corne.png"
+    },
+    {
+        "name": "Nightmare",
+        "stars": 5,
+        "tags": [
+            "DPS",
+            "Healing",
+            "Slow",
+            "Caster",
+            "Ranged",
+            "Senior Operator"
+        ],
+        "image": "./operators/Nightmare.png"
+    },
+    {
+        "name": "Orchid",
+        "stars": 3,
+        "tags": ["Slow", "Supporter", "Ranged"],
+        "image": "./operators/Orchid.png"
+    },
+    {
+        "name": "Ptilopsis",
+        "stars": 5,
+        "tags": ["Healing", "Support", "Medic", "Ranged", "Senior Operator"],
+        "image": "./operators/Ptilopsis.png"
+    },
+    {
+        "name": "Perfumer",
+        "stars": 4,
+        "tags": ["Healing", "Medic", "Ranged"],
+        "image": "./operators/Perfumer.png"
+    },
+    {
+        "name": "Popukar",
+        "stars": 3,
+        "tags": ["AoE", "Survival", "Guard", "Melee"],
+        "image": "./operators/Popukar.png"
+    },
+    {
+        "name": "Provence",
+        "stars": 5,
+        "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Provence.png"
+    },
+    {
+        "name": "Platinum",
+        "stars": 5,
+        "tags": ["DPS", "Sniper", "Ranged", "Senior Operator"],
+        "image": "./operators/Platinum.png"
+    },
+    {
+        "name": "Projekt Red",
+        "stars": 5,
+        "tags": [
+            "Fast-Redeploy",
+            "Crowd-Control",
+            "Specialist",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Projekt_Red.png"
+    },
+    {
+        "name": "Pramanix",
+        "stars": 5,
+        "tags": ["Debuff", "Supporter", "Ranged", "Senior Operator"],
+        "image": "./operators/Pramanix.png"
+    },
+    {
+        "name": "Plume",
+        "stars": 3,
+        "tags": ["DPS", "DP-Recovery", "Vanguard", "Melee"],
+        "image": "./operators/Plume.png"
+    },
+    {
+        "name": "Rangers",
+        "stars": 2,
+        "tags": ["Starter", "Sniper", "Ranged", "Starter"],
+        "image": "./operators/Rangers.png"
+    },
+    {
+        "name": "Rope",
+        "stars": 4,
+        "tags": ["Shift", "Specialist", "Melee"],
+        "image": "./operators/Rope.png"
+    },
+    {
+        "name": "Reed",
+        "stars": 5,
+        "tags": ["DP-Recovery", "DPS", "Vanguard", "Melee", "Senior Operator"],
+        "image": "./operators/Reed.png"
+    },
+    {
+        "name": "Schwarz",
+        "stars": 6,
+        "tags": ["DPS", "Sniper", "Ranged", "Top Operator", "Senior Operator"],
+        "image": "./operators/Schwarz.png"
+    },
+    {
+        "name": "Skadi",
+        "stars": 6,
+        "tags": [
+            "DPS",
+            "Survival",
+            "Guard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Skadi.png"
+    },
+    {
+        "name": "SilverAsh",
+        "stars": 6,
+        "tags": [
+            "DPS",
+            "Support",
+            "Guard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/SilverAsh.png"
+    },
+    {
+        "name": "Saria",
+        "stars": 6,
+        "tags": [
+            "Defense",
+            "Healing",
+            "Support",
+            "Defender",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Saria.png"
+    },
+    {
+        "name": "Shining",
+        "stars": 6,
+        "tags": [
+            "Healing",
+            "Support",
+            "Medic",
+            "Ranged",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Shining.png"
+    },
+    {
+        "name": "Siege",
+        "stars": 6,
+        "tags": [
+            "DP-Recovery",
+            "DPS",
+            "Vanguard",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Siege.png"
+    },
+    {
+        "name": "Silence",
+        "stars": 5,
+        "tags": ["Healing", "Medic", "Ranged", "Senior Operator"],
+        "image": "./operators/Silence.png"
+    },
+    {
+        "name": "Sussurro",
+        "stars": 4,
+        "tags": ["Healing", "Medic", "Ranged"],
+        "image": "./operators/Sussurro.png"
+    },
+    {
+        "name": "Swire",
+        "stars": 5,
+        "tags": ["DPS", "Support", "Guard", "Melee", "Senior Operator"],
+        "image": "./operators/Swire.png"
+    },
+    {
+        "name": "Specter",
+        "stars": 5,
+        "tags": ["AoE", "Survival", "Guard", "Melee", "Senior Operator"],
+        "image": "./operators/Specter.png"
+    },
+    {
+        "name": "Spot",
+        "stars": 3,
+        "tags": ["Defense", "Healing", "Defender", "Melee"],
+        "image": "./operators/Spot.png"
+    },
+    {
+        "name": "Shirayuki",
+        "stars": 4,
+        "tags": ["AoE", "Slow", "Sniper", "Ranged"],
+        "image": "./operators/Shirayuki.png"
+    },
+    {
+        "name": "Steward",
+        "stars": 3,
+        "tags": ["DPS", "Caster", "Ranged"],
+        "image": "./operators/Steward.png"
+    },
+    {
+        "name": "Shaw",
+        "stars": 4,
+        "tags": ["Shift", "Specialist", "Melee"],
+        "image": "./operators/Shaw.png"
+    },
+    {
+        "name": "Scavenger",
+        "stars": 4,
+        "tags": ["DP-Recovery", "DPS", "Vanguard", "Melee"],
+        "image": "./operators/Scavenger.png"
+    },
+    {
+        "name": "THRM-EX",
+        "stars": 1,
+        "tags": ["Nuker", "Robot", "Specialist", "Melee"],
+        "image": "./operators/THRM-EX.png"
+    },
+    {
+        "name": "Texas",
+        "stars": 5,
+        "tags": [
+            "DP-Recovery",
+            "Crowd-Control",
+            "Vanguard",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Texas.png"
+    },
+    {
+        "name": "Vulcan",
+        "stars": 5,
+        "tags": [
+            "Survival",
+            "Defense",
+            "DPS",
+            "Defender",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Vulcan.png"
+    },
+    {
+        "name": "Vermeil",
+        "stars": 4,
+        "tags": ["DPS", "Sniper", "Ranged"],
+        "image": "./operators/Vermeil.png"
+    },
+    {
+        "name": "Vigna",
+        "stars": 4,
+        "tags": ["DPS", "DP-Recovery", "Vanguard", "Melee"],
+        "image": "./operators/Vigna.png"
+    },
+    {
+        "name": "Vanilla",
+        "stars": 3,
+        "tags": ["DP-Recovery", "Vanguard", "Melee"],
+        "image": "./operators/Vanilla.png"
+    },
+    {
+        "name": "Warfarin",
+        "stars": 5,
+        "tags": ["Healing", "Support", "Medic", "Ranged", "Senior Operator"],
+        "image": "./operators/Warfarin.png"
+    },
+    {
+        "name": "Waai Fu",
+        "stars": 5,
+        "tags": [
+            "Fast-Redeploy",
+            "Debuff",
+            "Specialist",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Waai_Fu.png"
+    },
+    {
+        "name": "Yato",
+        "stars": 2,
+        "tags": ["Starter", "Vanguard", "Melee", "Starter"],
+        "image": "./operators/Yato.png"
+    },
+    {
+        "name": "Zima",
+        "stars": 5,
+        "tags": [
+            "DP-Recovery",
+            "Support",
+            "Vanguard",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Zima.png"
+    },
+    {
+        "name": "Purestream",
+        "stars": 4,
+        "tags": ["Healing", "Support", "Ranged", "Medic"],
+        "image": "./operators/Purestream.png"
+    },
+    {
+        "name": "Leizi",
+        "stars": 5,
+        "tags": ["Senior Operator", "Caster", "Ranged", "DPS"],
+        "image": "./operators/Leizi.png"
+    },
+    {
+        "name": "Ceobe",
+        "stars": 6,
+        "tags": ["Top Operator", "Ranged", "DPS", "Crowd-Control", "Caster"],
+        "image": "./operators/Ceobe.png"
+    },
+    {
+        "name": "Bagpipe",
+        "stars": 6,
+        "tags": ["Top Operator", "DP-Recovery", "DPS", "Vanguard", "Melee"],
+        "image": "./operators/Bagpipe.png"
+    },
+    {
+        "name": "Sesa",
+        "stars": 5,
+        "tags": ["Senior Operator", "AoE", "Debuff", "Sniper", "Ranged"],
+        "image": "./operators/Sesa.png"
+    },
+    {
+        "name": "Utage",
+        "stars": 4,
+        "tags": ["DPS", "Survival", "Guard", "Melee"],
+        "image": "./operators/Utage.png"
+    },
+    {
+        "name": "Phantom",
+        "stars": 6,
+        "tags": [
+            "Top Operator",
+            "Melee",
+            "Fast-Redeploy",
+            "Crowd-Control",
+            "DPS",
+            "Specialist"
+        ],
+        "image": "./operators/Phantom.png"
+    },
+    {
+        "name": "Shamare",
+        "stars": 5,
+        "tags": ["Senior Operator", "Ranged", "Debuff", "Supporter"],
+        "image": "./operators/Shamare.png"
+    },
+    {
+        "name": "Cutter",
+        "stars": 4,
+        "tags": ["Nuker", "Melee", "DPS", "Guard"],
+        "image": "./operators/Cutter.png"
+    },
+    {
+        "name": "Tsukinogi",
+        "stars": 5,
+        "tags": [
+            "Support",
+            "Survival",
+            "Supporter",
+            "Ranged",
+            "Senior Operator"
+        ],
+        "image": "./operators/Tsukinogi.png"
+    },
+    {
+        "name": "Asbestos",
+        "stars": 5,
+        "tags": ["Defense", "DPS", "Defender", "Melee", "Senior Operator"],
+        "image": "./operators/Asbestos.png"
+    },
+    {
+        "name": "Elysium",
+        "stars": 5,
+        "tags": [
+            "DP-Recovery",
+            "Support",
+            "Vanguard",
+            "Melee",
+            "Senior Operator"
+        ],
+        "image": "./operators/Elysium.png"
+    },
+    {
+        "name": "Weedy",
+        "stars": 6,
+        "tags": [
+            "Shift",
+            "DPS",
+            "Crowd-Control",
+            "Specialist",
+            "Melee",
+            "Top Operator",
+            "Senior Operator"
+        ],
+        "image": "./operators/Weedy.png"
+    }
 ]
