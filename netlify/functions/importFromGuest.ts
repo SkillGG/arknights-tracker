@@ -2,7 +2,7 @@ import { Handler } from "@netlify/functions";
 
 import { ResultError, resultErrorWithMessage } from "./utils";
 
-import { PrismaClient, akdata, users } from "./../../prisma/prismaClient";
+import { PrismaClient, akdata, users } from "../../src/prismaClient";
 
 export type importFromGuestRequest = Pick<users, "username">;
 

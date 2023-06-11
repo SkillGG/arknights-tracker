@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 
-import { PrismaClient, akdata, users } from "../../prisma/prismaClient";
+import { PrismaClient, akdata, users } from "../../src/prismaClient";
 import { DEF_SETTINGS, PastRecruitment } from "../../src/utils";
 import { ResultError, resultErrorWithMessage } from "./utils";
 

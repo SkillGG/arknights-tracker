@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { DEF_SETTINGS, PastRecruitment, Settings } from "../../src/utils";
-import { AkPity, PrismaClient } from "../../prisma/prismaClient";
+import { AkPity, PrismaClient } from "../../src/prismaClient";
 
 export type UpdateDataData = {
     username: string;

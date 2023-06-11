@@ -1,5 +1,5 @@
 import { ResultError, isResultError } from "../../../netlify/functions/utils";
-import { AkPity, AkSettings } from "../../../prisma/prismaClient";
+import { AkPity, AkSettings } from "../../prismaClient";
 import { PityTrackerData } from "../../Pity/utils";
 import { DEF_SETTINGS, PastRecruitment, Settings, UserData } from "../../utils";
 import {
