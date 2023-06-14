@@ -2,4 +2,8 @@
     standard_90:
     "Standard Pool 90 (Global)":
     ./BannerImages/EN_Standard_Pool_90_banner.webp
+},{
+    edelweissvowrerun:
+    "EN Edelweiss' Vow(Rerun)":
+    ./BannerImages/EN_Edelweiss'_Vow_Rerun_banner.webp
 }
