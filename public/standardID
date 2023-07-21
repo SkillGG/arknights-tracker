@@ -1,7 +1,7 @@
 {
-    standard_92:
-    "Standard Pool 92 (Global)":
-    ./BannerImages/EN_Standard_Pool_92_banner.webp
+    standard_93:
+    "Standard Pool 93 (Global)":
+    ./BannerImages/EN_Standard_Pool_93_banner.webp
 },
 {
     to_bloom_from_a_dim_flame:
@@ -12,4 +12,4 @@
     link_up_2:
     "Link-up Celebration 2":
     ./BannerImages/EN_Link-Up_Celebration_2_banner.webp
-}
+}x
