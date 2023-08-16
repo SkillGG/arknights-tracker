@@ -12,3 +12,8 @@
   from = "/recHis"
   to = "/"
   status = 200
+  
+ [[redirects]]
+  from = "/stats"
+  to = "/"
+  status = 200
