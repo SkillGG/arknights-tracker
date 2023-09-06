@@ -2,9 +2,4 @@
     standard_96:
     "Standard Pool 96 (Global)":
     ./BannerImages/EN_Standard_Pool_96_banner.webp
-},
-{
-    springtide:
-    "Springtide Snowfall":
-    ./BannerImages/EN_Springtide_Snowfall_banner.webp
 }
