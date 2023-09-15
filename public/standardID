@@ -1,5 +1,9 @@
 {
-    standard_96:
-    "Standard Pool 96 (Global)":
-    ./BannerImages/EN_Standard_Pool_96_banner.webp
+    standard_97:
+    "Standard Pool 97 (Global)":
+    ./BannerImages/EN_Standard_Pool_97_banner.webp
+},{
+    sharpened_1:
+    "Sharpened by Flame":
+    ./BannerImages/EN_Sharpened_by_Flame_banner.webp
 }
