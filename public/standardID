@@ -2,8 +2,9 @@
     standard_97:
     "Standard Pool 97 (Global)":
     ./BannerImages/EN_Standard_Pool_97_banner.webp
-},{
-    sharpened_1:
-    "Sharpened by Flame":
-    ./BannerImages/EN_Sharpened_by_Flame_banner.webp
+},
+{
+    foi_rerun:
+    "Flame of Immaculacy Rerun":
+    ./BannerImages/EN_Flame_of_Immaculacy_Rerun_banner.webp
 }
